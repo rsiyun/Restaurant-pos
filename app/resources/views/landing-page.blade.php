@@ -3,17 +3,15 @@
 @section('slot')
     <div class="px-4 mx-auto space-y-3 max-w-7xl sm:px-6 lg:px-8">
 
-
-        <div class="flex items-center justify-center h-[30rem] mt-4 bg-red-700 rounded-xl">
-            <h1 class="text-white font-bold text-5xl">
-                Tempat makan para bangsawan 👑
-            </h1>
-        </div>
+        @include('components.h1-component', [
+            'slot' => 'Menu Makanan'
+        ])
 
         {{-- SEARCH --}}
-        <div class="flex drop-shadow-lg items-center justify-center h-[15rem] w-[25rem] mt-4 bg-gray-700 rounded-xl">
-            Mau makan apa hari ini ?
-        </div>
+        @include('components.search-label', [
+            'slot' => 'Cari Menu Apa??',
+            'placeHolder' => 'Isikan disini'
+        ])
 
         {{-- <div class="h-[400px] border-red-700 border-4 mt-4 flex justify-center items-center rounded-xl"> --}}
         <div class="h-[400px] flex items-center justify-around">
