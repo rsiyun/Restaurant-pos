@@ -16,16 +16,13 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $user = User::all();
-        $usersResource = UserResource::collection($user);
+        $users = User::all();
 
-        $responseData = [
-            'message' => 'All users',
-            'status' => true,
-            'data' => $usersResource
-        ];
+        if ($users->isEmpty()) {
+            return $this->sendError('Users do not exist.');
+        }
 
-        return Response::json($responseData);
+        return $this->sendResponse(UserResource::collection($users), 'Users fetched.');
     }
 
     /**
@@ -35,6 +32,7 @@ class UserController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             // 'idShop' => 'required',
+            // 'slug' => 'required',
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
@@ -48,7 +46,7 @@ class UserController extends BaseController
 
         $user = User::create($request->all());
 
-        return $this->sendResponse(new UserResource($user), 'Post Created.');
+        return $this->sendPost('User', new UserResource($user), 'Post Created.');
     }
 
     /**
@@ -56,23 +54,41 @@ class UserController extends BaseController
      */
     public function show(string $id)
     {
-        //
-    }
+        $user = User::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        if (is_null($user)) {
+            return $this->sendError('User does not exist.');
+        }
 
+        return $this->sendGetData('User', new UserResource($user), 'User fetched.');
+    }
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        $validator = Validator::make($input, [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'role' => 'required',
+            'isActive' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $user = User::find($id);
+
+        if (is_null($user)) {
+            return $this->sendError('User does not exist.');
+        }
+
+        $user->update($input);
+
+        return $this->sendUpdate('User ', new UserResource($user), 'User updated.');
     }
 
     /**
@@ -80,6 +96,14 @@ class UserController extends BaseController
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+
+        if (is_null($user)) {
+            return $this->sendError('User does not exist.');
+        }
+
+        $user->delete();
+
+        return $this->sendDelete('User ', new UserResource($user), 'User deleted.');
     }
 }
