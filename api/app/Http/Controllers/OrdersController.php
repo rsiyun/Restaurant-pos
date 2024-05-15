@@ -12,7 +12,12 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Orders::all();
+        return response()->json([
+            "message" => "All Orders Successfully Retrived",
+            "status" => true,
+            "data" => $orders
+        ]);
     }
 
     /**
@@ -28,7 +33,7 @@ class OrdersController extends Controller
      */
     public function show(Orders $orders)
     {
-        //
+
     }
 
     /**

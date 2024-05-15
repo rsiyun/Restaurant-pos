@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->id("idShop");
-            $table->unsignedBigInteger("idUser");
+            $table->string("ownerName");
+            $table->string('slug')->unique();
             $table->string("shopName");
             $table->boolean("isActive");
             $table->timestamps();
-            $table->foreign('idUser')->references('idUser')->on('users')->onDelete('cascade');
         });
     }
 
