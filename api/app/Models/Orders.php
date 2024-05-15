@@ -9,11 +9,18 @@ class Orders extends Model
 {
     use HasFactory;
     protected $table = 'orders';
-    protected $guarded = [
-        'idOrder'
-    ];
+    protected $primaryKey = 'idOrder';
+    protected $guarded = ['idOrder'];
     public function kasir()
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class, "idUser");
+    }
+    public function tickets()
+    {
+        return $this->hasMany(Tickets::class, "idOrder", "idOrder");
+    }
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

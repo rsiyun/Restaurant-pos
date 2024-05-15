@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +19,10 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
             'role' => "required"
         ]);
-
+        $slug = Helper::generateSlug($validatedData["name"], "users");
         $user = User::create([
             'name' => $validatedData['name'],
+            'slug' => $slug,
             'email' => $validatedData['email'],
             "role" => $validatedData["role"],
             "isActive" => true,

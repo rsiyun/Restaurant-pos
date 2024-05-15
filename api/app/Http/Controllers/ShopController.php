@@ -28,7 +28,12 @@ class ShopController extends Controller
      */
     public function show(Shop $shop)
     {
-        //
+        $response = Shop::select("idShop", "ownerName","slug", "shopName", "isActive")->with(['employee:idUser,name,slug,email,role,idShop'])->where('slug', $shop->slug)->first();
+        return response()->json([
+            "message" => "shop details",
+            "status" => true,
+            "data" => $response
+        ],200);
     }
 
     /**

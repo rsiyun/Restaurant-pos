@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id("idTicket");
             $table->unsignedBigInteger("idShop");
-            $table->unsignedBigInteger("idOrder");
+            $table->unsignedBigInteger("idOrder")->nullable()->default(NULL);
             $table->string('slug')->unique();
             $table->string("BuyerName");
             $table->integer("priceTickets");

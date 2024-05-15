@@ -20,6 +20,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'slug',
+        'idShop',
         'email',
         'password',
         'role',
@@ -44,4 +46,8 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

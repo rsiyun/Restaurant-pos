@@ -4,6 +4,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,11 +26,16 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::resource('user', UserController::class);
+Route::get("orders", [OrdersController::class, 'index']);
+Route::get("orders/{orders}", [OrdersController::class, 'show']);
+Route::resource("shop", ShopController::class);
+// Route::get("orders/{orders}", [OrdersController::class, 'show']);
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/test', function () {
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::get('/test', function(){
         return response()->json([
             "test" => "test"
         ]);
     });
 });
+

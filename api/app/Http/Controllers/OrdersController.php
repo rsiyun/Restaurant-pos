@@ -12,12 +12,12 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Orders::all();
+        $orders = Orders::with("kasir:idUser,name")->get();
         return response()->json([
             "message" => "All Orders Successfully Retrived",
             "status" => true,
             "data" => $orders
-        ]);
+        ],200);
     }
 
     /**
@@ -33,7 +33,12 @@ class OrdersController extends Controller
      */
     public function show(Orders $orders)
     {
-
+        $response = Orders::with(['kasir:idUser,name,email,role', 'tickets:idTicket,idOrder,idShop,BuyerName,priceTickets'])->where('slug', $orders->slug)->first();
+        return response()->json([
+            "message" => "shop details",
+            "status" => true,
+            "data" => $response
+        ],200);
     }
 
     /**
