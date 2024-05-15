@@ -4,20 +4,18 @@
     <div class="px-4 mx-auto space-y-3 max-w-7xl sm:px-6 lg:px-8">
 
 
-        <div class="flex items-center justify-center h-[30rem] mt-4 bg-red-700 rounded-xl">
+        <div class="z-10 flex items-center justify-center h-[30rem] mt-4 bg-red-700 rounded-xl">
             <h1 class="text-white font-bold text-5xl">
                 Tempat makan para bangsawan 👑
             </h1>
         </div>
 
         {{-- SEARCH --}}
-        <div class="flex drop-shadow-lg items-center justify-center h-[15rem] w-[25rem] mt-4 bg-gray-700 rounded-xl">
+        <div class="z-10 flex drop-shadow-lg items-center justify-center h-[15rem] w-[25rem] mt-4 bg-gray-700 rounded-xl">
             Mau makan apa hari ini ?
         </div>
 
-        {{-- <div class="h-[400px] border-red-700 border-4 mt-4 flex justify-center items-center rounded-xl"> --}}
         <div class="h-[400px] flex items-center justify-around">
-
             {{-- card content --}}
             @include('components.small-card-content', [
                 'foto' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk6YT3yl9RRIPngQVW2DddDilawjVnW-XAdwM7XD-gwBqzjkX7D3BvG7jkBbkLMxHzXwI&usqp=CAU',
