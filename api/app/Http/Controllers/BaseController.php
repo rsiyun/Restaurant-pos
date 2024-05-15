@@ -13,26 +13,64 @@ class BaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendResponse($result, $message)
+    public function sendResponse($data, $message)
     {
         $response = [
+            'message' => 'All users',
             'success' => true,
-            'data' => $result,
-            'message' => $message,
+            'data' => $data,
+            'messages' => $message,
         ];
 
         return response()->json($response, 200);
     }
 
-    public function sendGetData($result, $data)
+    public function sendGetData($object, $data, $message)
     {
         $responseData = [
-            'message' => 'All users',
+            'message' => 'Get a ' . $object,
             'status' => true,
-            'data' => $data
+            'data' => $data,
+            'messages' => $message,
         ];
 
         return response()->json($responseData, 200);
+    }
+
+    public function sendPost($object, $data, $message)
+    {
+        $response = [
+            'message' => $object . ' Successfully Created',
+            'success' => true,
+            'data' => $data,
+            'messages' => $message,
+        ];
+
+        return response()->json($response, 200);
+    }
+
+    public function sendUpdate($object, $data, $message)
+    {
+        $response = [
+            'message' => $object . ' Successfully Updated',
+            'success' => true,
+            'data' => $data,
+            'messages' => $message,
+        ];
+
+        return response()->json($response, 200);
+    }
+
+    public function sendDelete($object, $data, $message)
+    {
+        $response = [
+            'message' => $object . ' Successfully Deleted',
+            'success' => true,
+            'data' => $data,
+            'messages' => $message,
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
