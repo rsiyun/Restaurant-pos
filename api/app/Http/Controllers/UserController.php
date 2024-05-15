@@ -22,7 +22,7 @@ class UserController extends BaseController
             return $this->sendError('Users do not exist.');
         }
 
-        return $this->sendResponse(UserResource::collection($users), 'Users fetched.');
+        return $this->sendResponse('User', UserResource::collection($users), 'Users fetched.');
     }
 
     /**
