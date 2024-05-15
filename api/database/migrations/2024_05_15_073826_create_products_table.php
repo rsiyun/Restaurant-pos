@@ -11,13 +11,15 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
+            $table->id("idProduct");
+            $table->unsignedBigInteger("idShop");
             $table->string('productImage');
             $table->string('productName');
             $table->integer('productPrice');
             $table->integer('productStock');
             $table->enum('productType', ["Makanan", "Minuman", "Snack"]);
             $table->timestamps();
+            $table->foreign('idShop')->references('idShop')->on('shops')->onDelete('cascade');
         });
     }
 
