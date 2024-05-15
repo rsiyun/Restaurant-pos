@@ -3,50 +3,73 @@
 @section('slot')
     <div class="px-4 mx-auto space-y-3 max-w-7xl sm:px-6 lg:px-8">
 
-        {{-- CARAOUSEL --}}
-
-        {{-- PARENT --}}
-        <div class="relative">
+        <div class="relative mt-[2rem] mb-[9.5rem]">{{-- PARENT --}}
+            {{-- CARAOUSEL --}}
             @include('components.h1-component', [
                 'slot' => 'Menu Makanan',
+                'bg' => 'bg-red-700'
             ])
 
-            {{-- CHILD --}}
-            <div class="absolute flex items-center justify-center bottom-0 mb-[-4.5rem] w-[76rem]">
+            {{-- SEARCH --}}
+            <div class="absolute flex items-center justify-center bottom-0 mb-[-4.5rem] w-[76rem]">{{-- CHILD --}}
                 @include('components.search-label', [
                     'slot' => 'Cari Menu Apa??',
                     'placeHolder' => 'Isikan disini',
+                    'buttonText' => 'Cari'
                 ])
             </div>
         </div>
 
-        {{-- SEARCH --}}
-        {{-- @include('components.search-label', [
-            'slot' => 'Cari Menu Apa??',
-            'placeHolder' => 'Isikan disini',
-        ]) --}}
-
         {{-- CARD PRODUCT --}}
-        <div class="h-[400px] flex items-center justify-around">
+        <div class="h-[400px] flex flex-wrap items-center justify-around">
             @include('components.small-card-content', [
                 'foto' =>
                     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk6YT3yl9RRIPngQVW2DddDilawjVnW-XAdwM7XD-gwBqzjkX7D3BvG7jkBbkLMxHzXwI&usqp=CAU',
                 'name' => 'Geprek Mbak Yuli',
-                'content' => 'Geprek Pakek Bokong',
+                'content' => 'Geprek Ayam Hitam',
             ])
 
             @include('components.small-card-content', [
                 'foto' =>
-                    'data:image/jpeg;base64,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',
-                'name' => 'Geprek Mbak Yuli',
-                'content' => 'Geprek Pakek Bokong',
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBBB7CtPq6b__rtghwurMasUX-bXbFV1IUHg&s',
+                'name' => 'Nasi Goreng Jawa',
+                'content' => 'Pure Jawa NoFek',
             ])
 
             @include('components.small-card-content', [
                 'foto' =>
-                    'data:image/jpeg;base64,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',
+                    'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSQkH3d6lBT-R9Zg79zXeZhXW8orwgU1hxkGhF00xoa4cKTqiNH',
+                'name' => 'Gudek Berkah',
+                'content' => 'Lejat Bergiji',
+            ])
+
+            @include('components.small-card-content', [
+                'foto' =>
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk6YT3yl9RRIPngQVW2DddDilawjVnW-XAdwM7XD-gwBqzjkX7D3BvG7jkBbkLMxHzXwI&usqp=CAU',
                 'name' => 'Geprek Mbak Yuli',
-                'content' => 'Geprek Pakek Bokong',
+                'content' => 'Geprek Ayam Hitam',
+            ])
+
+            @include('components.small-card-content', [
+                'foto' =>
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBBB7CtPq6b__rtghwurMasUX-bXbFV1IUHg&s',
+                'name' => 'Nasi Goreng Jawa',
+                'content' => 'Pure Jawa NoFek',
+            ])
+
+            @include('components.small-card-content', [
+                'foto' =>
+                    'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSQkH3d6lBT-R9Zg79zXeZhXW8orwgU1hxkGhF00xoa4cKTqiNH',
+                'name' => 'Gudek Berkah',
+                'content' => 'Lejat Bergiji',
+            ])
+        </div>
+
+        {{-- TOKO --}}
+        <div class="h-[100vh] pt-[10rem]">
+            @include('components.h1-component', [
+                'slot' => 'Langganane Arek-Arek ',
+                'bg' => 'bg-amber-500'
             ])
         </div>
     @endsection

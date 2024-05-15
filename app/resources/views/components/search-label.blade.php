@@ -7,11 +7,11 @@
         {{ $slot ?? 'No Label Input' }}
 
         <div class="flex justify-center content-center items-middle gap-6">
-            <input type="text" class="w-[20rem] h-10 bg-gray-200 rounded-lg"
+            <input type="text" class="w-[20rem] h-10 bg-gray-200 rounded-3xl"
                 placeholder="{{ $placeHolder ?? 'Search for food' }}">
 
             <button
-                class="px-4 py-2 font-bold text-white transition-colors duration-100 bg-red-700 rounded hover:bg-white hover:text-red-700">
+                class="px-4 py-2 font-bold text-white transition w-[6rem] duration-300 ease-in-out bg-sky-900 rounded-3xl hover:drop-shadow-lg">
                 {{ $buttonText ?? 'Search' }}
             </button>
         </div>
