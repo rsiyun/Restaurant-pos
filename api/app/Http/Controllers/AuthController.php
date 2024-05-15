@@ -15,7 +15,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' =>  "required"
+            'role' => "required"
         ]);
 
         $user = User::create([
@@ -30,7 +30,6 @@ class AuthController extends Controller
             "email" => $user["email"]
         ];
 
-
         return response()->json([
             "message" => "Registration Successfull",
             "status" => true,
@@ -40,7 +39,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => 'Invalid email or password'
@@ -54,6 +52,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
+            'status' => true
         ]);
     }
 }
