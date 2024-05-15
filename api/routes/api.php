@@ -25,3 +25,10 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::resource('user', UserController::class);
 
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/test', function () {
+        return response()->json([
+            "test" => "test"
+        ]);
+    });
+});

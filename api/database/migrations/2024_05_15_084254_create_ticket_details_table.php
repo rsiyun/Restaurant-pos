@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id("idDetailTicket");
             $table->unsignedBigInteger("idTicket");
             $table->unsignedBigInteger("idProduct");
+            $table->string('slug')->unique();
             $table->integer("quantity");
             $table->integer("priceTicketDetail");
             $table->timestamps();

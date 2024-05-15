@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id("idOrder");
             $table->unsignedBigInteger("idUser");
+            $table->string('slug')->unique();
             $table->integer("TotalOrder");
             $table->string("BuyerName");
             $table->timestamps();
