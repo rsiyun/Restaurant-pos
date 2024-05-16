@@ -14,9 +14,15 @@
             </div>
         </div>
 
-        @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+        <div class="inline-grid grid-cols-3 gap-12">
+            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+            @include('components.cards.cards-1', ['name' => 'Card 2', 'content' => 'Content 2'])
+        </div>
 
-       
 
     </x-slot>
 </x-app-layout>
