@@ -1,7 +1,9 @@
 <x-app-layout>
+
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Dashboard') }}
+
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 flex justify-center">
+            {{ __('Toko') }}
         </h2>
 
         <div class="py-12">
@@ -14,15 +16,33 @@
             </div>
         </div>
 
-        <div class="inline-grid grid-cols-3 gap-12">
-            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
-            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
-            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
-            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
-            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
-            @include('components.cards.cards-1', ['name' => 'Card 2', 'content' => 'Content 2'])
+        {{-- CARD PRODUK --}}
+        <div class="flex justify-center">
+            <div class="inline-grid grid-cols-3 gap-12 flex justify-center">
+                @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+                @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+                @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+                @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+                @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+                {{-- @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1']) --}}
+                @include('components.cards.cards-1', ['name' => 'Card 2', 'content' => 'Content 2'])
+            </div>
         </div>
 
+        {{-- INFO --}}
+        <div class="h-16 mt-[5rem] flex justify-center items-center">
+            <div class="footer border h-[3rem] w-[40rem] bg-sky-900 flex items-center justify-around">
 
+                <div class="flex justify-between items-center h-[3rem] w-[8rem]">
+                    <img src="{{asset('img/logo/Group 11.png')}}" alt="" class="max-w-[2rem]">
+                    <h5 class="text-white">Total Produk</h5>
+                </div>
+
+                <div class="">
+                    <h1 class="text-white">2</h1>
+                </div>
+            </div>
+        </div>
     </x-slot>
+
 </x-app-layout>
