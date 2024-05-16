@@ -31,7 +31,7 @@
 
             <div class="flex flex-col justify-center items-center w-[20rem] mt-[4rem] ml-[1rem]">
                 <img src="{{ asset('img/logo/Firefly buatkan sebuah logo dari kalimant -ANKEL- buta bertema makanan 91663 1.png') }}"
-                    alt="logo-ankel" class="max-w-[7.5rem]">
+                    alt="logo-ankel" class="max-w-[5rem]">
                 <h3 class="font-bold text-5xl mt-[2rem]">Ankel</h3>
             </div>
 
