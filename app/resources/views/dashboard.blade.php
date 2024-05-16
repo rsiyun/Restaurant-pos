@@ -4,28 +4,25 @@
             {{ __('Dashboard') }}
         </h2>
 
-<<<<<<< HEAD
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         {{ __("You're logged in!") }}
                     </div>
                 </div>
             </div>
         </div>
-    </x-slot>
-=======
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <script />
->>>>>>> cd856c5b2336091929e79a4d9fe35254a6c99764
+        <div class="inline-grid grid-cols-3 gap-12">
+            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+            @include('components.cards.cards-2', ['name' => 'Card 1', 'content' => 'Content 1'])
+            @include('components.cards.cards-1', ['name' => 'Card 2', 'content' => 'Content 2'])
+        </div>
+
+
+    </x-slot>
 </x-app-layout>
