@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Orders\OrderDetailResource;
+use App\Http\Resources\Orders\OrderResource;
 use App\Models\Orders;
 use Illuminate\Http\Request;
 
@@ -12,12 +14,11 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Orders::with("kasir:idUser,name")->get();
-        return response()->json([
-            "message" => "All Orders Successfully Retrived",
-            "status" => true,
-            "data" => $orders
-        ],200);
+        $orders = Orders::with("kasir")->get();
+        if ($orders->isEmpty()) {
+            return $this->sendError('Users do not exist.');
+        }
+        return $this->sendResponse(OrderResource::collection($orders), 'All Orders Successfully Retrieved');
     }
 
     /**
@@ -33,12 +34,13 @@ class OrdersController extends Controller
      */
     public function show(Orders $orders)
     {
-        $response = Orders::with(['kasir:idUser,name,email,role', 'tickets:idTicket,idOrder,idShop,BuyerName,priceTickets'])->where('slug', $orders->slug)->first();
-        return response()->json([
-            "message" => "shop details",
-            "status" => true,
-            "data" => $response
-        ],200);
+        $response = Orders::with(['kasir', 'tickets.shop', 'tickets.details', 'tickets.details.product'])->where('slug', $orders->slug)->first();
+        // return response()->json([
+        //     "message" => "shop details",
+        //     "status" => true,
+        //     "data" => $response
+        // ],200);
+        return $this->sendResponse(new OrderDetailResource($response), 'shop details');
     }
 
     /**

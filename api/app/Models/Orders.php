@@ -13,7 +13,7 @@ class Orders extends Model
     protected $guarded = ['idOrder'];
     public function kasir()
     {
-        return $this->hasOne(User::class, "idUser");
+        return $this->belongsTo(User::class, "idUser");
     }
     public function tickets()
     {

@@ -8,13 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'productName',
-        'productPrice',
-        'productType',
-        'idShop',
-        'productStock',
-        'productImage'
-    ];
+    protected $table = 'products';
+    protected $primaryKey = 'idProduct';
+    protected $guarded = ['idProduct'];
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

@@ -16,4 +16,12 @@ class Tickets extends Model
     {
         return $this->belongsTo(Orders::class, 'idOrder', 'idOrder');
     }
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class, 'idShop', 'idShop');
+    }
+    public function details()
+    {
+        return $this->hasMany(TicketDetails::class, 'idTicket', 'idTicket');
+    }
 }
