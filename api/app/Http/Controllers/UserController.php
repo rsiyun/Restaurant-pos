@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\BaseController;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +21,7 @@ class UserController extends BaseController
             return $this->sendError('Users do not exist.');
         }
 
-        return $this->sendResponse('User', UserResource::collection($users), 'Users fetched.');
+        return $this->sendResponse(UserResource::collection($users), 'Get All Users');
     }
 
     /**
@@ -31,8 +30,6 @@ class UserController extends BaseController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            // 'idShop' => 'required',
-            // 'slug' => 'required',
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
@@ -41,12 +38,12 @@ class UserController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+            return $this->sendError('Validation Error.', $validator->errors(), 422);
         }
 
         $user = User::create($request->all());
 
-        return $this->sendPost('User', new UserResource($user), 'Post Created.');
+        return $this->sendResponse(new UserResource($user), 'Post Created.');
     }
 
     /**
@@ -60,7 +57,7 @@ class UserController extends BaseController
             return $this->sendError('User does not exist.');
         }
 
-        return $this->sendGetData('User', new UserResource($user), 'User fetched.');
+        return $this->sendResponse(new UserResource($user), 'User fetched.');
     }
     /**
      * Update the specified resource in storage.
@@ -88,7 +85,7 @@ class UserController extends BaseController
 
         $user->update($input);
 
-        return $this->sendUpdate('User ', new UserResource($user), 'User updated.');
+        return $this->sendResponse(new UserResource($user), 'User updated.');
     }
 
     /**
@@ -104,6 +101,6 @@ class UserController extends BaseController
 
         $user->delete();
 
-        return $this->sendDelete('User ', new UserResource($user), 'User deleted.');
+        return $this->sendResponse(new UserResource($user), 'User deleted.');
     }
 }

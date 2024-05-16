@@ -50,4 +50,8 @@ class User extends Authenticatable
     {
         return 'slug';
     }
+    public function orders()
+    {
+        return $this->hasMany(Orders::class, 'idUser', 'idUser');
+    }
 }
