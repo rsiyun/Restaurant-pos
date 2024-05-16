@@ -23,12 +23,25 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'idProduct' => 'required|numeric',
-            'idShop' => 'required|interger',
-            'quantity' => 'required|integer',
             'productName' => 'required|string|max:255',
             'productPrice' => 'required|numeric',
             'productType' => 'required|string|max:255',
+            'idShop' => 'required|integer',
+            'productStock' => 'required|integer',
+            'productImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        if ($request->hasFile('productImage')) {
+            $imagePath = $request->file('productImage')->store('product_images', 'public');
+            $validatedData['productImage'] = $imagePath;
+        }
+
+        $product = Product::create($validatedData);
+
+        return response()->json([
+            'message' => 'Product Berhasil DiTambahkan',
+            'status' => true,
+            'data' => $product
         ]);
     }
 
@@ -45,7 +58,25 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $product->update($request->all());
+        $validatedData = $request->validate([
+            'productName' => 'sometimes|required|string|max:255',
+            'productPrice' => 'sometimes|required|numeric',
+            'productType' => 'sometimes|required|string|max:255',
+            'idShop' => 'sometimes|required|integer',
+            'productStock' => 'sometimes|required|integer',
+            'productImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        if ($request->hasFile('productImage')) {
+            if ($product->productImage) {
+                Product()::disk('public')->delete($product->productImage);
+            }
+            $imagePath = $request->file('productImage')->store('product_images', 'public');
+            $validatedData['productImage'] = $imagePath;
+        }
+
+        $product->update($validatedData);
+
         return response()->json([
             'message' => 'Product Berhasil Diupdate',
             'status' => true,
@@ -58,6 +89,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if ($product->productImage) {
+            Product::disk('public')->delete($product->productImage);
+        }
         $product->delete();
         return response()->json([
             'message' => 'Product Berhasil Dihapus',
