@@ -8,7 +8,7 @@
 
                 <!-- Logo -->
                 <div class="flex items-center shrink-0">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('landing-page') }}">
                         {{-- <x-application-logo class="block w-auto text-gray-800 fill-current h-9" /> --}}
                         <img src="{{asset('img/logo/Firefly buatkan sebuah logo dari kalimant -ANKEL- buta bertema makanan 91663 1.png')}}" class="max-w-[3rem]" alt="">
                     </a>

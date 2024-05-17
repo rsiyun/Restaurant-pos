@@ -25,6 +25,12 @@
                 @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
                 @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
                 @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
+                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
+                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
+                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
+                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
+                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
+                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
                 {{-- @include('components.cards.cards-1', ['name' => 'Card 2', 'content' => 'Content 2']) --}}
             </div>
         </div>

@@ -19,7 +19,7 @@ Route::get('/shop', function () {
 })->name('landing-page-shop');
 
 
-Route::get('/', function () {
+Route::get('/landing-page', function () {
     return view('landing-page');
 })->name('landing-page');
 
