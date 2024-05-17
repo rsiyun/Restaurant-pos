@@ -54,7 +54,7 @@ class ProductController extends Controller
     {
         $validated = $request->validated();
         $slug = $product->slug;
-        if ($validated["productName"] == $product->productName) {
+        if ($validated["productName"] != $product->productName) {
             $slug = Helper::generateSlug($validated["productName"], "products");
         }
         if ($request->hasFile('productImage')) {

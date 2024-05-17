@@ -40,7 +40,7 @@ class UpdateRequest extends FormRequest
             "message" => "Unprocessable Content",
             "status" => false,
             "error" => [
-                "code" => 404,
+                "code" => 422,
                 "description" => $validator->getMessageBag()
             ]
         ],422));

@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Http\Requests\Product;
+namespace App\Http\Requests\Tickets;
 
-use App\Enums\ProductType;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rules\Enum;
 
-class CreateRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user() != null;
+        return true;
     }
 
     /**
@@ -26,12 +24,10 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'idShop' => ['required', 'integer'],
-            'productImage' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:10240'],
-            'productName' => ['required', 'string'],
-            'productPrice' => ['required', 'numeric'],
-            'productType' => ['required', new Enum(ProductType::class)],
-            'productStock' => ['required', 'integer'],
+            "buyerName" => ['nullable'],
+            "ticketCart" => ['required', 'array'],
+            "ticketCart.*.slugProduct" => ['required', 'string'],
+            "ticketCart.*.quantity" => ['required', 'integer']
         ];
     }
     protected function failedValidation(Validator $validator)

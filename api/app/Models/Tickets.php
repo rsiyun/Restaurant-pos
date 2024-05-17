@@ -12,6 +12,10 @@ class Tickets extends Model
     protected $primaryKey = 'idTicket';
     protected $guarded = ['idTicket'];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
     public function order()
     {
         return $this->belongsTo(Orders::class, 'idOrder', 'idOrder');

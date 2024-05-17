@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Orders\CreateRequest;
 use App\Http\Resources\Orders\OrderDetailResource;
 use App\Http\Resources\Orders\OrderResource;
 use App\Models\Orders;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
@@ -15,18 +17,15 @@ class OrdersController extends Controller
     public function index()
     {
         $orders = Orders::with("kasir")->get();
-        if ($orders->isEmpty()) {
-            return $this->sendError('Users do not exist.');
-        }
         return $this->sendResponse(OrderResource::collection($orders), 'All Orders Successfully Retrieved');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        //
+        $validated = $request->validated();
     }
 
     /**
@@ -35,9 +34,6 @@ class OrdersController extends Controller
     public function show(Orders $orders)
     {
         $response = Orders::with(['kasir', 'tickets.shop', 'tickets.details', 'tickets.details.product'])->where('slug', $orders->slug)->first();
-        if ($response->isEmpty()) {
-            return $this->sendError('Orders do not exist');
-        }
         return $this->sendResponse(new OrderDetailResource($response), 'shop details');
     }
 
@@ -54,6 +50,7 @@ class OrdersController extends Controller
      */
     public function destroy(Orders $orders)
     {
-        //
+        $orders->delete();
+        return $this->sendResponse(new OrderResource($orders), "Order Successfully Deleted");
     }
 }
