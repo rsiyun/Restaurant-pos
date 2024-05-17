@@ -19,9 +19,13 @@ Route::get('/shop', function () {
 })->name('landing-page-shop');
 
 
-Route::get('/landing-page', function () {
+Route::get('/', function () {
     return view('landing-page');
 })->name('landing-page');
+
+Route::get('/tambah-produk', function () {
+    return view('role.shop.tambah-produk');
+})->name('tambah-produk');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

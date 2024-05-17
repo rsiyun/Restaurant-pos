@@ -33,7 +33,7 @@
                     </x-nav-link>
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
-                    <x-nav-link :href="route('dashboard')" >
+                    <x-nav-link :href="route('tambah-produk')" >
                         {{ __('Produk +') }}
                     </x-nav-link>
                 </div>

@@ -17,14 +17,8 @@
         </div> --}}
 
         {{-- CARD PRODUK --}}
-        <div class="flex justify-center">
+        <div class="flex justify-center mb-[2rem]">
             <div class="inline-grid grid-cols-3 gap-12 flex justify-center">
-                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
-                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
-                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
-                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
-                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
-                @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
                 @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
                 @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
                 @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
@@ -36,11 +30,11 @@
         </div>
 
         {{-- INFO --}}
-        <div class="h-16 mt-[4rem] mb-[1.5rem] flex justify-center items-center">
+        {{-- <div class="h-16 mt-[4rem] mb-[1.5rem] flex justify-center items-center">
             <div class="footer border h-[3rem] w-[37rem] bg-blue-950 flex items-center duration-300 ease-in-out justify-around rounded-sm shadow-[2px_2px_1px_gainsboro]">
 
                 <div class="flex justify-between items-center h-[3rem] w-[8rem]">
-                    {{-- <img src="{{asset('img/logo/Group 11.png')}}" alt="" class="max-w-[2rem]"> --}}
+                    <img src="{{asset('img/logo/Group 11.png')}}" alt="" class="max-w-[2rem]">
                     <h5 class="text-white">Total Produk</h5>
                 </div>
 
@@ -48,7 +42,7 @@
                     <h1 class="text-white">2</h1>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </x-slot>
 
 </x-app-layout>

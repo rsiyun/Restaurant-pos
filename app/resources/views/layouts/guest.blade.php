@@ -29,12 +29,12 @@
                 </a>
             </div> --}}
 
-            <div class="flex flex-col justify-center items-center w-[20rem] mt-[4rem] ml-[1rem]">
-                <a href="landing-page">
+            <div class="flex flex-col justify-center items-center w-[20rem] mt-[4rem]">
+                <a href="/">
                     <img src="{{ asset('img/logo/Firefly buatkan sebuah logo dari kalimant -ANKEL- buta bertema makanan 91663 1.png') }}"
-                    alt="logo-ankel" class="max-w-[5rem]">
+                    alt="logo-ankel" class="max-w-[4rem]">
                 </a>
-                <h3 class="font-bold text-5xl mt-[2rem]">Ankel</h3>
+                <h3 class="font-bold text-3xl mt-[2rem]">Ankel</h3>
             </div>
 
             {{-- <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"> --}}
