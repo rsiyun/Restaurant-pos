@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\Users\UserResource;
 use App\Models\User;
 
 class UserController extends Controller
