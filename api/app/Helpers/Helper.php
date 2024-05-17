@@ -11,11 +11,11 @@ class Helper
     {
 
         while (true) {
-            $slug = Str::slug($nameToSlug).'-'.Str::random(5);
+            $slug = Str::slug($nameToSlug) . '-' . Str::random(5);
 
             $slug_count = DB::table($table_name)->where('slug', $slug)->count();
 
-            if($slug_count == 0){
+            if ($slug_count == 0) {
                 break;
             }
         }
