@@ -8,14 +8,14 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rules\Enum;
 
-class updateRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user() != null;
     }
 
     /**
@@ -26,12 +26,12 @@ class updateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'idShop' => ['nullable', 'integer'],
-            'productImage' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:10240'],
-            'productName' => ['nullable', 'string'],
-            'productPrice' => ['nullable', 'numeric'],
-            'productType' => ['nullable', new Enum(ProductType::class)],
-            'productStock' => ['nullable', 'integer'],
+            'idShop' => ['required', 'integer'],
+            'productImage' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:10240'],
+            'productName' => ['required', 'string'],
+            'productPrice' => ['required', 'numeric'],
+            'productType' => ['required', new Enum(ProductType::class)],
+            'productStock' => ['required', 'integer'],
         ];
     }
     protected function failedValidation(Validator $validator)

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product\createRequest;
-use App\Http\Requests\Product\updateRequest;
+use App\Http\Requests\Product\CreateRequest;
+use App\Http\Requests\Product\UpdateRequest;
 use App\Http\Resources\Products\ProductResource;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,7 +24,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(createRequest $request)
+    public function store(CreateRequest $request)
     {
         $validated = $request->validated();
 
@@ -50,7 +50,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(updateRequest $request, Product $product)
+    public function update(UpdateRequest $request, Product $product)
     {
         $validated = $request->validated();
         $slug = $product->slug;
