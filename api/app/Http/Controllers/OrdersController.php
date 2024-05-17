@@ -35,11 +35,9 @@ class OrdersController extends Controller
     public function show(Orders $orders)
     {
         $response = Orders::with(['kasir', 'tickets.shop', 'tickets.details', 'tickets.details.product'])->where('slug', $orders->slug)->first();
-        // return response()->json([
-        //     "message" => "shop details",
-        //     "status" => true,
-        //     "data" => $response
-        // ],200);
+        if ($response->isEmpty()) {
+            return $this->sendError('Orders do not exist');
+        }
         return $this->sendResponse(new OrderDetailResource($response), 'shop details');
     }
 

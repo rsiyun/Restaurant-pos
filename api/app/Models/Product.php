@@ -15,4 +15,8 @@ class Product extends Model
     {
         return 'slug';
     }
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class, "idShop", "idShop");
+    }
 }

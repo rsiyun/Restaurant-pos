@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 
 /*
@@ -29,6 +30,7 @@ Route::resource('user', UserController::class);
 Route::get("orders", [OrdersController::class, 'index']);
 Route::get("orders/{orders}", [OrdersController::class, 'show']);
 Route::resource("shop", ShopController::class);
+Route::resource("product", ProductController::class);
 // Route::get("orders/{orders}", [OrdersController::class, 'show']);
 
 Route::group(['middleware' => ['auth:sanctum']], function() {

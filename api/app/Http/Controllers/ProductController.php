@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Product\createRequest;
+use App\Http\Requests\Product\updateRequest;
+use App\Http\Resources\Products\ProductResource;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -13,36 +17,24 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return response()->json($products);
+        $products = Product::with("shop")->get();
+        return $this->sendResponse(ProductResource::collection($products), "All Products");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(createRequest $request)
     {
-        $validatedData = $request->validate([
-            'productName' => 'required|string|max:255',
-            'productPrice' => 'required|numeric',
-            'productType' => 'required|string|max:255',
-            'idShop' => 'required|integer',
-            'productStock' => 'required|integer',
-            'productImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        $validated = $request->validated();
+
+        $slug = Helper::generateSlug($validated["productName"], "products");
+        $validated["productImage"] = $request->file('productImage')->store('product_images');
+        $product = Product::create([
+            "slug" => $slug,
+            ...$validated
         ]);
-
-        if ($request->hasFile('productImage')) {
-            $imagePath = $request->file('productImage')->store('product_images', 'public');
-            $validatedData['productImage'] = $imagePath;
-        }
-
-        $product = Product::create($validatedData);
-
-        return response()->json([
-            'message' => 'Product Berhasil DiTambahkan',
-            'status' => true,
-            'data' => $product
-        ]);
+        return $this->sendResponse(new ProductResource($product), "Product Berhasil DiTambahkan");
     }
 
     /**
@@ -50,38 +42,34 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return response()->json($product);
+
+        $response = Product::with(['shop'])->where('slug', $product->slug)->first();
+        return $this->sendResponse(new ProductResource($response), "Get a Product");
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(updateRequest $request, Product $product)
     {
-        $validatedData = $request->validate([
-            'productName' => 'sometimes|required|string|max:255',
-            'productPrice' => 'sometimes|required|numeric',
-            'productType' => 'sometimes|required|string|max:255',
-            'idShop' => 'sometimes|required|integer',
-            'productStock' => 'sometimes|required|integer',
-            'productImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
-
+        $validated = $request->validated();
+        $slug = $product->slug;
+        if ($validated["productName"] == $product->productName) {
+            $slug = Helper::generateSlug($validated["productName"], "products");
+        }
         if ($request->hasFile('productImage')) {
             if ($product->productImage) {
-                Product()::disk('public')->delete($product->productImage);
+                Storage::delete($product->productImage);
             }
-            $imagePath = $request->file('productImage')->store('product_images', 'public');
-            $validatedData['productImage'] = $imagePath;
+            $imagePath = $request->file('productImage')->store('product_images');
+            $validated['productImage'] = $imagePath;
         }
 
-        $product->update($validatedData);
-
-        return response()->json([
-            'message' => 'Product Berhasil Diupdate',
-            'status' => true,
-            'data' => $product
+        $product->update([
+            "slug" => $slug,
+            ...$validated
         ]);
+        return $this->sendResponse(new ProductResource($product), "Product Berhasil Diupdate");
     }
 
     /**
@@ -90,12 +78,9 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         if ($product->productImage) {
-            Product::disk('public')->delete($product->productImage);
+            Storage::delete($product->productImage);
         }
         $product->delete();
-        return response()->json([
-            'message' => 'Product Berhasil Dihapus',
-            'status' => true
-        ]);
+        return $this->sendResponse(new ProductResource($product), "Product Berhasil DiHapus");
     }
 }
