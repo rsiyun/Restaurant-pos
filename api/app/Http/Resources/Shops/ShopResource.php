@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Users;
+namespace App\Http\Resources\Shops;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class ShopResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,12 +14,14 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [
-            "idUser" => $this->idUser,
+            "idShop" => $this->idShop,
+            "ownerName" => $this->ownerName,
             "slug" => $this->slug,
-            "name" => $this->name,
-            "email" => $this->email,
-            "role" => $this->role
+            "shopName" => $this->shopName,
+            "isActive" => $this->isActive,
+            "products" => ProductResource::collection($this->products)
         ];
     }
 }

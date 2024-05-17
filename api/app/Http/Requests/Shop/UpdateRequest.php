@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Shop;
 
-use App\Enums\Role;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\Contracts\Validation\Validator;
 
 class UpdateRequest extends FormRequest
 {
@@ -26,10 +24,8 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'string'],
-            'password' => ['required', 'string'],
-            'role' => ['required', new Enum(Role::class)],
+            'ownerName' => ['required', 'string'],
+            'shopName' => ['required', 'string'],
             'isActive' => ['required', 'boolean'],
         ];
     }

@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Users\UserResource;
 use App\Models\User;
+use App\Helpers\Helper;
+use App\Http\Requests\User\CreateRequest;
+use App\Http\Requests\User\UpdateRequest;
 
 class UserController extends Controller
 {
@@ -27,31 +30,26 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'role' => 'required',
-            'isActive' => 'required',
+        $validated = $request->validated();
+
+        $slug = Helper::generateSlug($validated["name"], "users");
+        $user = User::create([
+            "slug" => $slug,
+            "isActive" => 1,
+            ...$validated
         ]);
 
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors(), 422);
-        }
-
-        $user = User::create($request->all());
-
-        return $this->sendResponse(new UserResource($user), 'Post Created.');
+        return $this->sendResponse(new UserResource($user), "users Berhasil DiTambahkan");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        $user = User::find($id);
+        $user = User::where('slug', $slug)->first();
 
         if (is_null($user)) {
             return $this->sendError('User does not exist.');
@@ -59,48 +57,33 @@ class UserController extends Controller
 
         return $this->sendResponse(new UserResource($user), 'User fetched.');
     }
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, User $user)
     {
-        $input = $request->all();
-        $validator = Validator::make($input, [
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'role' => 'required',
-            'isActive' => 'required',
+        $validated = $request->validated();
+        $slug = $user->slug;
+
+        if ($validated["name"] != $user->name) {
+            $slug = Helper::generateSlug($validated["name"], "users");
+        }
+
+        $user->update([
+            "slug" => $slug,
+            ...$validated
         ]);
 
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
-
-        $user = User::find($id);
-
-        if (is_null($user)) {
-            return $this->sendError('User does not exist.');
-        }
-
-        $user->update($input);
-
-        return $this->sendResponse(new UserResource($user), 'User updated.');
+        return $this->sendResponse(new UserResource($user), "User Successfully Updated");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
-
-        if (is_null($user)) {
-            return $this->sendError('User does not exist.');
-        }
-
         $user->delete();
-
-        return $this->sendResponse(new UserResource($user), 'User deleted.');
+        return $this->sendResponse(new UserResource($user), "Shop Berhasil DiHapus");
     }
 }

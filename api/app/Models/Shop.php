@@ -9,8 +9,8 @@ class Shop extends Model
 {
     use HasFactory;
     protected $table = 'shops';
-    protected $primaryKey = 'idshop';
-    protected $guarded = ['idshop'];
+    protected $primaryKey = 'idShop';
+    protected $guarded = ['idShop'];
 
     public function getRouteKeyName()
     {
@@ -19,5 +19,9 @@ class Shop extends Model
     public function employee()
     {
         return $this->hasMany(User::class, "idShop", "idShop");
+    }
+    public function products()
+    {
+        return $this->hasMany(Product::class, "idShop", "idShop");
     }
 }
