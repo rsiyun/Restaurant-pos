@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests\User;
 
+use App\Enums\Role;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateRequest extends FormRequest
 {
@@ -11,7 +15,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +26,23 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'email' => ['required', 'string'],
+            'password' => ['required', 'string'],
+            'role' => ['required', new Enum(Role::class)],
+            'isActive' => ['required', 'boolean'],
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response([
+            "message" => "Unprocessable Content",
+            "status" => false,
+            "error" => [
+                "code" => 404,
+                "description" => $validator->getMessageBag()
+            ]
+        ], 422));
     }
 }
