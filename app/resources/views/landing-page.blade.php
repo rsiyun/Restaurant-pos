@@ -65,7 +65,6 @@
             ])
         </div>
 
-        {{-- TOKO --}}
         <div class="h-[100vh] pt-[10rem]">
             @include('components.h1-component', [
                 'slot' => 'Langganane Arek-Arek ',

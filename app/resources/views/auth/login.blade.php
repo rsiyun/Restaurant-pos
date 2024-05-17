@@ -11,7 +11,7 @@
         <div class="ml-[6rem]">
             <x-input-label for="email" class="text-xl" :value="__('Email')" />
             {{-- <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" /> --}}
-            <x-text-input id="email" class="block mt-1 w-[23rem] bg-white-700 rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-text-input id="email" class="block mt-1 w-[23rem] bg-white-700 rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Input your Password" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -23,7 +23,8 @@
             <x-text-input id="password" class="block mt-1 w-[23rem] rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black"
                             type="password"
                             name="password"
-                            required autocomplete="current-password" />
+                            required autocomplete="current-password"
+                            placeholder="Input your Password"/>
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -45,8 +46,8 @@
             @endif --}}
 
             {{-- <x-primary-button class="ms-3"> --}}
-            <x-primary-button class="rounded-sm pl-3 border w-full h-[2.7rem] mt-4 bg-blue-950 duration-300 ease-in-out hover:bg-blue-950 hover:drop-shadow-[3px_3px_1px_grey] border">
-                <p class="flex justify-center w-full">
+            <x-primary-button class="rounded-sm pl-3 border w-full h-[2.7rem] mt-4 bg-blue-950 duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey] border">
+                <p class="flex justify-center w-full normal-case text-xl">
                     <span>
                         {{ __('Login') }}
                     </span>
@@ -56,7 +57,7 @@
         </div>
 
         <div class="mt-2 ml-[4rem] w-[31rem] flex items-center justify-center">
-            <p>Don't Have account? <span class="text-red-600 duration-300 ease-in-out hover:text-slate-400"><a href="">Register</a></span></p>
+            <p>Don't Have account? <span class="text-red-600 duration-300 ease-in-out hover:underline"><a href="/register">Register</a></span></p>
         </div>
     </form>
 </x-guest-layout>
