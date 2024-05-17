@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\TicketsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,14 +31,10 @@ Route::resource('user', UserController::class);
 Route::get("orders", [OrdersController::class, 'index']);
 Route::get("orders/{orders}", [OrdersController::class, 'show']);
 Route::resource("shop", ShopController::class);
-Route::resource("product", ProductController::class);
 // Route::get("orders/{orders}", [OrdersController::class, 'show']);
-
-Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::get('/test', function(){
-        return response()->json([
-            "test" => "test"
-        ]);
-    });
+Route::resource("ticket", TicketsController::class);
+Route::get("/unpaymentTicket", [TicketsController::class, 'unpayment']);
+Route::group(['middleware' => ['auth:sanctum','checkrole:Kasir']], function() {
+    Route::resource("product", ProductController::class);
 });
 
