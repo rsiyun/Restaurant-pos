@@ -9,8 +9,8 @@ class Shop extends Model
 {
     use HasFactory;
     protected $table = 'shops';
-    protected $primaryKey = 'idshop';
-    protected $guarded = ['idshop'];
+    protected $primaryKey = 'idShop';
+    protected $guarded = ['idShop'];
 
     public function getRouteKeyName()
     {

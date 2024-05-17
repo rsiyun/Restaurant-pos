@@ -39,7 +39,7 @@ class ShopController extends Controller
             "isActive" => 1,
             ...$validated
         ]);
-        $shop->refresh();
+
         return $this->sendResponse(new ShopResource($shop), "Shops Berhasil DiTambahkan");
     }
 
