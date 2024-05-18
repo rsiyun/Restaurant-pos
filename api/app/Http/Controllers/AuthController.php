@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\User;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -48,34 +49,50 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Bad Request',
-                'status' => false,
-                'error' => [
-                    'code' => 400,
-                    'description' => 'Please provide both email and password'
+            throw new HttpResponseException(response([
+                "message" => "Unprocessable Content",
+                "status" => false,
+                "error" => [
+                    "code" => 422,
+                    "description" => $validator->getMessageBag()
                 ]
-            ], 400);
+            ],422));
         }
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                'message' => 'Invalid email or password'
-            ], 401);
+            throw new HttpResponseException(response([
+                "message" => "Unauthorized",
+                "status" => false,
+                "error" => [
+                    "code" => 401,
+                    "description" => "Invalid credential"
+                ]
+            ],401));
         }
 
-        $user = User::where('email', $request['email'])->firstorFail();
-
+        $user = User::select("idUser","slug", "name", "email")->where('email', $request['email'])->where("isActive", 1)->first();
+        if (!$user) {
+            throw new HttpResponseException(response([
+                "message" => "Unauthorized",
+                "status" => false,
+                "error" => [
+                    "code" => 401,
+                    "description" => "You have been banned by admin"
+                ]
+            ],401));
+        }
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
+            "message" => "login successfully",
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'status' => true
+            'status' => true,
+            "data" => [
+                "slug" => $user->slug,
+                "name" => $user->name,
+                "email" => $user->email
+            ]
         ]);
     }
 }
