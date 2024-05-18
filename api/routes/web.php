@@ -16,3 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::put("/send", function(Request $request){
+//     if ($request->hasFile("company_logo")) {
+//         $gambar = $request->file("company_logo");
+//         $response = Http::withHeaders([
+//             'X-HTTP-Method-Override' => 'PUT',
+//         ])->attach(
+//             'company_logo',
+//             file_get_contents($gambar),
+//             $gambar->getClientOriginalName()
+//         )->post('http://127.0.0.1:8001/api/test');
+
+//         return $response->body();
+//     }
+// });
