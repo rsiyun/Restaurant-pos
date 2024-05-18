@@ -18,7 +18,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
-                    <x-nav-link :href="route('dashboard')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Produk') }}
                     </x-nav-link>
 
@@ -33,7 +33,7 @@
                     </x-nav-link>
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
-                    <x-nav-link :href="route('tambah-produk')" >
+                    <x-nav-link :href="route('tambah-produk')" :active="request()->routeIs('tambah-produk')">
                         {{ __('Produk +') }}
                     </x-nav-link>
                 </div>

@@ -5,14 +5,14 @@
         <!-- Email Address -->
         <div class="ml-[6rem]">
             <x-input-label for="email" class="text-l" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-[19rem] h-[2rem] bg-white-700 rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-text-input id="email" class="block w-[23rem] bg-white-700 rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Name -->
         <div class="mt-4 ml-[6rem]">
             <x-input-label for="name" class="text-l" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-[19rem] h-[2rem] bg-white-700 rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-text-input id="name" class="block w-[23rem] bg-white-700 rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
@@ -20,7 +20,7 @@
         <div class="mt-4 ml-[6rem]">
             <x-input-label for="password" class="text-l" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-[19rem] h-[2rem] bg-white-700 rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black"
+            <x-text-input id="password" class="block w-[23rem] bg-white-700 rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
@@ -32,7 +32,7 @@
         <div class="mt-4 ml-[6rem]">
             <x-input-label for="password_confirmation" class="text-l" :value="__('Confirm Password')" />
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-[19rem] h-[2rem] bg-white-700 rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black"
+            <x-text-input id="password_confirmation" class="block w-[23rem] bg-white-700 rounded-none drop-shadow-[3px_3px_1px_grey] border-[1px] border-black"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
 
