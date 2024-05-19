@@ -2,7 +2,7 @@
 
     <x-slot name="header">
 
-        {{-- <h2 class="text-xl font-semibold leading-tight text-gray-800 flex justify-center">
+        {{-- <h2 class="flex justify-center text-xl font-semibold leading-tight text-gray-800">
             {{ __('Toko') }}
         </h2> --}}
 
@@ -16,9 +16,11 @@
             </div>
         </div> --}}
 
+        {{-- Rebase? --}}
+
         {{-- CARD PRODUK --}}
         <div class="flex justify-center mb-[2rem]">
-            <div class="inline-grid grid-cols-3 gap-12 flex justify-center">
+            <div class="flex inline-grid justify-center grid-cols-3 gap-12">
                 @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
                 @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
                 @include('components.cards.cards-2', ['name' => 'Nasi Goreng', 'content' => 'Rp. 12.000'])
