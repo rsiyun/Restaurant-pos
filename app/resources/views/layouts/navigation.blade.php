@@ -4,7 +4,7 @@
 
         <div class="flex justify-between h-16">
 
-            <div class="flex w-full justify-between">
+            <div class="flex justify-between w-full">
 
                 <!-- Logo -->
                 <div class="flex items-center shrink-0">
@@ -19,11 +19,16 @@
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Produk') }}
+                        {{ __('Dasbor') }}
                     </x-nav-link>
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
-                    <x-nav-link :href="route('dashboard')">
+                    <x-nav-link :href="route('product.index')">
+                        {{ __('Menu') }}
+                    </x-nav-link>
+
+
+                    <x-nav-link :href="route('dashboard')" :active="request()->route">
                         {{ __('Order') }}
                     </x-nav-link>
 
