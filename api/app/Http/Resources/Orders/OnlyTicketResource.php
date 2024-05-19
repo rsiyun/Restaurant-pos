@@ -5,7 +5,7 @@ namespace App\Http\Resources\Orders;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OrderResource extends JsonResource
+class OnlyTicketResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,11 +17,11 @@ class OrderResource extends JsonResource
 
         return [
             "idOrder" => $this->idOrder,
-            "totalOrder" => $this->TotalOrder,
-            "BuyerName" => $this->BuyerName,
+            "slug" => $this->slug,
+            "orderNote" => $this->orderNote,
+            "priceTickets" => $this->priceTickets,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
-            "kasir" => new KasirResource($this->kasir)
         ];
     }
 }

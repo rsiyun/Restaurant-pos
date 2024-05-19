@@ -7,6 +7,7 @@ use App\Http\Requests\Orders\CreateRequest;
 use App\Http\Requests\Orders\UpdateRequest;
 use App\Http\Resources\Orders\OrderDetailResource;
 use App\Http\Resources\Orders\OrderResource;
+use App\Http\Resources\Orders\ShowOrdersResource;
 use App\Models\Orders;
 use App\Models\Tickets;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class OrdersController extends Controller
             $slugOrder = Helper::generateSlug("O", "orders");
             $order = Orders::create([
                 "idUser" => $validated["idKasir"],
-                "BuyerName" => $validated["buyerName"],
+                "BuyerName" => $validated["BuyerName"],
                 "slug" => $slugOrder,
                 "TotalOrder" => 1
             ]);
@@ -51,7 +52,7 @@ class OrdersController extends Controller
             ]);
 
             DB::commit();
-            return response()->json($order->load('tickets'), 201);
+            return $this->sendResponse(new ShowOrdersResource($order->load('tickets')), 'Order successfully created');
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Failed to create order', 'error' => $e->getMessage()], 500);
@@ -77,7 +78,7 @@ class OrdersController extends Controller
         try {
             $order->update([
                 "idKasir" => $validated["idKasir"] ?? NULL,
-                "BuyerName" => $validated["buyerName"] ?? NULL,
+                "BuyerName" => $validated["BuyerName"] ?? NULL,
                 "TotalOrder" => 1
             ]);
             $oldTickets = Tickets::where("idOrder", $order->idOrder)->get();
@@ -96,8 +97,9 @@ class OrdersController extends Controller
             $order->update([
                 "TotalOrder" => $totalOrder
             ]);
+
             DB::commit();
-            return response()->json($order, 200);
+            return $this->sendResponse(new ShowOrdersResource($order->load('tickets')), 'Order successfully updated');
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Failed to create order', 'error' => $e->getMessage()], 500);

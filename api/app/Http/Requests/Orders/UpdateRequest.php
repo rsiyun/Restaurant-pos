@@ -25,7 +25,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             "idKasir" => ["nullable", "integer"],
-            "buyerName" => ['nullable', 'string'],
+            "BuyerName" => ['nullable', 'string'],
             "tickets" => ['required', 'array'],
             "tickets.*.slugTicket" => ['required', 'string']
         ];
@@ -39,6 +39,6 @@ class UpdateRequest extends FormRequest
                 "code" => 422,
                 "description" => $validator->getMessageBag()
             ]
-        ],422));
+        ], 422));
     }
 }

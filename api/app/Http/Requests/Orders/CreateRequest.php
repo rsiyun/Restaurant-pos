@@ -25,7 +25,7 @@ class CreateRequest extends FormRequest
     {
         return [
             "idKasir" => ["required", "integer"],
-            "buyerName" => ['required', 'string'],
+            "BuyerName" => ['required', 'string'],
             "tickets" => ['required', 'array'],
             "tickets.*.slugTicket" => ['required', 'string']
         ];
@@ -39,7 +39,7 @@ class CreateRequest extends FormRequest
                 "code" => 422,
                 "description" => $validator->getMessageBag()
             ]
-        ],422));
+        ], 422));
     }
 
 }
