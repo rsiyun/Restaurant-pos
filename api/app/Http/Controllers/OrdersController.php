@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\Orders\CreateRequest;
+use App\Http\Requests\Orders\UpdateRequest;
 use App\Http\Resources\Orders\OrderDetailResource;
 use App\Http\Resources\Orders\OrderResource;
 use App\Models\Orders;
-use Illuminate\Http\Request;
+use App\Models\Tickets;
 use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
@@ -26,6 +28,34 @@ class OrdersController extends Controller
     public function store(CreateRequest $request)
     {
         $validated = $request->validated();
+        DB::beginTransaction();
+
+        try {
+            $slugOrder = Helper::generateSlug("O", "orders");
+            $order = Orders::create([
+                "idUser" => $validated["idKasir"],
+                "BuyerName" => $validated["buyerName"],
+                "slug" => $slugOrder,
+                "TotalOrder" => 1
+            ]);
+            $totalOrder = 0;
+            foreach ($validated["tickets"] as $ticket) {
+                $getTicket = Tickets::where('slug', $ticket["slugTicket"])->first();
+                $totalOrder += $getTicket->priceTickets;
+                $getTicket->update([
+                    "idOrder" => $order->idOrder
+                ]);
+            }
+            $order->update([
+                "TotalOrder" => $totalOrder
+            ]);
+
+            DB::commit();
+            return response()->json($order->load('tickets'), 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Failed to create order', 'error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -40,9 +70,39 @@ class OrdersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Orders $orders)
+    public function update(UpdateRequest $request, Orders $order)
     {
-        //
+        $validated = $request->validated();
+        DB::beginTransaction();
+        try {
+            $order->update([
+                "idKasir" => $validated["idKasir"] ?? NULL,
+                "BuyerName" => $validated["buyerName"] ?? NULL,
+                "TotalOrder" => 1
+            ]);
+            $oldTickets = Tickets::where("idOrder", $order->idOrder)->get();
+            foreach ($oldTickets as $ticket) {
+                $ticket->idOrder = NULL;
+                $ticket->save();
+            }
+            $totalOrder = 0;
+            foreach ($validated["tickets"] as $ticket) {
+                $getTicket = Tickets::where('slug', $ticket["slugTicket"])->first();
+                $totalOrder += $getTicket->priceTickets;
+                $getTicket->update([
+                    "idOrder" => $order->idOrder
+                ]);
+            }
+            $order->update([
+                "TotalOrder" => $totalOrder
+            ]);
+            DB::commit();
+            return response()->json($order, 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Failed to create order', 'error' => $e->getMessage()], 500);
+        }
+
     }
 
     /**

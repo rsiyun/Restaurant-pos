@@ -28,7 +28,7 @@ class ProductController extends Controller
     {
         $validated = $request->validated();
 
-        $slug = Helper::generateSlug($validated["productName"], "products");
+        $slug = Helper::generateSlug("p", "products");
         $validated["productImage"] = $request->file('productImage')->store('product_images');
         $product = Product::create([
             "slug" => $slug,
@@ -55,7 +55,7 @@ class ProductController extends Controller
         $validated = $request->validated();
         $slug = $product->slug;
         if ($validated["productName"] != $product->productName) {
-            $slug = Helper::generateSlug($validated["productName"], "products");
+            $slug = Helper::generateSlug("p", "products");
         }
         if ($request->hasFile('productImage')) {
             if ($product->productImage) {

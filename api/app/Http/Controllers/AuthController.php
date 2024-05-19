@@ -20,7 +20,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
             'role' => "required"
         ]);
-        $slug = Helper::generateSlug($validatedData["name"], "users");
+        $slug = Helper::generateSlug("u", "users");
         $user = User::create([
             'name' => $validatedData['name'],
             'slug' => $slug,
@@ -85,10 +85,9 @@ class AuthController extends Controller
 
         return response()->json([
             "message" => "login successfully",
-            'access_token' => $token,
-            'token_type' => 'Bearer',
             'status' => true,
             "data" => [
+                'access_token' => $token,
                 "slug" => $user->slug,
                 "name" => $user->name,
                 "email" => $user->email

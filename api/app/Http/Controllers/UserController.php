@@ -34,7 +34,7 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-        $slug = Helper::generateSlug($validated["name"], "users");
+        $slug = Helper::generateSlug("u", "users");
         $user = User::create([
             "slug" => $slug,
             "isActive" => 1,
@@ -67,7 +67,7 @@ class UserController extends Controller
         $slug = $user->slug;
 
         if ($validated["name"] != $user->name) {
-            $slug = Helper::generateSlug($validated["name"], "users");
+            $slug = Helper::generateSlug("u", "users");
         }
 
         $user->update([

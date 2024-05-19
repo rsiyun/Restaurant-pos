@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Orders;
 
-use App\Enums\Role;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rules\Enum;
 
-class CreateRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,13 +24,12 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'string'],
-            'password' => ['required', 'string'],
-            'role' => ['required', new Enum(Role::class)],
+            "idKasir" => ["nullable", "integer"],
+            "buyerName" => ['nullable', 'string'],
+            "tickets" => ['required', 'array'],
+            "tickets.*.slugTicket" => ['required', 'string']
         ];
     }
-
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response([
@@ -42,6 +39,6 @@ class CreateRequest extends FormRequest
                 "code" => 422,
                 "description" => $validator->getMessageBag()
             ]
-        ], 422));
+        ],422));
     }
 }

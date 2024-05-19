@@ -50,22 +50,20 @@ class TicketsController extends Controller
     public function store(CreateRequest $request)
     {
         $validated = $request->validated();
-
-        $slug_material_order = $validated["idShop"]."-";
         DB::beginTransaction();
 
         try {
 
-            $slugOrder = Helper::generateSlug($slug_material_order, "orders");
+            $slugTicket = Helper::generateSlug("t", "tickets");
             $ticket = Tickets::create([
                 "idShop" => $validated["idShop"],
                 "BuyerName" => $validated["buyerName"],
                 "priceTickets" => 1,
-                "slug" => $slugOrder
+                "slug" => $slugTicket
             ]);
             foreach ($validated["ticketCart"] as $ticketCart) {
                 $priceTicketDetail = 0;
-                $slug_material_detail = $validated["idShop"]."-".$ticket->idTicket;
+                $slug_material_detail = "td"."-".$ticket->idTicket;
                 $slugDetail = Helper::generateSlug($slug_material_detail, "ticket_details");
                 $product = Product::where('slug', $ticketCart["slugProduct"])->first();
                 $priceTicketDetail += $ticketCart["quantity"]*$product->productPrice;
@@ -76,11 +74,11 @@ class TicketsController extends Controller
                     "quantity" => $ticketCart["quantity"]
                 ]);
             }
-            $totalOrder = array_reduce($ticket->load('details')->details->toArray(), function($carry, $item) {
+            $totalTicket = array_reduce($ticket->load('details')->details->toArray(), function($carry, $item) {
                 return $carry + ($item['priceTicketDetail']);
             }, 0);
             $ticket->update([
-                "priceTickets" => $totalOrder
+                "priceTickets" => $totalTicket
             ]);
 
             DB::commit();
@@ -127,7 +125,7 @@ class TicketsController extends Controller
             $ticket->details()->delete();
             foreach ($validated["ticketCart"] as $ticketCart) {
                 $priceTicketDetail = 0;
-                $slug_material_detail = $ticket->idShop."-".$ticket->idTicket;
+                $slug_material_detail = "td"."-".$ticket->idTicket;
                 $slugDetail = Helper::generateSlug($slug_material_detail, "ticket_details");
                 $product = Product::where('slug', $ticketCart["slugProduct"])->first();
                 $priceTicketDetail += $ticketCart["quantity"]*$product->productPrice;

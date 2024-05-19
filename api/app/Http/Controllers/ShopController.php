@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Shops\ShopResource;
 use App\Models\Shop;
-use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use App\Http\Requests\Shop\CreateRequest;
 use App\Http\Requests\Shop\UpdateRequest;
@@ -33,7 +32,7 @@ class ShopController extends Controller
     {
         $validated = $request->validated();
 
-        $slug = Helper::generateSlug($validated["ownerName"], "shops");
+        $slug = Helper::generateSlug("s", "shops");
         $shop = Shop::create([
             "slug" => $slug,
             "isActive" => 1,
@@ -64,8 +63,8 @@ class ShopController extends Controller
         $validated = $request->validated();
         $slug = $shop->slug;
 
-        if ($validated["ownerName"] != $shop->ownerName) {
-            $slug = Helper::generateSlug($validated["ownerName"], "shops");
+        if ($validated["shopName"] != $shop->shopName) {
+            $slug = Helper::generateSlug("s", "shops");
         }
 
         $shop->update([
