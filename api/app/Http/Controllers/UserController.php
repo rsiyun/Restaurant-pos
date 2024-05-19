@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Helpers\Helper;
 use App\Http\Requests\User\CreateRequest;
 use App\Http\Requests\User\UpdateRequest;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
@@ -41,21 +42,27 @@ class UserController extends Controller
             ...$validated
         ]);
 
-        return $this->sendResponse(new UserResource($user), "users Berhasil DiTambahkan");
+        return $this->sendResponse(new UserResource($user), "User Successfully Created");
+    }
+
+    public function showWithToken(Request $request){
+        $hashedToken = $request->bearerToken();
+        $token = PersonalAccessToken::findToken($hashedToken);
+        $user = $token->tokenable;
+        return response()->json([
+            "name" => $user["name"],
+            "email" => $user["email"],
+            "role" => $user["role"],
+            "slug" => $user["slug"],
+        ], 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $slug)
+    public function show(User $user)
     {
-        $user = User::where('slug', $slug)->first();
-
-        if (is_null($user)) {
-            return $this->sendError('User does not exist.');
-        }
-
-        return $this->sendResponse(new UserResource($user), 'User fetched.');
+        return $this->sendResponse(new UserResource($user), 'Get a User');
     }
 
     /**
@@ -84,6 +91,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return $this->sendResponse(new UserResource($user), "Shop Berhasil DiHapus");
+        return $this->sendResponse(new UserResource($user), "User Successfully Deleted");
     }
 }
