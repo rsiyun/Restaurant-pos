@@ -15,7 +15,8 @@ class CreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user() != null;
+        // return $this->user() != null;
+        return true;
     }
 
     /**
@@ -43,6 +44,6 @@ class CreateRequest extends FormRequest
                 "code" => 422,
                 "description" => $validator->getMessageBag()
             ]
-        ],422));
+        ], 422));
     }
 }

@@ -22,7 +22,7 @@ class TicketsController extends Controller
     {
         $tickets = Tickets::paginate(15);
         $response = [
-            "tickets" =>TicketResource::collection($tickets),
+            "tickets" => TicketResource::collection($tickets),
             "lastpage" => $tickets->lastPage()
         ];
         return $this->sendResponse($response, "Tickets Successfully Retrieved");
@@ -34,10 +34,10 @@ class TicketsController extends Controller
         ]);
         $tickets = Tickets::where("idOrder", NULL)->paginate(5);
         if ($validated["search"] ?? NULL != NULL) {
-            $tickets = Tickets::where("idOrder", NULL)->where("slug", "like",'%'.$validated["search"].'%')->paginate(5);
+            $tickets = Tickets::where("idOrder", NULL)->where("slug", "like", '%' . $validated["search"] . '%')->paginate(5);
         }
         $response = [
-            "tickets" =>TicketResource::collection($tickets),
+            "tickets" => TicketResource::collection($tickets),
             "lastpage" => $tickets->lastPage()
         ];
         return $this->sendResponse($response, "Tickets Successfully Retrieved");
@@ -57,16 +57,16 @@ class TicketsController extends Controller
             $slugTicket = Helper::generateSlug("t", "tickets");
             $ticket = Tickets::create([
                 "idShop" => $validated["idShop"],
-                "BuyerName" => $validated["buyerName"],
+                "orderNote" => $validated["orderNote"],
                 "priceTickets" => 1,
                 "slug" => $slugTicket
             ]);
             foreach ($validated["ticketCart"] as $ticketCart) {
                 $priceTicketDetail = 0;
-                $slug_material_detail = "td"."-".$ticket->idTicket;
+                $slug_material_detail = "td" . "-" . $ticket->idTicket;
                 $slugDetail = Helper::generateSlug($slug_material_detail, "ticket_details");
                 $product = Product::where('slug', $ticketCart["slugProduct"])->first();
-                $priceTicketDetail += $ticketCart["quantity"]*$product->productPrice;
+                $priceTicketDetail += $ticketCart["quantity"] * $product->productPrice;
                 $ticket->details()->create([
                     "priceTicketDetail" => $priceTicketDetail,
                     "idProduct" => $product->idProduct,
@@ -74,7 +74,7 @@ class TicketsController extends Controller
                     "quantity" => $ticketCart["quantity"]
                 ]);
             }
-            $totalTicket = array_reduce($ticket->load('details')->details->toArray(), function($carry, $item) {
+            $totalTicket = array_reduce($ticket->load('details')->details->toArray(), function ($carry, $item) {
                 return $carry + ($item['priceTicketDetail']);
             }, 0);
             $ticket->update([
@@ -82,7 +82,7 @@ class TicketsController extends Controller
             ]);
 
             DB::commit();
-            return response()->json($ticket->load('details'), 201);
+            return $this->sendResponse(new ShowTicketResource($ticket->load('details')), "Ticket created successfully");
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Failed to create order', 'error' => $e->getMessage()], 500);
@@ -112,39 +112,38 @@ class TicketsController extends Controller
                     "code" => 400,
                     "description" => "cannot edit this data because this tickets has been pay"
                 ]
-            ],400));
+            ], 400));
         }
 
         DB::beginTransaction();
 
         try {
             $ticket->update([
-                "BuyerName" => $validated["buyerName"] ?? $ticket->BuyerName,
+                "orderNote" => $validated["orderNote"] ?? $ticket->orderNote,
                 "priceTickets" => 1
             ]);
             $ticket->details()->delete();
             foreach ($validated["ticketCart"] as $ticketCart) {
                 $priceTicketDetail = 0;
-                $slug_material_detail = "td"."-".$ticket->idTicket;
+                $slug_material_detail = "td" . "-" . $ticket->idTicket;
                 $slugDetail = Helper::generateSlug($slug_material_detail, "ticket_details");
                 $product = Product::where('slug', $ticketCart["slugProduct"])->first();
-                $priceTicketDetail += $ticketCart["quantity"]*$product->productPrice;
+                $priceTicketDetail += $ticketCart["quantity"] * $product->productPrice;
                 $ticket->details()->create([
                     "slug" => $slugDetail,
                     "priceTicketDetail" => $priceTicketDetail,
                     "idProduct" => $product->idProduct,
-                    "slug" => $slugDetail,
                     "quantity" => $ticketCart["quantity"]
                 ]);
             }
-            $totalOrder = array_reduce($ticket->load('details')->details->toArray(), function($carry, $item) {
+            $totalOrder = array_reduce($ticket->load('details')->details->toArray(), function ($carry, $item) {
                 return $carry + ($item['priceTicketDetail']);
             }, 0);
             $ticket->update([
                 "priceTickets" => $totalOrder
             ]);
             DB::commit();
-            return response()->json($ticket->load('details'), 200);
+            return $this->sendResponse(new ShowTicketResource($ticket->load('details')), 'Ticket successfully updated');
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Failed to create order', 'error' => $e->getMessage()], 500);

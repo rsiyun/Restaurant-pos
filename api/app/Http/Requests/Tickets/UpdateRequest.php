@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "buyerName" => ['nullable'],
+            "orderNote" => ['nullable'],
             "ticketCart" => ['required', 'array'],
             "ticketCart.*.slugProduct" => ['required', 'string'],
             "ticketCart.*.quantity" => ['required', 'integer']
@@ -39,6 +39,6 @@ class UpdateRequest extends FormRequest
                 "code" => 422,
                 "description" => $validator->getMessageBag()
             ]
-        ],422));
+        ], 422));
     }
 }

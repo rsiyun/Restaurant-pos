@@ -14,7 +14,6 @@ class TicketDetailResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
             "slug" => $this->slug,
             "quantity" => $this->quantity,

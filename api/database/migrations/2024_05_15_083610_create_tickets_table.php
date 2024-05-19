@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger("idShop");
             $table->unsignedBigInteger("idOrder")->nullable()->default(NULL);
             $table->string('slug')->unique();
-            $table->string("BuyerName");
+            $table->string("orderNote")->nullable()->default(NULL);
             $table->integer("priceTickets");
             $table->timestamps();
             $table->foreign('idShop')->references('idShop')->on('shops')->onDelete('cascade');
