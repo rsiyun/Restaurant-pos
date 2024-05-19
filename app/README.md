@@ -17,3 +17,4 @@ Cara Penggunaan
 - buat file .env
 - isi file .env ada di link (soon)
 - Jika ada pertanyaan kontak langsung ke yoga
+-
