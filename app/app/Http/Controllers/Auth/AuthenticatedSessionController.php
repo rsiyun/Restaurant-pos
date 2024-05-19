@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Endpoint\ApiUrl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -23,13 +25,20 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->authenticate();
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $response = Http::post(ApiUrl::$api_url."/login", [
+            'email' => $request->email,
+            'password' => $request->password
+        ])->json();
+        if ($response["status"]) {
+            $session = [
+                "access_token" => $response["access_token"]
+            ];
+            session(["user" => $session]);
+            return redirect()->route("dashboard");
+        }
+        return redirect()->route("login")->with($response);
     }
 
     /**
