@@ -18,6 +18,8 @@ Route::get('/shop', function () {
     return view('role.shop.landing-page-shop');
 })->name('landing-page-shop');
 
+// 
+
 
 Route::get('/', function () {
     return view('landing-page');
@@ -26,6 +28,10 @@ Route::get('/', function () {
 Route::get('/tambah-produk', function () {
     return view('role.shop.tambah-produk');
 })->name('tambah-produk');
+
+Route::get('/Riwayat', function () {
+    return view('role.shop.riwayat-page');
+})->name('riwayat-page');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
