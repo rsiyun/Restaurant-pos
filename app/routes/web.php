@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FrontEnd\DashboardController;
 use App\Http\Controllers\FrontEnd\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -59,7 +60,9 @@ Route::prefix('products')->group(function () {
 | Kalau done nanti dashboard disini, bukan sendiri sendiri
 | dashboard prefix
 */
-Route::prefix('dashboards')->group(function () { });
+Route::prefix('dashboards')->group(function () {
+    Route::get('/', [DashboardController::class, 'index']);
+});
 
 
 require __DIR__ . '/auth.php';
