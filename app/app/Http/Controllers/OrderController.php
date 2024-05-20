@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\FrontEnd;
+namespace App\Http\Controller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
@@ -17,7 +17,8 @@ class OrderController extends Controller
     public function edit(){
 
     }
-    public function show($id){
+    public function show($slug){
+        $response  = Http::get();
 
     }
     public function update($id){
