@@ -29,7 +29,10 @@ class ProductController extends Controller
         $validated = $request->validated();
 
         $slug = Helper::generateSlug("p", "products");
-        $validated["productImage"] = $request->file('productImage')->store('product_images');
+        $validated["productImage"] = "product_images/gofood.jpeg";
+        if ($request->hasFile("productImage")) {
+            $validated["productImage"] = $request->file('productImage')->store('product_images');
+        }
         $product = Product::create([
             "slug" => $slug,
             ...$validated

@@ -62,9 +62,9 @@ class OrdersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Orders $orders)
+    public function show(Orders $order)
     {
-        $response = Orders::with(['kasir', 'tickets.shop', 'tickets.details', 'tickets.details.product'])->where('slug', $orders->slug)->first();
+        $response = Orders::with(['kasir', 'tickets.shop', 'tickets.details', 'tickets.details.product'])->where('slug', $order->slug)->first();
         return $this->sendResponse(new OrderDetailResource($response), 'shop details');
     }
 
@@ -110,9 +110,9 @@ class OrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Orders $orders)
+    public function destroy(Orders $order)
     {
-        $orders->delete();
-        return $this->sendResponse(new OrderResource($orders), "Order Successfully Deleted");
+        $order->delete();
+        return $this->sendResponse(new OrderResource($order), "Order Successfully Deleted");
     }
 }

@@ -28,7 +28,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'idShop' => ['required', 'integer'],
-            'productImage' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:10240'],
+            'productImage' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:10240'],
             'productName' => ['required', 'string'],
             'productPrice' => ['required', 'numeric'],
             'productType' => ['required', new Enum(ProductType::class)],

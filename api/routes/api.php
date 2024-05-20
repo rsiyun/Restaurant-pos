@@ -35,17 +35,31 @@ Route::post("/user", [UserController::class, 'store']);
 Route::put("/user/{user}", [UserController::class, 'update']);
 Route::delete("/user/{user}", [UserController::class, 'destroy']);
 
-Route::get("orders", [OrdersController::class, 'index']);
-
-Route::get("orders/{orders}", [OrdersController::class, 'show']);
+Route::get("order", [OrdersController::class, 'index']);
+Route::get("order/{order}", [OrdersController::class, 'show']);
 Route::post("order", [OrdersController::class, 'store']);
-Route::delete("order/{orders}", [OrdersController::class, 'destroy']);
+Route::delete("order/{order}", [OrdersController::class, 'destroy']);
 Route::put("order/{order}", [OrdersController::class, 'update']);
-Route::resource("shop", ShopController::class);
-// Route::get("orders/{orders}", [OrdersController::class, 'show']);
-Route::resource("ticket", TicketsController::class);
+
+Route::get("product", [ProductController::class, 'index']);
+Route::get("product/{product}", [ProductController::class, 'show']);
+Route::post("product", [ProductController::class, 'store']);
+Route::put("product/{product}", [ProductController::class, 'update']);
+Route::delete("product/{product}", [ProductController::class, 'destroy']);
+
+Route::get("shop", [ShopController::class, 'index']);
+Route::get("shop/{shop}", [ShopController::class, 'show']);
+Route::post("shop", [ShopController::class, 'store']);
+Route::put("shop/{shop}", [ShopController::class, 'update']);
+Route::delete("shop/{shop}", [ShopController::class, 'destroy']);
+
+Route::get("ticket", [TicketsController::class, 'index']);
+Route::get("ticket/{ticket}", [TicketsController::class, 'show']);
+Route::post("ticket", [TicketsController::class, 'store']);
+Route::delete("ticket/{ticket}", [TicketsController::class, 'destroy']);
+Route::put("ticket/{ticket}", [TicketsController::class, 'update']);
 Route::get("/unpaymentTicket", [TicketsController::class, 'unpayment']);
 Route::group(['middleware' => ['auth:sanctum','checkrole:Kasir']], function() {
-    Route::resource("product", ProductController::class);
+
 });
 
