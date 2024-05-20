@@ -64,6 +64,7 @@ Route::prefix('products')->group(function () {
 Route::prefix('dashboards')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::get("/order/{slug}", [OrderController::class, 'show']);
+    Route::get("/dev", [DashboardController::class, 'dev']);
 });
 
 
