@@ -41,7 +41,7 @@ public function store(Request $request)
         return redirect()->route("login")->with($response);
     }
 
-    
+
 
     /**
      * Destroy an authenticated session.
