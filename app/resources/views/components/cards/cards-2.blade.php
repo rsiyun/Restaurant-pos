@@ -21,13 +21,13 @@
 
         </div>
 
-        <div class=" h-[4rem]">
+        <div class="h-[4rem]">
             <div class="text-xl font-black text-gray-700">
                 {{ $name ?? 'No Name' }}
             </div>
 
             <div class="grid justify-items-end ">
-                <div class="text-xl font-extrabold text-gray-700">
+                <div class="text-xl font-extrabold font-['Roboto, sans-serif'] text-gray-700">
                     {{ $content ?? 'No Content' }}
                 </div>
             </div>
