@@ -63,6 +63,9 @@ Route::prefix('products')->group(function () {
 */
 Route::prefix('dashboards')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
+    Route::get("/order", [OrderController::class, 'index']);
+    Route::post("/order", [OrderController::class, 'store']);
+    Route::delete("/order", [OrderController::class, 'destroy']);
     Route::get("/order/{slug}", [OrderController::class, 'show']);
     Route::get("/dev", [DashboardController::class, 'dev']);
 });
