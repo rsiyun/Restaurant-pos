@@ -19,4 +19,9 @@ class DashboardController extends Controller
             'transactions' => $transactionAPI->json()
         ]);
     }
+
+    public function dev()
+    {
+        return view('dashboard.index');
+    }
 }
