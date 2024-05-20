@@ -25,7 +25,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(Request $request)
+public function store(Request $request)
     {
         $response = Http::post(ApiUrl::$api_url."/login", [
             'email' => $request->email,
@@ -33,13 +33,15 @@ class AuthenticatedSessionController extends Controller
         ])->json();
         if ($response["status"]) {
             $session = [
-                "access_token" => $response["access_token"]
+                "access_token" => $response["data"]["access_token"]
             ];
             session(["user" => $session]);
             return redirect()->route("dashboard");
         }
         return redirect()->route("login")->with($response);
     }
+
+    
 
     /**
      * Destroy an authenticated session.

@@ -11,8 +11,9 @@
             </div>
         </div>
 
+
         <div class="w-full flex flex-col items-center">
-            <div class="border border-black w-[750px] h-[60px] mt-[20px] pl-[20px] rounded-[3px] shadow-md flex items-center">
+            <div class="border border-black w-[750px] h-[60px] mt-[20px] pl-[20px] rounded-[3px] shadow-md flex items-center ">
                 <div class="flex-1">
                     <span>Pecel Ezra / #10001</span><br>
                     <span>15/05 09:40:23 Nasi Goreng, Pecel....</span>
