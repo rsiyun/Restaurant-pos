@@ -9,7 +9,8 @@
 </head>
 
 <body>
-    <form action="/path-to-your-api-endpoint" method="POST">
+    <form action="{{ url('dashboards/order') }}" method="POST">
+        @csrf
         <div>
             <label for="idKasir">Kasir ID:</label>
             <input type="number" id="idKasir" name="idKasir" required>
@@ -25,11 +26,17 @@
                 <input type="text" id="slugTicket" name="tickets[0][slugTicket]" required>
             </div>
         </div>
-        <button type="button" onclick="addTicket()">Add Another Ticket</button>
         <div>
             <button type="submit">Submit</button>
         </div>
     </form>
+
+    <form action="{{ url('/dashboards/order/o-F4eR3') }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus pesanan ini?')">Hapus</button>
+    </form>
+
 </body>
 
 </html>
