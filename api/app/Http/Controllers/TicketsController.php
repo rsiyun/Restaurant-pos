@@ -107,7 +107,7 @@ class TicketsController extends Controller
         if ($ticket->idOrder != NULL) {
             throw new HttpResponseException(response([
                 "message" => "Cannot edit this data",
-                "status" => false,
+                "success" => false,
                 "error" => [
                     "code" => 400,
                     "description" => "cannot edit this data because this tickets has been pay"

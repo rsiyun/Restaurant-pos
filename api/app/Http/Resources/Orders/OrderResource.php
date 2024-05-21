@@ -17,8 +17,9 @@ class OrderResource extends JsonResource
 
         return [
             "idOrder" => $this->idOrder,
+            "slug" => $this->slug,
             "totalOrder" => $this->TotalOrder,
-            "BuyerName" => $this->BuyerName,
+            "buyerName" => $this->buyerName,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "kasir" => new KasirResource($this->kasir)

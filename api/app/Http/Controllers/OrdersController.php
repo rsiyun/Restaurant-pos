@@ -35,7 +35,7 @@ class OrdersController extends Controller
             $slugOrder = Helper::generateSlug("O", "orders");
             $order = Orders::create([
                 "idUser" => $validated["idKasir"],
-                "BuyerName" => $validated["BuyerName"],
+                "buyerName" => $validated["buyerName"],
                 "slug" => $slugOrder,
                 "TotalOrder" => 1
             ]);
@@ -78,7 +78,7 @@ class OrdersController extends Controller
         try {
             $order->update([
                 "idKasir" => $validated["idKasir"] ?? NULL,
-                "BuyerName" => $validated["BuyerName"] ?? NULL,
+                "buyerName" => $validated["buyerName"] ?? NULL,
                 "TotalOrder" => 1
             ]);
             $oldTickets = Tickets::where("idOrder", $order->idOrder)->get();

@@ -25,7 +25,7 @@ class CreateRequest extends FormRequest
     {
         return [
             "idKasir" => ["required", "integer"],
-            "BuyerName" => ['required', 'string'],
+            "buyerName" => ['required', 'string'],
             "tickets" => ['required', 'array'],
             "tickets.*.slugTicket" => ['required', 'string']
         ];
@@ -34,7 +34,7 @@ class CreateRequest extends FormRequest
     {
         throw new HttpResponseException(response([
             "message" => "Unprocessable Content",
-            "status" => false,
+            "success" => false,
             "error" => [
                 "code" => 422,
                 "description" => $validator->getMessageBag()

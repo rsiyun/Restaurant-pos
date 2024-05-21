@@ -34,7 +34,7 @@ class UpdateRequest extends FormRequest
     {
         throw new HttpResponseException(response([
             "message" => "Unprocessable Content",
-            "status" => false,
+            "success" => false,
             "error" => [
                 "code" => 422,
                 "description" => $validator->getMessageBag()

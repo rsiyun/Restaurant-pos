@@ -25,7 +25,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             "idKasir" => ["nullable", "integer"],
-            "BuyerName" => ['nullable', 'string'],
+            "buyerName" => ['nullable', 'string'],
             "tickets" => ['required', 'array'],
             "tickets.*.slugTicket" => ['required', 'string']
         ];
@@ -34,7 +34,7 @@ class UpdateRequest extends FormRequest
     {
         throw new HttpResponseException(response([
             "message" => "Unprocessable Content",
-            "status" => false,
+            "success" => false,
             "error" => [
                 "code" => 422,
                 "description" => $validator->getMessageBag()

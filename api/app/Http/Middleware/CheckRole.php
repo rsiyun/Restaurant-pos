@@ -23,7 +23,7 @@ class CheckRole
 
         return response()->json([
             "message" => "Unauthorized",
-            "status" => false,
+            "success" => false,
             "error" => [
                 "code"=> 401,
                 "description" => "Access is denied due to invalid credentials. Please provide valid authentication."

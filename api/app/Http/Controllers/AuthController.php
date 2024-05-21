@@ -36,7 +36,7 @@ class AuthController extends Controller
 
         return response()->json([
             "message" => "Registration Successfull",
-            "status" => true,
+            "success" => true,
             "data" => $response
         ]);
     }
@@ -51,7 +51,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             throw new HttpResponseException(response([
                 "message" => "Unprocessable Content",
-                "status" => false,
+                "success" => false,
                 "error" => [
                     "code" => 422,
                     "description" => $validator->getMessageBag()
@@ -62,7 +62,7 @@ class AuthController extends Controller
         if (!Auth::attempt($request->only('email', 'password'))) {
             throw new HttpResponseException(response([
                 "message" => "Unauthorized",
-                "status" => false,
+                "success" => false,
                 "error" => [
                     "code" => 401,
                     "description" => "Invalid credential"
@@ -74,7 +74,7 @@ class AuthController extends Controller
         if (!$user) {
             throw new HttpResponseException(response([
                 "message" => "Unauthorized",
-                "status" => false,
+                "success" => false,
                 "error" => [
                     "code" => 401,
                     "description" => "You have been banned by admin"
@@ -85,7 +85,7 @@ class AuthController extends Controller
 
         return response()->json([
             "message" => "login successfully",
-            'status' => true,
+            'success' => true,
             "data" => [
                 'access_token' => $token,
                 "slug" => $user->slug,
