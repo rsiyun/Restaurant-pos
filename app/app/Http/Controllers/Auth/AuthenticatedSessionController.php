@@ -31,7 +31,7 @@ public function store(Request $request)
             'email' => $request->email,
             'password' => $request->password
         ])->json();
-        if ($response["status"]) {
+        if ($response["success"]) {
             $session = [
                 "access_token" => $response["data"]["access_token"]
             ];

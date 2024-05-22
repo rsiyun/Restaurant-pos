@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Endpoint\ApiUrl;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -10,12 +11,22 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $response = Http::get(ApiUrl::$api_url . "/order")->json();
+        $response = Http::get(ApiUrl::$api_url . "/orders")->json();
+
+        // dd($response);
+        // die;
+        // return view('dashboard', [
+        //     'products' => $response->json(),
+        // ]);
+
         return response()->json($response);
     }
     public function create()
     {
-        return view('dashboard.order.create');
+        $response = Http::post(ApiUrl::$api_url . "/orders")->json();
+        return view('dashboard.create', [
+            'orders' => $response()->json(),
+        ]);
     }
     public function edit()
     {
@@ -25,7 +36,7 @@ class OrderController extends Controller
     {
 
         // http://127.0.0.1:8001/api/orders/o-8BMBY
-        $response = Http::get(ApiUrl::$api_url . "/order" . "/$slug")->json();
+        $response = Http::get(ApiUrl::$api_url . "/orders" . "/$slug")->json();
         dd($response);
         die;
 

@@ -10,18 +10,14 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $productAPI = Http::get('http://localhost:8001/api/products');
+        // $productAPI = Http::get('http://localhost:8001/api/products');
 
-        $transactionAPI = Http::get('http://localhost:8001/api/transactions');
+        // $transactionAPI = Http::get('http://localhost:8001/api/transactions');
 
-        return view('dashboard', [
-            'products' => $productAPI->json(),
-            'transactions' => $transactionAPI->json()
-        ]);
-    }
-
-    public function dev()
-    {
-        return view('dashboard.index');
+        // return view('dashboard', [
+        //     'products' => $productAPI->json(),
+        //     'transactions' => $transactionAPI->json()
+        // ]);
+        return view('cpanel.main.dashboard');
     }
 }
