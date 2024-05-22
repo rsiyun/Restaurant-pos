@@ -18,7 +18,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
-                    <x-nav-link :href="url('/dashboard/dev')" :active="request()->is('dashboard/dev')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dasbor') }}
                     </x-nav-link>
 
@@ -28,19 +28,19 @@
                     </x-nav-link> --}}
 
 
-                    <x-nav-link :href="url('/dashboard')" :active="request()->route">
+                    <x-nav-link :href="route('dashboard')" :active="request()->route">
                         {{ __('Order') }}
                     </x-nav-link>
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
-                    {{-- <x-nav-link :href="route('riwayat-page')" :active="request()->routeIs('riwayat-page')">
+                    <x-nav-link :href="route('riwayat-page')" :active="request()->routeIs('riwayat-page')">
                         {{ __('Riwayat') }}
-                    </x-nav-link> --}}
+                    </x-nav-link>
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
-                    {{-- <x-nav-link :href="route('tambah-produk')" :active="request()->routeIs('tambah-produk')">
+                    <x-nav-link :href="route('tambah-produk')" :active="request()->routeIs('tambah-produk')">
                         {{ __('Produk +') }}
-                    </x-nav-link> --}}
+                    </x-nav-link>
                 </div>
 
                 <!-- Settings Dropdown -->
@@ -116,7 +116,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="url('/dashboard/dev')" :active="request()->is('dashboard')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
