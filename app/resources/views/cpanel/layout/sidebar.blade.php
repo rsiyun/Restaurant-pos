@@ -21,7 +21,7 @@
             'title' => 'Kelola Pengguna',
         ])
         @include('components.buttons.side-navbar', [
-            'url' => url('/dashboard/order'),
+            'url' => url('/dashboard/shop'),
             'title' => 'Kelola Toko',
         ])
         @include('components.buttons.side-navbar', [

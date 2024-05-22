@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,32 +18,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/shop', function () {
-    return view('role.shop.landing-page-shop');
-})->name('landing-page-shop');
+// Route::get('/shop', function () {
+//     return view('role.shop.landing-page-shop');
+// })->name('landing-page-shop');
 
-//
-
-
-Route::get('/', function () {
-    return view('landing-page');
-})->name('landing-page');
+// Route::get('/', function () {
+//     return view('landing-page');
+// })->name('landing-page');
 
 // Route::get('/tambah-produk', function () {
 //     return view('role.shop.tambah-produk');
 // })->name('tambah-produk');
 
-Route::get('/Riwayat', function () {
-    return view('role.shop.riwayat-page');
-})->name('riwayat-page');
+// Route::get('/Riwayat', function () {
+//     return view('role.shop.riwayat-page');
+// })->name('riwayat-page');
 
-Route::get('/shop', function () {
-    return view('role.shop.order-page-shop');
-})->name('order-page');
+// Route::get('/shop', function () {
+//     return view('role.shop.order-page-shop');
+// })->name('order-page');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware("checkRole:Admin,Kasir,ShopEmployee")->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware("checkRole:Admin,Kasir,ShopEmployee")->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -74,6 +72,9 @@ Route::prefix('dashboard')->group(function () {
     Route::delete("/order/{slug}", [OrderController::class, 'destroy']);
     Route::get("/order/{slug}", [OrderController::class, 'show']);
     Route::get("/dev", [DashboardController::class, 'dev']);
+
+    // SHOP
+    Route::get("/shop", [ShopController::class, 'index']);
 });
 
 
