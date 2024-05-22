@@ -3,7 +3,7 @@
     {{-- Sidebar Top --}}
     <div class="flex flex-col flex-grow">
         {{-- Circle Avatar --}}
-        <div class="border">
+        <div class="border-b">
             <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" alt="John Doe"
                 class="w-20 h-20 mx-auto my-4 rounded-full">
             <div class="text-center">
