@@ -20,6 +20,10 @@
             'url' => '#',
             'title' => 'Kelola Pengguna',
         ])
+        @include('components.buttons.side-navbar', [
+            'url' => url('/dashboard/order'),
+            'title' => 'Kelola Order (Pesanan)',
+        ])
     </div>
 
     {{-- Bottom of the sidebar --}}
