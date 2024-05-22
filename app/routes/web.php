@@ -36,9 +36,9 @@ Route::get('/Riwayat', function () {
     return view('role.shop.riwayat-page');
 })->name('riwayat-page');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware("checkRole:Admin,Kasir,ShopEmployee")->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware("checkRole:Admin,Kasir,ShopEmployee")->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -61,11 +61,12 @@ Route::prefix('products')->group(function () {
 | Kalau done nanti dashboard disini, bukan sendiri sendiri
 | dashboard prefix
 */
-Route::prefix('dashboards')->group(function () {
+Route::prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::get("/order", [OrderController::class, 'index']);
+    Route::get("/order/create", [OrderController::class, 'create']);
     Route::post("/order", [OrderController::class, 'store']);
-    Route::delete("/order", [OrderController::class, 'destroy']);
+    Route::delete("/order/{slug}", [OrderController::class, 'destroy']);
     Route::get("/order/{slug}", [OrderController::class, 'show']);
     Route::get("/dev", [DashboardController::class, 'dev']);
 });
