@@ -29,8 +29,6 @@
     ">
     <div
         class="
-            border
-
             bg-blue-900
 
             flex
@@ -39,9 +37,9 @@
 
             rounded
 
-            drop-shadow-[3px_3px_1px_grey]
-
-            focus:ring-0
+            hover:drop-shadow-[3px_3px_1px_grey]
+            ease-in-out
+            duration-300
 
             h-[2.5rem]
             w-[10rem]
