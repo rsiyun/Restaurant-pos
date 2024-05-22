@@ -37,7 +37,7 @@ class OrdersController extends Controller
                 "idUser" => $validated["idKasir"],
                 "buyerName" => $validated["buyerName"],
                 "slug" => $slugOrder,
-                "TotalOrder" => 1
+                "totalOrder" => 1
             ]);
             $totalOrder = 0;
             foreach ($validated["tickets"] as $ticket) {
@@ -48,7 +48,7 @@ class OrdersController extends Controller
                 ]);
             }
             $order->update([
-                "TotalOrder" => $totalOrder
+                "totalOrder" => $totalOrder
             ]);
 
             DB::commit();
@@ -78,8 +78,8 @@ class OrdersController extends Controller
         try {
             $order->update([
                 "idKasir" => $validated["idKasir"] ?? NULL,
-                "buyerName" => $validated["buyerName"] ?? NULL,
-                "TotalOrder" => 1
+                "buyerName" => $validated["buyerName"] ?? $order->buyerName,
+                "totalOrder" => 1
             ]);
             $oldTickets = Tickets::where("idOrder", $order->idOrder)->get();
             foreach ($oldTickets as $ticket) {
@@ -95,7 +95,7 @@ class OrdersController extends Controller
                 ]);
             }
             $order->update([
-                "TotalOrder" => $totalOrder
+                "totalOrder" => $totalOrder
             ]);
 
             DB::commit();

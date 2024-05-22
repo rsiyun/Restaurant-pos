@@ -17,7 +17,7 @@ class ShowOrdersResource extends JsonResource
 
         return [
             "idOrder" => $this->idOrder,
-            "totalOrder" => $this->TotalOrder,
+            "totalOrder" => $this->totalOrder,
             "buyerName" => $this->buyerName,
             "tickets" => OnlyTicketResource::collection($this->tickets),
             "created_at" => $this->created_at,
