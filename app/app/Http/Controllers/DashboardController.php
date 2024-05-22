@@ -20,4 +20,9 @@ class DashboardController extends Controller
         // ]);
         return view('cpanel.main.dashboard');
     }
+    // WARNING JANGAN DI HAPUS
+    public function dev()
+    {
+        return view('cpanel.main.dashboard');
+    }
 }
