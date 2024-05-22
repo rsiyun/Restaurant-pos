@@ -16,6 +16,7 @@
     </head>
     <body>
         <div class="flex h-screen">
+
             <!-- Sidebar -->
             @include('cpanel.layout.sidebar')
 
