@@ -28,17 +28,22 @@ Route::get('/', function () {
     return view('landing-page');
 })->name('landing-page');
 
-Route::get('/tambah-produk', function () {
-    return view('role.shop.tambah-produk');
-})->name('tambah-produk');
+// Route::get('/tambah-produk', function () {
+//     return view('role.shop.tambah-produk');
+// })->name('tambah-produk');
 
 Route::get('/Riwayat', function () {
     return view('role.shop.riwayat-page');
 })->name('riwayat-page');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware("checkRole:Admin,Kasir,ShopEmployee")->name('dashboard');
+Route::get('/shop', function () {
+    return view('role.shop.order-page-shop');
+})->name('order-page');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware("checkRole:Admin,Kasir,ShopEmployee")->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

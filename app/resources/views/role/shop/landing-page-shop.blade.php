@@ -1,5 +1,7 @@
 @extends('layouts.shop-layout')
 
+{{-- PRODUK --}}
+
 @section('slot')
     <div class="relative mt-[2rem] mb-[9.5rem]">{{-- PARENT --}}
         {{-- CARAOUSEL --}}

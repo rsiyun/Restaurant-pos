@@ -1,6 +1,6 @@
 <div class="" id="container-card-2">
     <div {{-- class="p-[1.1vh] mt-7 w-min-[18rem] h-min-[15rem] bg-white rounded-lg shadow-lg hover:drop-shadow-xl duration-300 ease-in-out cursor-pointer flex-col inline-flex border justify-center"> --}}
-        class="p-[1.1vh] mt-7 h-[15rem] rounded-sm shadow-[3px_3px_3px_gainsboro] duration-300 ease-in-out flex-col inline-flex border justify-center">
+        class="p-[1.1vh] mt-6 h-[15rem] rounded-sm shadow-[3px_3px_3px_gainsboro] duration-300 ease-in-out flex-col inline-flex border justify-center">
 
         {{-- <a href=""> --}}
         {{-- <div class="flex items-center justify-between mt-[1rem] border mb-[-2rem]"> --}}
@@ -27,7 +27,7 @@
             </div>
 
             <div class="grid justify-items-end ">
-                <div class="text-xl font-extrabold font-['Roboto, sans-serif'] text-gray-700">
+                <div class="text-xl font-semibold text-gray-700">
                     {{ $content ?? 'No Content' }}
                 </div>
             </div>

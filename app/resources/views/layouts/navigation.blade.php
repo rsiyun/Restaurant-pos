@@ -18,8 +18,12 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
-                    <x-nav-link :href="url('/dashboard/dev')" :active="request()->is('dashboard/dev')">
+
+                    <x-nav-link :href="url('/dashboard')" :active="request()->is('dashboard')">
                         {{ __('Dasbor') }}
+
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Produk') }}
                     </x-nav-link>
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
@@ -28,7 +32,11 @@
                     </x-nav-link> --}}
 
 
+
                     <x-nav-link :href="url('/dashboard')" :active="request()->route">
+
+                    <x-nav-link :href="route('order-page')" :active="request()->routeIs('order-page')">
+
                         {{ __('Order') }}
                     </x-nav-link>
 
@@ -36,6 +44,7 @@
                     {{-- <x-nav-link :href="route('riwayat-page')" :active="request()->routeIs('riwayat-page')">
                         {{ __('Riwayat') }}
                     </x-nav-link> --}}
+
 
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
                     {{-- <x-nav-link :href="route('tambah-produk')" :active="request()->routeIs('tambah-produk')">
