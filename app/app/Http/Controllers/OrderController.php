@@ -12,7 +12,7 @@ class OrderController extends Controller
     public function index()
     {
         $response = Http::get(ApiUrl::$api_url . "/order")->json();
-        if($response["success"]){
+        if ($response["success"]) {
             return view('cpanel.order.index', [
                 ...$response
             ]);
@@ -20,7 +20,13 @@ class OrderController extends Controller
     }
     public function create()
     {
-        return view('cpanel.order.create');
+        $response = Http::get(ApiUrl::$api_url . "/unpaymentTicket")->json();
+
+        if ($response["success"]) {
+            return view('cpanel.order.create', [
+                'tickets' => $response['data']['tickets']
+            ]);
+        }
     }
     public function edit()
     {
@@ -31,7 +37,7 @@ class OrderController extends Controller
 
         // http://127.0.0.1:8001/api/orders/o-8BMBY
         $response = Http::get(ApiUrl::$api_url . "/order" . "/$slug")->json();
-        if($response["success"]){
+        if ($response["success"]) {
             return view('cpanel.order.show', [
                 ...$response
             ]);
@@ -45,15 +51,24 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $response = Http::post(ApiUrl::$api_url . "/order", $request->all())->json();
-        return response()->json($response);
+
+        if ($response["success"]) {
+            return view('cpanel.order.index', [
+                ...$response
+            ]);
+        }
+
+        // return response()->json($response);
 
         // return redirect()->route('/dashboards/order')->with('success', 'Order successfully created');
     }
     public function destroy($slug)
     {
         $response = Http::delete(ApiUrl::$api_url . "/order/$slug")->json();
-        return response()->json($response);
-
-        // return redirect()->route('/dashboards/order')->with('success', 'Order successfully deleted');
+        if ($response["success"]) {
+            return view('cpanel.order.index', [
+                ...$response
+            ]);
+        }
     }
 }
