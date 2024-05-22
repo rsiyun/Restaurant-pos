@@ -8,6 +8,7 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TicketsController;
+use App\Http\Controllers\TicketDetailsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +60,11 @@ Route::post("ticket", [TicketsController::class, 'store']);
 Route::delete("ticket/{ticket}", [TicketsController::class, 'destroy']);
 Route::put("ticket/{ticket}", [TicketsController::class, 'update']);
 Route::get("/unpaymentTicket", [TicketsController::class, 'unpayment']);
-Route::group(['middleware' => ['auth:sanctum','checkrole:Kasir']], function() {
+
+Route::get("ticketDetail", [TicketDetailsController::class, 'index']);
+Route::get("ticketDetail/{slug}", [TicketDetailsController::class, 'show']);
+
+Route::group(['middleware' => ['auth:sanctum', 'checkrole:Kasir']], function () {
 
 });
 

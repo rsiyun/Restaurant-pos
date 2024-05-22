@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\TicketDetails;
 use Illuminate\Http\Request;
+use App\Models\TicketDetails;
+use App\Http\Resources\Tickets\TicketDetailResource;
 
 class TicketDetailsController extends Controller
 {
@@ -12,38 +12,26 @@ class TicketDetailsController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $tickets = TicketDetails::all();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        if ($tickets->isEmpty()) {
+            return $this->sendError('TicketDetail does not exist.');
+        }
+
+        return $this->sendResponse(TicketDetailResource::collection($tickets), 'All Data TicketDetails Successfully Retrieved');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(TicketDetails $ticketDetails)
+    public function show($slug)
     {
-        //
-    }
+        $ticketDetails = TicketDetails::where('slug', $slug)->with('product')->first();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TicketDetails $ticketDetails)
-    {
-        //
-    }
+        if (!$ticketDetails) {
+            return $this->sendError('TicketDetail not found.');
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TicketDetails $ticketDetails)
-    {
-        //
+        return $this->sendResponse(new TicketDetailResource($ticketDetails), "TicketDetail Successfully Retrieved");
     }
 }
