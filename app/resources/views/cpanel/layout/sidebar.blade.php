@@ -22,7 +22,15 @@
         ])
         @include('components.buttons.side-navbar', [
             'url' => url('/dashboard/order'),
+            'title' => 'Kelola Toko',
+        ])
+        @include('components.buttons.side-navbar', [
+            'url' => url('/dashboard/order'),
             'title' => 'Kelola Order (Pesanan)',
+        ])
+        @include('components.buttons.side-navbar', [
+            'url' => url('/dashboard/order'),
+            'title' => 'FRONT END COMPONENT',
         ])
     </div>
 
