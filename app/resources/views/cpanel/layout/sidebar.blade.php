@@ -21,7 +21,7 @@
             'title' => 'Dashboard',
         ])
         @include('components.buttons.side-navbar', [
-            'url' => '#',
+            'url' => url('/dashboard/user'),
             'title' => 'Kelola Pengguna',
         ])
         @include('components.buttons.side-navbar', [
