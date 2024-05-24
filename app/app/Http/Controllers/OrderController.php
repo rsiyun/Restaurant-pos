@@ -28,12 +28,10 @@ class OrderController extends Controller
             ]);
         }
     }
-    public function edit(Request $request, $slug)
+    public function edit($slug)
     {
-        $search = $request->search ?? "";
-        $page = $request->page ?? "";
-        $ticketList = Http::get(ApiUrl::$api_url . "/unpaymentTicket", ["search" => $search, "page" => $page])->json();
         $oldDataOrder = Http::get(ApiUrl::$api_url . "/order". "/$slug")->json();
+        $ticketList = Http::get(ApiUrl::$api_url . "/unpaymentTicket", ["idOrder" => $oldDataOrder["data"]["idOrder"]])->json();
         $success = $ticketList["success"] && $oldDataOrder["success"];
         $response = [
             "idKasir" => $oldDataOrder["data"]["kasir"]["idKasir"],
@@ -56,7 +54,6 @@ class OrderController extends Controller
     public function show($slug)
     {
 
-        // http://127.0.0.1:8001/api/orders/o-8BMBY
         $response = Http::get(ApiUrl::$api_url . "/order" . "/$slug")->json();
         if ($response["success"]) {
             return view('cpanel.order.show', [
@@ -67,35 +64,51 @@ class OrderController extends Controller
     }
     public function update(Request $request, $slug)
     {
-        $response = Http::post(ApiUrl::$api_url . "/order", $request->all())->json();
+        $request->validate([
+            "tickets" => "required|array",
+        ]);
+        $newTicket = [];
+        foreach ($request->tickets as $ticket) {
+            $newTicket["tickets"][] = ["slugTicket" => $ticket];
+        }
+        $req_api = [
+            "idKasir" => 3,
+            "buyerName" => $request->buyerName ?? null,
+            ...$newTicket
+        ];
+
+        $response = Http::put(ApiUrl::$api_url . "/order"."/$slug", $req_api)->json();
 
         if ($response["success"]) {
-            return view('cpanel.order.index', [
-                ...$response
-            ]);
+            return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
         }
     }
     public function store(Request $request)
     {
-        $response = Http::post(ApiUrl::$api_url . "/order", $request->all())->json();
+        $request->validate([
+            "tickets" => "required|array",
+        ]);
+        $newTicket = [];
+        foreach ($request->tickets as $ticket) {
+            $newTicket["tickets"][] = ["slugTicket" => $ticket];
+        }
+        $req_api = [
+            "idKasir" => 3,
+            "buyerName" => $request->buyerName,
+            ...$newTicket
+        ];
+        $response = Http::post(ApiUrl::$api_url . "/order", $req_api)->json();
 
         if ($response["success"]) {
-            return view('cpanel.order.index', [
-                ...$response
-            ]);
+            return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
         }
 
-        // return response()->json($response);
-
-        // return redirect()->route('/dashboards/order')->with('success', 'Order successfully created');
     }
     public function destroy($slug)
     {
         $response = Http::delete(ApiUrl::$api_url . "/order/$slug")->json();
         if ($response["success"]) {
-            return view('cpanel.order.index', [
-                ...$response
-            ]);
+            return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
         }
     }
 }

@@ -29,9 +29,23 @@
                 @endforeach
             </tbody>
         </table>
-        @for ($i = 1; $i <= $data["lastpage"]; $i++)
-            <a href="{{ url('dashboard/order?page=' . $i) }}">{{$i}}</a>
-        @endfor
+        @if ($data["links"]["last"] != $data["links"]["first"])
+        <nav class="flex items-center space-x-1 pt-8">
+            <a class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100" href="{{ url('/dashboard/order?page=') }}{{$data['links']['first']}}">
+                first
+            </a>
+            @if ($data["links"]["next"])
+            <a href="{{ url('/dashboard/order?page=') }}{{$data['links']['next']}}" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100">next</a>
+            @endif
+            @if ($data["links"]["prev"])
+            <a href="{{ url('/dashboard/order?page=') }}{{$data['links']['prev']}}" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100">prev</a>
+            @endif
+
+            <a href="{{ url('/dashboard/order?page=') }}{{$data['links']['last']}}" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100">
+                last
+            </a>
+        </nav>
+        @endif
     </div>
 </div>
 
