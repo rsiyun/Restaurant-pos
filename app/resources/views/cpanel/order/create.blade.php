@@ -1,17 +1,6 @@
 @extends('cpanel.layout.app')
 
 @section('content')
-    @foreach ($tickets as $ticket)
-        <div class="flex gap-4">
-            <p>{{ $ticket['slug'] }}</p>
-            <p>{{ $ticket['orderNote'] }}</p>
-            <p>{{ $ticket['priceTickets'] }}</p>
-        </div>
-    @endforeach
-
-    <br>
-    <br>
-    <br>
 
     <form action="{{ url('dashboard/order') }}" method="POST">
         @csrf

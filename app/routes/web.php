@@ -64,16 +64,19 @@ Route::prefix('products')->group(function () {
 | Kalau done nanti dashboard disini, bukan sendiri sendiri
 | dashboard prefix
 */
-Route::prefix('dashboard')->group(function () {
+Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir,ShopEmployee")->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
+    // Order
     Route::get("/order", [OrderController::class, 'index']);
     Route::get("/order/create", [OrderController::class, 'create']);
+    Route::get("/order/{slug}/edit", [OrderController::class, 'edit']);
     Route::post("/order", [OrderController::class, 'store']);
+    Route::put("/order/{slug}", [OrderController::class, 'update']);
     Route::delete("/order/{slug}", [OrderController::class, 'destroy']);
     Route::get("/order/{slug}", [OrderController::class, 'show']);
-    Route::get("/dev", [DashboardController::class, 'dev']);
 
-    // SHOP
+    Route::get("/dev", [DashboardController::class, 'dev']);
+    // Shop
     Route::get("/shop", [ShopController::class, 'index']);
 });
 

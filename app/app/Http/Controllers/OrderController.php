@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Endpoint\ApiUrl;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $response = Http::get(ApiUrl::$api_url . "/order")->json();
+        $page = $request->page ?? "";
+        $response = Http::get(ApiUrl::$api_url . "/order", ["page" => $page])->json();
         if ($response["success"]) {
             return view('cpanel.order.index', [
                 ...$response
@@ -28,8 +28,29 @@ class OrderController extends Controller
             ]);
         }
     }
-    public function edit()
+    public function edit(Request $request, $slug)
     {
+        $search = $request->search ?? "";
+        $page = $request->page ?? "";
+        $ticketList = Http::get(ApiUrl::$api_url . "/unpaymentTicket", ["search" => $search, "page" => $page])->json();
+        $oldDataOrder = Http::get(ApiUrl::$api_url . "/order". "/$slug")->json();
+        $success = $ticketList["success"] && $oldDataOrder["success"];
+        $response = [
+            "idKasir" => $oldDataOrder["data"]["kasir"]["idKasir"],
+            "slug" => $oldDataOrder["data"]["slug"],
+            "totalOrder" => $oldDataOrder["data"]["totalOrder"],
+            "buyerName" => $oldDataOrder["data"]["buyerName"],
+            "oldTickets" => $oldDataOrder["data"]["tickets"],
+            "unPayment" => [
+                ...$ticketList["data"]
+            ],
+            "success" => $success
+        ];
+        if ($response["success"]) {
+            return view('cpanel.order.update', [
+                ...$response
+            ]);
+        }
 
     }
     public function show($slug)
@@ -44,9 +65,15 @@ class OrderController extends Controller
         }
 
     }
-    public function update($id)
+    public function update(Request $request, $slug)
     {
+        $response = Http::post(ApiUrl::$api_url . "/order", $request->all())->json();
 
+        if ($response["success"]) {
+            return view('cpanel.order.index', [
+                ...$response
+            ]);
+        }
     }
     public function store(Request $request)
     {

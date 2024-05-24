@@ -1,5 +1,15 @@
 @extends('cpanel.layout.app')
 @section('content')
+<div class="flex justify-end">
+    <div class="flex gap-4">
+        <a href="{{ url('/dashboard/order') }}{{"/".$data['slug'] ."/edit" }}"class="px-4 py-2 bg-blue-500 rounded text-white">update</a>
+        <form action="{{ url('/dashboard/order/' . $data['slug']) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="px-4 py-2 bg-red-500 rounded text-white" onclick="return confirm('Apakah Anda yakin ingin menghapus pesanan ini?')">Hapus</button>
+        </form>
+    </div>
+</div>
     <p>idOrder: {{ $data['slug'] }}</p>
     @foreach ($data['tickets'] as $ticket)
         <div class="flex gap-4">
@@ -14,19 +24,4 @@
     <br>
     <br>
 
-    <form action="{{ url('/dashboard/order/' . $data['slug']) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <div>
-            <label for="orderSlug">Pilih Order yang Akan Dihapus:</label>
-            <select name="orderSlug" id="orderSlug" required>
-                @foreach ($data['tickets'] as $ticket)
-                    <option value="{{ $ticket['slug'] }}">
-                        Nama Toko: {{ $ticket['shop']['shopName'] }}, idTicket: {{ $ticket['slug'] }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus pesanan ini?')">Hapus</button>
-    </form>
 @endsection

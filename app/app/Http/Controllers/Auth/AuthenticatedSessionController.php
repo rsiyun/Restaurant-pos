@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Endpoint\ApiUrl;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +34,7 @@ public function store(Request $request)
                 "access_token" => $response["data"]["access_token"]
             ];
             session(["user" => $session]);
-            return redirect()->route("dashboard");
+            return redirect("/dashboard");
         }
         return redirect()->route("login")->with($response);
     }
