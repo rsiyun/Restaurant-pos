@@ -22,7 +22,6 @@
 
             <!-- Main Content -->
             <div class="flex-1 p-6">
-                Main Content
                 <div>
                     @yield("content")
                 </div>

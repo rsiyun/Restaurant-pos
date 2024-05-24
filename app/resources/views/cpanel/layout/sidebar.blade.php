@@ -7,8 +7,12 @@
             <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" alt="John Doe"
                 class="w-20 h-20 mx-auto my-4 rounded-full">
             <div class="text-center">
-                <span class="text-2xl font-bold">John Doe</span>
-                <div class="text-sm">Administrator</div>
+                <span class="text-2xl font-bold">
+                    {{ $name ?? "Developer Mode" }}
+                </span>
+                <div class="text-sm">
+                    {{ $role ?? ("Administrator")}}
+                </div>
             </div>
         </div>
         {{-- Sidebar Links --}}
@@ -36,7 +40,7 @@
 
     {{-- Bottom of the sidebar --}}
     <div class="h-12 border-t border-gray-700">
-        <a href="{{ route('logout') }}" class="flex items-center justify-center h-full text-red-500 bg-white">
+        <a href="{{ route('logout') }}" class="flex items-center justify-center h-full font-bold text-red-500 transition bg-white hover:text-white hover:bg-red-500">
             Logout
         </a>
     </div>
