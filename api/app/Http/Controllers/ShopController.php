@@ -16,13 +16,17 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $shops = Shop::all();
-
-        if ($shops->isEmpty()) {
-            return $this->sendError('Shops do not exist.');
-        }
-
-        return $this->sendResponse(ShopResource::collection($shops), 'All Data Shops Successfully Retrieved');
+        $shops = Shop::paginate(9);
+        $response = [
+            "shops" => ShopResource::collection($shops),
+            'links' => [
+                'first' => $shops->url(1),
+                'last' => $shops->url($shops->lastPage()),
+                'prev' => $shops->previousPageUrl(),
+                'next' => $shops->nextPageUrl(),
+            ],
+        ];
+        return $this->sendResponse($response, 'All Data Shops Successfully Retrieved');
     }
 
     /**

@@ -19,13 +19,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-
-        if ($users->isEmpty()) {
-            return $this->sendError('Users do not exist.');
-        }
-
-        return $this->sendResponse(UserResource::collection($users), 'Get All Users');
+        $users = User::paginate(9);
+        $response = [
+            "users" => UserResource::collection($users),
+            'links' => [
+                'first' => $users->url(1),
+                'last' => $users->url($users->lastPage()),
+                'prev' => $users->previousPageUrl(),
+                'next' => $users->nextPageUrl(),
+            ],
+        ];
+        return $this->sendResponse($response, 'Get All Users');
     }
 
     /**

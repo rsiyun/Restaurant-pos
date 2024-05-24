@@ -17,8 +17,17 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with("shop")->get();
-        return $this->sendResponse(ProductResource::collection($products), "All Products");
+        $products = Product::with("shop")->paginate(9);
+        $response = [
+            "products" => ProductResource::collection($products),
+            'links' => [
+                'first' => $products->url(1),
+                'last' => $products->url($products->lastPage()),
+                'prev' => $products->previousPageUrl(),
+                'next' => $products->nextPageUrl(),
+            ],
+        ];
+        return $this->sendResponse($response, "All Products");
     }
 
     /**

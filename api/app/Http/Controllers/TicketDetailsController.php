@@ -12,13 +12,18 @@ class TicketDetailsController extends Controller
      */
     public function index()
     {
-        $tickets = TicketDetails::all();
+        $ticketDetails = TicketDetails::paginate(9);
+        $response = [
+            "ticketDetails" => TicketDetailResource::collection($ticketDetails),
+            'links' => [
+                'first' => $ticketDetails->url(1),
+                'last' => $ticketDetails->url($ticketDetails->lastPage()),
+                'prev' => $ticketDetails->previousPageUrl(),
+                'next' => $ticketDetails->nextPageUrl(),
+            ],
+        ];
 
-        if ($tickets->isEmpty()) {
-            return $this->sendError('TicketDetail does not exist.');
-        }
-
-        return $this->sendResponse(TicketDetailResource::collection($tickets), 'All Data TicketDetails Successfully Retrieved');
+        return $this->sendResponse($response, 'All Data TicketDetails Successfully Retrieved');
     }
 
     /**

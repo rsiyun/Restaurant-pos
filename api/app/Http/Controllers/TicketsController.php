@@ -20,10 +20,15 @@ class TicketsController extends Controller
      */
     public function index()
     {
-        $tickets = Tickets::paginate(15);
+        $tickets = Tickets::paginate(9);
         $response = [
             "tickets" => TicketResource::collection($tickets),
-            "lastpage" => $tickets->lastPage()
+            'links' => [
+                'first' => $tickets->url(1),
+                'last' => $tickets->url($tickets->lastPage()),
+                'prev' => $tickets->previousPageUrl(),
+                'next' => $tickets->nextPageUrl(),
+            ],
         ];
         return $this->sendResponse($response, "Tickets Successfully Retrieved");
     }
@@ -32,13 +37,18 @@ class TicketsController extends Controller
         $validated = $request->validate([
             "search" => "nullable|string"
         ]);
-        $tickets = Tickets::where("idOrder", NULL)->paginate(5);
+        $tickets = Tickets::where("idOrder", NULL)->paginate(9);
         if ($validated["search"] ?? NULL != NULL) {
             $tickets = Tickets::where("idOrder", NULL)->where("slug", "like", '%' . $validated["search"] . '%')->paginate(5);
         }
         $response = [
             "tickets" => TicketResource::collection($tickets),
-            "lastpage" => $tickets->lastPage()
+            'links' => [
+                'first' => $tickets->url(1),
+                'last' => $tickets->url($tickets->lastPage()),
+                'prev' => $tickets->previousPageUrl(),
+                'next' => $tickets->nextPageUrl(),
+            ],
         ];
         return $this->sendResponse($response, "Tickets Successfully Retrieved");
 

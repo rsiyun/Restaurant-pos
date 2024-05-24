@@ -10,6 +10,7 @@ use App\Http\Resources\Orders\OrderResource;
 use App\Http\Resources\Orders\ShowOrdersResource;
 use App\Models\Orders;
 use App\Models\Tickets;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
@@ -19,8 +20,17 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Orders::with("kasir")->get();
-        return $this->sendResponse(OrderResource::collection($orders), 'All Orders Successfully Retrieved');
+        $orders = Orders::with("kasir")->paginate(9);
+        $response = [
+            "orders" => OrderResource::collection($orders),
+            'links' => [
+                'first' => $orders->url(1),
+                'last' => $orders->url($orders->lastPage()),
+                'prev' => $orders->previousPageUrl(),
+                'next' => $orders->nextPageUrl(),
+            ],
+        ];
+        return $this->sendResponse($response, 'All Orders Successfully Retrieved');
     }
 
     /**
@@ -41,7 +51,10 @@ class OrdersController extends Controller
             ]);
             $totalOrder = 0;
             foreach ($validated["tickets"] as $ticket) {
-                $getTicket = Tickets::where('slug', $ticket["slugTicket"])->first();
+                $getTicket = Tickets::where('slug', $ticket["slugTicket"])->where('idOrder', null)->first();
+                if (!$getTicket) {
+                    throw new HttpResponseException(response()->json(['message' => 'cannot find '.$ticket["slugTicket"], "success" => false], 400));
+                }
                 $totalOrder += $getTicket->priceTickets;
                 $getTicket->update([
                     "idOrder" => $order->idOrder
@@ -53,9 +66,9 @@ class OrdersController extends Controller
 
             DB::commit();
             return $this->sendResponse(new ShowOrdersResource($order->load('tickets')), 'Order successfully created');
-        } catch (\Exception $e) {
+        } catch (HttpResponseException $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Failed to create order', 'error' => $e->getMessage()], 500);
+            return $e->getResponse();
         }
     }
 
@@ -88,7 +101,10 @@ class OrdersController extends Controller
             }
             $totalOrder = 0;
             foreach ($validated["tickets"] as $ticket) {
-                $getTicket = Tickets::where('slug', $ticket["slugTicket"])->first();
+                $getTicket = Tickets::where('slug', $ticket["slugTicket"])->where('idOrder', null)->first();
+                if (!$getTicket) {
+                    throw new HttpResponseException(response()->json(['message' => 'cannot find '.$ticket["slugTicket"], "success" => false], 400));
+                }
                 $totalOrder += $getTicket->priceTickets;
                 $getTicket->update([
                     "idOrder" => $order->idOrder
@@ -100,9 +116,9 @@ class OrdersController extends Controller
 
             DB::commit();
             return $this->sendResponse(new ShowOrdersResource($order->load('tickets')), 'Order successfully updated');
-        } catch (\Exception $e) {
+        } catch (HttpResponseException $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Failed to create order', 'error' => $e->getMessage()], 500);
+            return $e->getResponse();
         }
 
     }
