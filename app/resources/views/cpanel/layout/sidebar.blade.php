@@ -8,10 +8,10 @@
                 class="w-20 h-20 mx-auto my-4 rounded-full"> --}}
             <div class="text-center">
                 <span class="text-2xl font-bold">
-                    {{SessionService::user()["name"] ?? "Developer Mode" }}
+                    {{ SessionService::user()['name'] ?? 'Developer Mode' }}
                 </span>
                 <div class="text-sm">
-                    {{ SessionService::user()["role"] ?? ("Administrator")}}
+                    {{ SessionService::user()['role'] ?? 'Administrator' }}
                 </div>
             </div>
         </div>
@@ -40,9 +40,11 @@
 
     {{-- Bottom of the sidebar --}}
     <div class="h-12 border-t border-gray-700">
-        <form action="{{ route('logout') }}" method="POST">
+        <form
+            class="flex items-center justify-center h-full font-bold text-red-500 transition bg-white hover:text-white hover:bg-red-500"action="{{ route('logout') }}"
+            method="POST">
             @csrf
-            <button type="submit" class="flex items-center justify-center h-full font-bold text-red-500 transition bg-white hover:text-white hover:bg-red-500">
+            <button type="submit">
                 Logout
             </button>
         </form>
