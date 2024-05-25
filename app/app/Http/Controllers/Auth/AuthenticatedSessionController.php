@@ -23,17 +23,35 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-public function store(Request $request)
+    // public function store(Request $request)
+    //     {
+    //         $response = Http::post(ApiUrl::$api_url."/login", [
+    //             'email' => $request->email,
+    //             'password' => $request->password
+    //         ])->json();
+    //         if ($response["success"]) {
+    //             SessionService::setToken($response["data"]["access_token"]);
+    //             return redirect("/dashboard");
+    //         }
+    //         return redirect()->route("login")->with($response);
+    //     }
+
+    public function store(Request $request)
     {
-        $response = Http::post(ApiUrl::$api_url."/login", [
+        $response = Http::post(ApiUrl::$api_url . "/login", [
             'email' => $request->email,
             'password' => $request->password
         ])->json();
-        if ($response["success"]) {
-            SessionService::setToken($response["data"]["access_token"]);
-            return redirect("/dashboard");
+        if (!$response["success"]) {
+            return redirect()->route("login")->with($response);
         }
-        return redirect()->route("login")->with($response);
+        SessionService::setToken($response["data"]["access_token"]);
+        $user = SessionService::user();
+        if ($user["role"] == "ShopEmployee") {
+            return redirect("/");
+        }
+        return redirect("/dashboard");
+
     }
 
 

@@ -13,9 +13,9 @@ class UserController extends Controller
     {
         $response = Http::get(ApiUrl::$api_url . "/user")->json();
         $user = SessionService::user();
-        // dd($user);
         if ($response["success"]) {
             $listUser = $response['data'];
+
             return view('cpanel.user.index', [
                 "profile" => $user,
                 "listUser" => $listUser

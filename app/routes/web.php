@@ -20,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/shop', function () {
-    return view('role.shop.landing-page-shop');
-})->name('landing-page-shop');
+// Route::get('/shop', [ShopController::class, 'index']);
 
 // Route::get('/', function () {
 //     return view('landing-page');
@@ -66,7 +64,7 @@ Route::prefix('products')->group(function () {
 | Kalau done nanti dashboard disini, bukan sendiri sendiri
 | dashboard prefix
 */
-Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir,ShopEmployee")->group(function () {
+Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     // Order
     Route::get("/order", [OrderController::class, 'index']);
@@ -78,6 +76,7 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir,ShopEmployee")->gr
     Route::get("/order/{slug}", [OrderController::class, 'show']);
 
     Route::get("/dev", [DashboardController::class, 'dev']);
+
     // Shop
     Route::get("/shop", [ShopController::class, 'index']);
 
