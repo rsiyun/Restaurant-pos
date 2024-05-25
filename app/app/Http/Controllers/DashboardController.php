@@ -34,4 +34,9 @@ class DashboardController extends Controller
 
         return view('cpanel.main.dashboard', ['error' => $response['message']]);
     }
+
+    public function components()
+    {
+        return view('cpanel.main.components');
+    }
 }

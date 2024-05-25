@@ -85,6 +85,15 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir,ShopEmployee")->gr
 
     Route::get("/user/create", [UserController::class, 'create']);
     Route::post("/user", [UserController::class, 'store']);
+
+
+    /*
+    |  Contoh Komponen yang bisa digunakan (tapi perlu di edit sesuai kebutuhan dulu ya guys)
+    */
+    Route::get(
+        '/components',
+        [DashboardController::class, 'components']
+    );
 });
 
 

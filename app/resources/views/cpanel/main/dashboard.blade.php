@@ -13,7 +13,7 @@
 
     <div class="pb-8">
         <h2 class="text-2xl font-bold text-right text-blue-600">
-            Hai, {{ SessionService::user()["name"] ?? 'Developer' }}!
+            Hai, {{ SessionService::user()['name'] ?? 'Developer' }}!
         </h2>
     </div>
 
@@ -34,11 +34,11 @@
         p-4 flex flex-col bg-white border-2 shadow-sm rounded-2xl justify-around">
             Jumlah Pengguna:
             <span class="text-2xl font-bold text-blue-600">
-                {{-- @foreach ($listUser['users'] as $user)
-                    {{ $loop->iteration }}
-                @endforeach --}}
-                {{count($listUser['users']);}}
-
+                @if ($listUser)
+                    {{ count($listUser['users']) }}
+                @else
+                    Unknown
+                @endif
             </span>
         </div>
 
