@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -95,6 +96,16 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir,ShopEmployee")->gr
         [DashboardController::class, 'components']
     );
 });
+
+// Jika user bukan admin, tapi kasir, dan shop employee maka setelah login kesini
+Route::prefix('/clients')->group(function () {
+    Route::get('/', [ClientController::class, 'index']);
+
+    // Get Product
+    Route::get('/1', [ClientController::class, 'show']);
+});
+
+
 
 
 require __DIR__ . '/auth.php';
