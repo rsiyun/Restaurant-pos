@@ -4,8 +4,9 @@
     <div class="flex flex-col flex-grow">
         {{-- Circle Avatar --}}
         <div class="border-b">
-            {{-- <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" alt="John Doe"
-                class="w-20 h-20 mx-auto my-4 rounded-full"> --}}
+            <img src="https://ui-avatars.com/api/?name={{ SessionService::user()['name'] ?? 'Developer Mode' }}&background=random"
+                alt="{{ SessionService::user()['name'] ?? 'Developer Mode' }}"
+                class="w-20 h-20 mx-auto my-4 rounded-full">
             <div class="text-center">
                 <span class="text-2xl font-bold">
                     {{ SessionService::user()['name'] ?? 'Developer Mode' }}

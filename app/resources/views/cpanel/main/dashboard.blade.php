@@ -12,8 +12,8 @@
     ]) --}}
 
     <div class="pb-8">
-        <h2 class="text-2xl font-bold text-right text-blue-600 border">
-            Hai, {{ $name ?? 'Developer' }}!
+        <h2 class="text-2xl font-bold text-right text-blue-600">
+            Hai, {{ SessionService::user()["name"] ?? 'Developer' }}!
         </h2>
     </div>
 
@@ -31,10 +31,14 @@
         <div id="userCard"
             class="min-h-[4rem]
         min-w-[10rem]
-        p-4 flex flex-col bg-white border-2 shadow-sm rounded-2xl">
-            Jumlah Pengguna saat ini :
+        p-4 flex flex-col bg-white border-2 shadow-sm rounded-2xl justify-around">
+            Jumlah Pengguna:
             <span class="text-2xl font-bold text-blue-600">
-                {{ $users ?? 'Unknown' }}
+                {{-- @foreach ($listUser['users'] as $user)
+                    {{ $loop->iteration }}
+                @endforeach --}}
+                {{count($listUser['users']);}}
+
             </span>
         </div>
 
@@ -42,7 +46,7 @@
             class="min-h-[4rem]
         min-w-[10rem]
         p-4 flex flex-col bg-white border-2 shadow-sm rounded-2xl">
-            Jumlah Toko saat ini :
+            Jumlah Toko:
             <span class="text-2xl font-bold text-blue-600">
                 {{ $shops ?? 'Unknown' }}
             </span>

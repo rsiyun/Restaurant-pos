@@ -24,6 +24,14 @@ class DashboardController extends Controller
     // WARNING JANGAN DI HAPUS
     public function dev()
     {
-        return view('cpanel.main.dashboard');
+
+        $response = Http::get(ApiUrl::$api_url . "/user")->json();
+        if ($response["success"]) {
+            $listUser = $response['data'];
+            // dd($listUser);
+            return view('cpanel.main.dashboard', compact('listUser'));
+        }
+
+        return view('cpanel.main.dashboard', ['error' => $response['message']]);
     }
 }

@@ -82,6 +82,9 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir,ShopEmployee")->gr
 
 
     Route::get("/user", [UserController::class, 'index']);
+
+    Route::get("/user/create", [UserController::class, 'create']);
+    Route::post("/user", [UserController::class, 'store']);
 });
 
 
