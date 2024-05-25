@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Models\TicketDetails;
 use App\Http\Resources\Tickets\TicketDetailResource;
@@ -16,10 +17,10 @@ class TicketDetailsController extends Controller
         $response = [
             "ticketDetails" => TicketDetailResource::collection($ticketDetails),
             'links' => [
-                'first' => $ticketDetails->url(1),
-                'last' => $ticketDetails->url($ticketDetails->lastPage()),
-                'prev' => $ticketDetails->previousPageUrl(),
-                'next' => $ticketDetails->nextPageUrl(),
+                'first' => Helper::getParams($ticketDetails->url(1))["page"] ?? null,
+                'last' => Helper::getParams($ticketDetails->url($ticketDetails->lastPage()))["page"] ?? null,
+                'prev' => Helper::getParams($ticketDetails->previousPageUrl())["page"] ?? null,
+                'next' => Helper::getParams($ticketDetails->nextPageUrl())["page"] ?? null,
             ],
         ];
 

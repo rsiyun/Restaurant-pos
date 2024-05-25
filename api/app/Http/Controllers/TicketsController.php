@@ -24,10 +24,10 @@ class TicketsController extends Controller
         $response = [
             "tickets" => TicketResource::collection($tickets),
             'links' => [
-                'first' => $tickets->url(1),
-                'last' => $tickets->url($tickets->lastPage()),
-                'prev' => $tickets->previousPageUrl(),
-                'next' => $tickets->nextPageUrl(),
+                'first' => Helper::getParams($tickets->url(1))["page"] ?? null,
+                'last' => Helper::getParams($tickets->url($tickets->lastPage()))["page"] ?? null,
+                'prev' => Helper::getParams($tickets->previousPageUrl())["page"] ?? null,
+                'next' => Helper::getParams($tickets->nextPageUrl())["page"] ?? null,
             ],
         ];
         return $this->sendResponse($response, "Tickets Successfully Retrieved");
@@ -35,20 +35,14 @@ class TicketsController extends Controller
     public function unpayment(Request $request)
     {
         $validated = $request->validate([
-            "search" => "nullable|string"
+            "idOrder" => "nullable|integer"
         ]);
-        $tickets = Tickets::where("idOrder", NULL)->paginate(9);
-        if ($validated["search"] ?? NULL != NULL) {
-            $tickets = Tickets::where("idOrder", NULL)->where("slug", "like", '%' . $validated["search"] . '%')->paginate(5);
+        $tickets = Tickets::where("idOrder", NULL)->get();
+        if ($validated["idOrder"] ?? NULL != NULL) {
+            $tickets = Tickets::where("idOrder", NULL)->orWhere("idOrder" , $validated["idOrder"])->orderByDesc("idOrder")->get();
         }
         $response = [
             "tickets" => TicketResource::collection($tickets),
-            'links' => [
-                'first' => $tickets->url(1),
-                'last' => $tickets->url($tickets->lastPage()),
-                'prev' => $tickets->previousPageUrl(),
-                'next' => $tickets->nextPageUrl(),
-            ],
         ];
         return $this->sendResponse($response, "Tickets Successfully Retrieved");
 

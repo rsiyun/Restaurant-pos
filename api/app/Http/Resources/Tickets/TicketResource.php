@@ -20,7 +20,6 @@ class TicketResource extends JsonResource
             "orderNote" => $this->orderNote,
             "priceTickets" => $this->priceTickets,
             "shop" => new ShopResource($this->shop),
-            "links" => $this->links,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

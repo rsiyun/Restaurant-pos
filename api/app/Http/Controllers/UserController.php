@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Users\UserResource;
 use App\Models\User;
 use App\Helpers\Helper;
 use App\Http\Requests\User\CreateRequest;
 use App\Http\Requests\User\UpdateRequest;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
@@ -23,10 +19,10 @@ class UserController extends Controller
         $response = [
             "users" => UserResource::collection($users),
             'links' => [
-                'first' => $users->url(1),
-                'last' => $users->url($users->lastPage()),
-                'prev' => $users->previousPageUrl(),
-                'next' => $users->nextPageUrl(),
+                'first' => Helper::getParams($users->url(1))["page"] ?? null,
+                'last' => Helper::getParams($users->url($users->lastPage()))["page"] ?? null,
+                'prev' => Helper::getParams($users->previousPageUrl())["page"] ?? null,
+                'next' => Helper::getParams($users->nextPageUrl())["page"] ?? null,
             ],
         ];
         return $this->sendResponse($response, 'Get All Users');
@@ -47,18 +43,6 @@ class UserController extends Controller
         ]);
 
         return $this->sendResponse(new UserResource($user), "User Successfully Created");
-    }
-
-    public function showWithToken(Request $request){
-        $hashedToken = $request->bearerToken();
-        $token = PersonalAccessToken::findToken($hashedToken);
-        $user = $token->tokenable;
-        return response()->json([
-            "name" => $user["name"],
-            "email" => $user["email"],
-            "role" => $user["role"],
-            "slug" => $user["slug"],
-        ], 200);
     }
 
     /**

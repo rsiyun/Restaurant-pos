@@ -21,10 +21,10 @@ class ProductController extends Controller
         $response = [
             "products" => ProductResource::collection($products),
             'links' => [
-                'first' => $products->url(1),
-                'last' => $products->url($products->lastPage()),
-                'prev' => $products->previousPageUrl(),
-                'next' => $products->nextPageUrl(),
+                'first' => Helper::getParams($products->url(1))["page"] ?? null,
+                'last' => Helper::getParams($products->url($products->lastPage()))["page"] ?? null,
+                'prev' => Helper::getParams($products->previousPageUrl())["page"] ?? null,
+                'next' => Helper::getParams($products->nextPageUrl())["page"] ?? null,
             ],
         ];
         return $this->sendResponse($response, "All Products");

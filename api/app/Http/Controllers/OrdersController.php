@@ -24,10 +24,10 @@ class OrdersController extends Controller
         $response = [
             "orders" => OrderResource::collection($orders),
             'links' => [
-                'first' => $orders->url(1),
-                'last' => $orders->url($orders->lastPage()),
-                'prev' => $orders->previousPageUrl(),
-                'next' => $orders->nextPageUrl(),
+                'first' => Helper::getParams($orders->url(1))["page"] ?? null,
+                'last' => Helper::getParams($orders->url($orders->lastPage()))["page"] ?? null,
+                'prev' => Helper::getParams($orders->previousPageUrl())["page"] ?? null,
+                'next' => Helper::getParams($orders->nextPageUrl())["page"] ?? null,
             ],
         ];
         return $this->sendResponse($response, 'All Orders Successfully Retrieved');
@@ -78,7 +78,7 @@ class OrdersController extends Controller
     public function show(Orders $order)
     {
         $response = Orders::with(['kasir', 'tickets.shop', 'tickets.details', 'tickets.details.product'])->where('slug', $order->slug)->first();
-        return $this->sendResponse(new OrderDetailResource($response), 'shop details');
+        return $this->sendResponse(new OrderDetailResource($response), 'Order details');
     }
 
     /**
@@ -90,7 +90,7 @@ class OrdersController extends Controller
         DB::beginTransaction();
         try {
             $order->update([
-                "idKasir" => $validated["idKasir"] ?? NULL,
+                "idUser" => $validated["idKasir"] ?? NULL,
                 "buyerName" => $validated["buyerName"] ?? $order->buyerName,
                 "totalOrder" => 1
             ]);

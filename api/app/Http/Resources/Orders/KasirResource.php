@@ -16,6 +16,7 @@ class KasirResource extends JsonResource
     {
 
         return [
+            "idKasir" => $this->idKasir,
             "slug" => $this->slug,
             "name" => $this->name,
             "email" => $this->email

@@ -20,10 +20,10 @@ class ShopController extends Controller
         $response = [
             "shops" => ShopResource::collection($shops),
             'links' => [
-                'first' => $shops->url(1),
-                'last' => $shops->url($shops->lastPage()),
-                'prev' => $shops->previousPageUrl(),
-                'next' => $shops->nextPageUrl(),
+                'first' => Helper::getParams($shops->url(1))["page"] ?? null,
+                'last' => Helper::getParams($shops->url($shops->lastPage()))["page"] ?? null,
+                'prev' => Helper::getParams($shops->previousPageUrl())["page"] ?? null,
+                'next' => Helper::getParams($shops->nextPageUrl())["page"] ?? null,
             ],
         ];
         return $this->sendResponse($response, 'All Data Shops Successfully Retrieved');

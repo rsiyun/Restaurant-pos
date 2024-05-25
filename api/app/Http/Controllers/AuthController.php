@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -39,6 +40,33 @@ class AuthController extends Controller
             "success" => true,
             "data" => $response
         ]);
+    }
+
+    public function showWithToken(Request $request){
+        $hashedToken = $request->bearerToken();
+        $token = PersonalAccessToken::findToken($hashedToken);
+        if (!$token) {
+            throw new HttpResponseException(response([
+                "message" => "Unauthorized",
+                "success" => false,
+                "error" => [
+                    "code" => 401,
+                    "description" => "invalid token"
+                ]
+            ],401));
+        }
+        $user = $token->tokenable;
+        return response()->json([
+            "message" => "user get successfully",
+            "success" => true,
+            "data" => [
+                "idUser" => $user["idUser"],
+                "name" => $user["name"],
+                "email" => $user["email"],
+                "role" => $user["role"],
+                "slug" => $user["slug"]
+            ]
+        ], 200);
     }
 
     public function login(Request $request)
@@ -93,5 +121,15 @@ class AuthController extends Controller
                 "email" => $user->email
             ]
         ]);
+    }
+
+    public function logout(Request $request){
+        $hashedToken = $request->bearerToken();
+        $token = PersonalAccessToken::findToken($hashedToken);
+        $token->delete();
+        return response()->json([
+            "message" => "logged out successfully",
+            "success" => true
+        ], 200);
     }
 }

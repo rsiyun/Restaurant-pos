@@ -27,9 +27,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('/user/token', [AuthController::class, "showWithToken"]);
 
 // User
-Route::get('/user/token', [UserController::class, "showWithToken"]);
 Route::get("/user", [UserController::class, "index"]);
 Route::get("/user/{user}", [UserController::class, 'show']);
 Route::post("/user", [UserController::class, 'store']);
