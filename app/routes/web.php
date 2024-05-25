@@ -98,9 +98,8 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir,ShopEmployee")->gr
 });
 
 // Jika user bukan admin, tapi kasir, dan shop employee maka setelah login kesini
-Route::prefix('/clients')->group(function () {
+Route::prefix('/')->group(function () {
     Route::get('/', [ClientController::class, 'index']);
-
     // Get Product
     Route::get('/1', [ClientController::class, 'show']);
 });
