@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/shop', function () {
-//     return view('role.shop.landing-page-shop');
-// })->name('landing-page-shop');
+Route::get('/shop', function () {
+    return view('role.shop.landing-page-shop');
+})->name('landing-page-shop');
 
 // Route::get('/', function () {
 //     return view('landing-page');

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Endpoint\ApiUrl;
 use App\Http\Controllers\Controller;
+use App\Services\SessionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
@@ -30,10 +30,7 @@ public function store(Request $request)
             'password' => $request->password
         ])->json();
         if ($response["success"]) {
-            $session = [
-                "access_token" => $response["data"]["access_token"]
-            ];
-            session(["user" => $session]);
+            SessionService::setToken($response["data"]["access_token"]);
             return redirect("/dashboard");
         }
         return redirect()->route("login")->with($response);
@@ -44,14 +41,13 @@ public function store(Request $request)
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(): RedirectResponse
     {
-        Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+        $logout = SessionService::logout();
+        if ($logout) {
+            return redirect("/login");
+        }
+        return redirect()->back();
     }
 }

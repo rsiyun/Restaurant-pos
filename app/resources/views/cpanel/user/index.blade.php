@@ -1,10 +1,11 @@
 @extends('cpanel.layout.app')
 
 @section('content')
+
     {{-- ! HELP! ini harusnya kalo pakai breeze tinggal panggil auth()->user --}}
     <div class="pb-8">
         <h2 class="text-2xl font-bold text-right text-blue-600">
-            Hai, {{ $users['name'] ?? 'Developer' }}!
+            Hai, {{ SessionService::user()["name"] ?? 'Developer' }}!
         </h2>
     </div>
 
@@ -65,8 +66,8 @@
             </tr>
         </thead>
         <tbody>
-            @if (isset($users))
-                @foreach ($users as $user)
+            @if (isset($listUser))
+                @foreach ($listUser["users"] as $user)
                     <tr class="border border-slate-400">
                         <td class="px-4 py-3">
                             {{ $loop->iteration ?? 0 }}

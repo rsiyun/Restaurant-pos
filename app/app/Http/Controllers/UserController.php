@@ -11,11 +11,10 @@ class UserController extends Controller
     public function index()
     {
         $response = Http::get(ApiUrl::$api_url . "/user")->json();
-
         if ($response["success"]) {
-            $users = $response['data'];
-
-            return view('cpanel.user.index', compact('users'));
+            $listUser = $response['data'];
+            // dd($users);
+            return view('cpanel.user.index', compact('listUser'));
         } else {
 
             return view('cpanel.user.index', ['error' => $response['message']]);

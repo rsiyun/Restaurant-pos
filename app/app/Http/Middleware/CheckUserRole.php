@@ -19,7 +19,7 @@ class CheckUserRole
     {
          $token = session('user.access_token');
          $response = Http::withToken($token)->get(ApiUrl::$api_url."/user/token");
-         if ($response->successful() && in_array($response['role'], $roles)) {
+         if ($response->successful() && in_array($response["data"]['role'], $roles)) {
              return $next($request);
          }
          return redirect()->route('login')->with('error', 'Unauthorized. You do not have permission to access this resource.');

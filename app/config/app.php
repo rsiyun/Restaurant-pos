@@ -139,7 +139,7 @@ return [
     |
     */
 
-    'maintenance' => [
+'maintenance' => [
         'driver' => 'file',
         // 'store' => 'redis',
     ],
@@ -163,6 +163,7 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\SessionServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
@@ -183,6 +184,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'SessionService' => App\Facades\SessionService::class
     ])->toArray(),
 
 ];

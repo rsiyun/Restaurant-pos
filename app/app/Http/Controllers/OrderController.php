@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Endpoint\ApiUrl;
+use App\Services\SessionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -67,12 +68,13 @@ class OrderController extends Controller
         $request->validate([
             "tickets" => "required|array",
         ]);
+        $user = SessionService::user();
         $newTicket = [];
         foreach ($request->tickets as $ticket) {
             $newTicket["tickets"][] = ["slugTicket" => $ticket];
         }
         $req_api = [
-            "idKasir" => 3,
+            "idKasir" => $user["idUser"],
             "buyerName" => $request->buyerName ?? null,
             ...$newTicket
         ];
@@ -88,12 +90,13 @@ class OrderController extends Controller
         $request->validate([
             "tickets" => "required|array",
         ]);
+        $user = SessionService::user();
         $newTicket = [];
         foreach ($request->tickets as $ticket) {
             $newTicket["tickets"][] = ["slugTicket" => $ticket];
         }
         $req_api = [
-            "idKasir" => 3,
+            "idKasir" => $user["idUser"],
             "buyerName" => $request->buyerName,
             ...$newTicket
         ];
