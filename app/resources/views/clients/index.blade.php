@@ -17,6 +17,7 @@
                     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk6YT3yl9RRIPngQVW2DddDilawjVnW-XAdwM7XD-gwBqzjkX7D3BvG7jkBbkLMxHzXwI&usqp=CAU',
                 'name' => 'Geprek Mbak Yuli',
                 'content' => 'Geprek Ayam Hitam',
+                'link' => url('/clients/1')
             ])
 
             @include('components.small-card-content', [

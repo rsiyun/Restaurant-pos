@@ -1,15 +1,12 @@
-<div class="p-6 mt-7 w-[20rem] h-[15rem] bg-white rounded-lg shadow-md hover:drop-shadow-xl duration-300 ease-in-out cursor-pointer">
-
-    <div class="flex items-center justify-between">
-
+<a href="{{ $link ?? '#' }}" class="block p-6 mt-7 w-[20rem] h-[15rem] bg-white rounded-lg shadow-md hover:drop-shadow-xl duration-300 ease-in-out cursor-pointer">
+    <div class="flex items-center justify-between h-full">
         {{-- INNER CARD/CONTENT --}}
-        <div class="flex w-[20rem] items-center">
+        <div class="flex items-center w-full">
+            <img class="w-[10rem] h-[10rem] rounded-full object-cover"
+                src="{{ $foto ?? 'https://via.placeholder.com/150' }}"
+                alt="{{ $name ?? 'No Name' }}">
 
-            <img class="w-[10rem] rounded-full"
-                src="{{$foto ?? "link" }}"
-                alt="random user">
-
-            <div class="ml-2">
+            <div class="flex flex-col justify-center ml-4">
                 <div class="text-sm font-semibold text-gray-700">
                     {{ $name ?? 'No Name' }}
                 </div>
@@ -17,9 +14,6 @@
                     {{ $content ?? 'No Content' }}
                 </div>
             </div>
-
         </div>
-
-        {{-- https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk6YT3yl9RRIPngQVW2DddDilawjVnW-XAdwM7XD-gwBqzjkX7D3BvG7jkBbkLMxHzXwI&usqp=CAU --}}
     </div>
-</div>
+</a>
