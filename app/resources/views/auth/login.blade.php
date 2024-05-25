@@ -29,14 +29,6 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4 ml-[6rem] flex justify-between w-[23rem]">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-xl focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
         {{-- <div class="flex items-center justify-end mt-4"> --}}
         <div class="mt-5 ml-[5rem] flex items-center justify-center">
             {{-- @if (Route::has('password.request'))
