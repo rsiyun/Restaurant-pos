@@ -13,7 +13,7 @@
 
     <div class="pb-8">
         <h2 class="text-2xl font-bold text-right text-blue-600">
-            Hai, {{ SessionService::user()['name'] ?? 'Developer' }}!
+            Hai, {{ $profile["name"] ?? 'Developer' }}!
         </h2>
     </div>
 

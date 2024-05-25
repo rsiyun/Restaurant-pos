@@ -36,8 +36,9 @@
                 <option value="inactive">Inactive</option>
             </select>
         </div>
-
-        <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
-            Tambah User
-        </button>
+        <div class="pt-8">
+            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                Tambah User
+            </button>
+        </div>
 @endsection

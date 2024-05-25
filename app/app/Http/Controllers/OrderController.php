@@ -13,8 +13,10 @@ class OrderController extends Controller
     {
         $page = $request->page ?? "";
         $response = Http::get(ApiUrl::$api_url . "/order", ["page" => $page])->json();
+        $profile = SessionService::user();
         if ($response["success"]) {
             return view('cpanel.order.index', [
+                "profile" => $profile,
                 ...$response
             ]);
         }
@@ -22,9 +24,10 @@ class OrderController extends Controller
     public function create()
     {
         $response = Http::get(ApiUrl::$api_url . "/unpaymentTicket")->json();
-
+        $user = SessionService::user();
         if ($response["success"]) {
             return view('cpanel.order.create', [
+                "profile" => $user,
                 'tickets' => $response['data']['tickets']
             ]);
         }
@@ -32,6 +35,7 @@ class OrderController extends Controller
     public function edit($slug)
     {
         $oldDataOrder = Http::get(ApiUrl::$api_url . "/order". "/$slug")->json();
+        $user = SessionService::user();
         $ticketList = Http::get(ApiUrl::$api_url . "/unpaymentTicket", ["idOrder" => $oldDataOrder["data"]["idOrder"]])->json();
         $success = $ticketList["success"] && $oldDataOrder["success"];
         $response = [
@@ -47,6 +51,7 @@ class OrderController extends Controller
         ];
         if ($response["success"]) {
             return view('cpanel.order.update', [
+                "profile" => $user,
                 ...$response
             ]);
         }
@@ -56,8 +61,10 @@ class OrderController extends Controller
     {
 
         $response = Http::get(ApiUrl::$api_url . "/order" . "/$slug")->json();
+        $user = SessionService::user();
         if ($response["success"]) {
             return view('cpanel.order.show', [
+                "profile" => $user,
                 ...$response
             ]);
         }

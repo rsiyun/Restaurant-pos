@@ -11,20 +11,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // $productAPI = Http::get('http://localhost:8001/api/products');
-
-        // $transactionAPI = Http::get('http://localhost:8001/api/transactions');
-
-        // return view('dashboard', [
-        //     'products' => $productAPI->json(),
-        //     'transactions' => $transactionAPI->json()
-        // ]);
-        return view('cpanel.main.dashboard');
-    }
-    // WARNING JANGAN DI HAPUS
-    public function dev()
-    {
-
         $response = Http::get(ApiUrl::$api_url . "/user")->json();
         if ($response["success"]) {
             $listUser = $response['data'];
@@ -33,6 +19,12 @@ class DashboardController extends Controller
         }
 
         return view('cpanel.main.dashboard', ['error' => $response['message']]);
+    }
+    // WARNING JANGAN DI HAPUS
+    public function dev()
+    {
+
+
     }
 
     public function components()

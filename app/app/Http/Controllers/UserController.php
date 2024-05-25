@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Endpoint\ApiUrl;
+use App\Facades\SessionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -11,19 +12,22 @@ class UserController extends Controller
     public function index()
     {
         $response = Http::get(ApiUrl::$api_url . "/user")->json();
+        $user = SessionService::user();
+        // dd($user);
         if ($response["success"]) {
             $listUser = $response['data'];
-            dump($listUser);
-            return view('cpanel.user.index', compact('listUser'));
-        } else {
-
-            return view('cpanel.user.index', ['error' => $response['message']]);
+            return view('cpanel.user.index', [
+                "profile" => $user,
+                "listUser" => $listUser
+            ]);
         }
+        return view('cpanel.user.index', ['error' => $response['message']]);
     }
 
     public function create()
     {
-        return view('cpanel.user.create');
+        $user = SessionService::user();
+        return view('cpanel.user.create', ["profile" => $user]);
     }
 
     public function store(Request $request)
@@ -34,12 +38,9 @@ class UserController extends Controller
             'password' => $request->password,
             'role' => $request->role,
         ])->json();
-
         if ($response["success"]) {
-            // get back using url route instead of route name
-            return redirect('/dashboard/dev');
+            return redirect("/dashboard/user");
         }
 
-        return dump($response);
     }
 }

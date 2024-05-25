@@ -4,21 +4,21 @@
     <div class="flex flex-col flex-grow">
         {{-- Circle Avatar --}}
         <div class="border-b">
-            <img src="https://ui-avatars.com/api/?name={{ SessionService::user()['name'] ?? 'Developer Mode' }}&background=random"
-                alt="{{ SessionService::user()['name'] ?? 'Developer Mode' }}"
+            <img src="https://ui-avatars.com/api/?name={{ $profile['name'] ?? 'Developer Mode' }}&background=random"
+                alt="{{ $profile['name'] ?? 'Developer Mode' }}"
                 class="w-20 h-20 mx-auto my-4 rounded-full">
             <div class="text-center">
                 <span class="text-2xl font-bold">
-                    {{ SessionService::user()['name'] ?? 'Developer Mode' }}
+                    {{ $profile['name'] ?? 'Developer Mode' }}
                 </span>
                 <div class="text-sm">
-                    {{ SessionService::user()['role'] ?? 'Administrator' }}
+                    {{ $profile['role'] ?? 'Administrator' }}
                 </div>
             </div>
         </div>
         {{-- Sidebar Links --}}
         @include('components.buttons.side-navbar', [
-            'url' => url('/dashboard/dev'),
+            'url' => url('/dashboard'),
             'title' => 'Dashboard',
         ])
         @include('components.buttons.side-navbar', [

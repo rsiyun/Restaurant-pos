@@ -14,11 +14,11 @@ class SessionService{
     public static function user(){
         $token = self::$token ?? session('user.access_token');
         if (!$token) {
-            return redirect('/login');
+            return null;
         }
         $response = Http::withToken($token)->get(ApiUrl::$api_url ."/user/token");
         if (!$response["success"]) {
-            return redirect("/login");
+            return null;
         }
         return $response["data"];
     }
