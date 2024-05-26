@@ -20,8 +20,11 @@ class ClientController extends Controller
         //     return view('cpanel.main.dashboard');
         // }
 
+        $user = SessionService::user();
 
-        return view('clients.index');
+        return view('clients.index', [
+            "profile" => $user
+        ]);
     }
 
     public function show()
