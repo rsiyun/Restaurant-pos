@@ -13,13 +13,22 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
 
-                    <x-nav-link :href="url('/')">
+                    {{-- <x-nav-link :href="url('/')" >
                         {{ __('Order') }}
                     </x-nav-link>
 
                     <x-nav-link :href="url('/')">
                         {{ __('Riwayat') }}
-                    </x-nav-link>
+                    </x-nav-link> --}}
+
+                    @include('components.nav-link', [
+                        'href' => '/',
+                        'slot' => 'Order',
+                    ])
+                    @include('components.nav-link', [
+                        'href' => '/history',
+                        'slot' => 'Riwayat'
+                    ])
                 </div>
             </div>
 
@@ -32,7 +41,7 @@
                         {{-- Button Trigger Called Account --}}
                         <button
                             class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none">
-                            <div>{{ $profile["name"] ?? 'Akun' }}</div>
+                            <div>{{ $profile['name'] ?? 'Akun' }}</div>
 
                             <div class="ms-1">
                                 <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
@@ -98,10 +107,10 @@
         <!-- Responsive Settings Options -->
         <div class="px-4 pt-4 pb-1 border-t border-gray-200">
             <div class="text-base font-medium text-gray-800">
-                {{ $profile["name"] ?? 'Guest' }}
+                {{ $profile['name'] ?? 'Guest' }}
             </div>
             <div class="text-sm font-medium text-gray-500">
-                {{ $profile["role"] ?? 'Guest' }}
+                {{ $profile['role'] ?? 'Guest' }}
             </div>
 
             <div class="mt-3 space-y-1">
