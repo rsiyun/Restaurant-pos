@@ -85,6 +85,7 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
 
     Route::get("/user/create", [UserController::class, 'create']);
     Route::post("/user", [UserController::class, 'store']);
+    Route::get("/user/{id}/edit", [UserController::class, 'edit']);
 
 
     /*

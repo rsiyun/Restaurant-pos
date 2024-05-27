@@ -1,12 +1,16 @@
-<a href="{{ $url ?? '#' }}">
-    <div class="dropdown">
-        <button class="dropdown-button">{{ $title }}</button>
-        <div class="dropdown-content">
-            <a href="{{ $url }}">Link 1</a>
-            <a href="{{ $url }}">Link 2</a>
-            <a href="{{ $url }}">Link 3</a>
-        </div>
-    </div>
+<!-- components/dropdown/dropdown.blade.php -->
+@props([
+    'title',
+    'name',
+    'id',
+    'options',
+    'disabled' => false,
+])
 
-    {{ $title ? $title : 'Title' }}
-</a>
+<div class="flex flex-col gap-4">
+    <select {{ $disabled ? 'disabled' : '' }} id="{{ $id }}" class="border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
+        @foreach ($options as $key => $option)
+            <option value="{{ $key }}">{{ $option }}</option>
+        @endforeach
+    </select>
+</div>

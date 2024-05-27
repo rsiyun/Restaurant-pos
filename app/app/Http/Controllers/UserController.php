@@ -43,4 +43,18 @@ class UserController extends Controller
         }
 
     }
+
+    public function edit($id)
+    {
+        $response = Http::get(ApiUrl::$api_url . "/user/" . $id)->json();
+        $user = SessionService::user();
+        if ($response["success"]) {
+            $user = $response['data'];
+            return view('cpanel.user.edit', [
+                "profile" => $user,
+                "user" => $user
+            ]);
+        }
+        return view('cpanel.user.edit', ['error' => $response['message']]);
+    }
 }
