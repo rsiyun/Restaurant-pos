@@ -98,10 +98,9 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
 });
 
 // Jika user bukan admin, tapi kasir, dan shop employee maka setelah login kesini
-Route::prefix('/')->group(function () {
+Route::middleware("checkRole:ShopEmployee")->group(function () {
     Route::get('/', [ClientController::class, 'index']);
-    // Get Product
-    Route::get('/1', [ClientController::class, 'show']);
+    Route::get('/product/{slug}', [ClientController::class, 'show']);
 });
 
 

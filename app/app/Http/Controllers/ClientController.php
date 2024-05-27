@@ -21,13 +21,14 @@ class ClientController extends Controller
         // }
 
         $user = SessionService::user();
-
+        $productAPI = Http::get(ApiUrl::$api_url . "/productByShop" . "/".$user["shopSlug"])->json();
         return view('clients.index', [
-            "profile" => $user
+            "profile" => $user,
+            "products" => $productAPI["data"]["products"]
         ]);
     }
 
-    public function show()
+    public function show($slug)
     {
         return view('clients.show');
     }

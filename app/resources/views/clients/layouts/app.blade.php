@@ -32,7 +32,7 @@
         @endif
 
         <!-- Page Content -->
-        <main class="">
+        <main>
             {{-- {{ $slot }} --}}
             @yield('slot')
         </main>

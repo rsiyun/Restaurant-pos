@@ -55,7 +55,7 @@
                     </x-slot>
 
                     <x-slot name='content'>
-                        @auth
+                        @if(session()->has('user'))
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
@@ -69,18 +69,12 @@
                                                 this.closest('form').submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
-                            </form>
+                        </form>
                         @else
                             <x-dropdown-link :href="route('login')">
                                 {{ __('Login') }}
                             </x-dropdown-link>
-
-                            @if (Route::has('register'))
-                                <x-dropdown-link :href="route('register')">
-                                    {{ __('Register') }}
-                                </x-dropdown-link>
-                            @endif
-                        @endauth
+                        @endif
                     </x-slot>
 
 

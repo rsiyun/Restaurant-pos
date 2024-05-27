@@ -11,6 +11,9 @@ class SessionService{
     {
         self::$token = $token;
     }
+    public static function image_url(){
+        return "http://localhost:8001/storage/";
+    }
     public static function user(){
         $token = self::$token ?? session('user.access_token');
         if (!$token) {

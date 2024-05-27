@@ -1,33 +1,90 @@
 @extends("cpanel.layout.app")
 @section("content")
-<div class="container mx-auto">
-    <div class="flex justify-end pb-6">
-        <a href="{{ url('/dashboard/order/create') }}"class="px-4 py-2 bg-green-500 rounded text-white">create</a>
+    <div class="pb-8">
+        <h2 class="text-2xl font-bold text-right text-blue-600">
+            Hai, {{ $profile["name"] ?? 'Developer' }}!
+        </h2>
     </div>
-    <div class="overflow-x-auto">
-        <table class="min-w-full bg-white shadow-md rounded-lg">
+    <h1 class="flex-col mt-6 text-3xl text-blue-600 font-extralight">
+        Dashboard
+        <h2 class="text-2xl font-bold text-slate-700">
+            Order
+        </h2>
+    </h1>
+    <div class="my-4 border-b border-gray-300"></div>
+    <div class="flex flex-row justify-start gap-5 pb-5">
+        <a href="{{ url('/dashboard/order/create') }}" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+            Tambah Order
+        </a>
+    </div>
+    <div>
+        <table class="w-full text-left border-collapse rounded table-auto">
             <thead>
-                <tr class="bg-gray-800 text-white">
-                    <th class="py-3 px-4 uppercase font-semibold text-sm">Slug</th>
-                    <th class="py-3 px-4 uppercase font-semibold text-sm">Buyer Name</th>
-                    <th class="py-3 px-4 uppercase font-semibold text-sm">Total Order</th>
-                    <th class="py-3 px-4 uppercase font-semibold text-sm">Nama Kasir</th>
-                    <th class="py-3 px-4 uppercase font-semibold text-sm">action</th>
+                <tr>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                        No
+                    </th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                        Id order
+                    </th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                        Nama Pembeli</th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                        Total</th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                        Nama Kasir
+                    </th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                        Action
+                    </th>
+
+
                 </tr>
             </thead>
             <tbody>
-                @foreach ($data["orders"] as $order)
-                <tr class="bg-gray-100 border-b text-center">
-                    <td class="py-3 px-4">{{ $order['slug'] }}</td>
-                    <td class="py-3 px-4">{{ $order['buyerName'] }}</td>
-                    <td class="py-3 px-4">{{ $order['totalOrder'] }}</td>
-                    <td class="py-3 px-4">{{ $order['kasir']["name"] }}</td>
-                    <td class="py-3 px-4">
-                        <a href="{{ url('/dashboard/order', [$order['slug']]) }}" class="px-4 py-2 bg-green-500 rounded text-white">Detail</a>
-                    </td>
-                </tr>
-                @endforeach
+
+                @if (isset($data))
+                    @foreach ($data["orders"] as $order)
+                        <tr class="border border-slate-400">
+                            <td class="px-4 py-3">
+                                {{ $loop->iteration ?? 0 }}
+                            </td>
+
+                            <td class="px-4 py-3">
+                                {{ $order['slug'] ?? 'Unknown Status' }}
+                            </td>
+
+                            <td class="px-4 py-3">
+                                {{ $order['buyerName'] ?? 'Unknown Status' }}
+                            </td>
+
+                            <td class="px-4 py-3">
+                                {{ $order['totalOrder'] ?? 'Unknown Status' }}
+                            </td>
+                            <td class="px-4 py-3">
+                                {{ $order['kasir']["name"] ?? 'Unknown Status' }}
+                            </td>
+
+                            <td id="tableaction" class="w-[5rem] px-4 py-3">
+                                <a href="{{ url('/dashboard/order', [$order['slug']]) }}" class="px-4 py-2 bg-green-500 rounded text-white">Detail</a>
+                            </td>
+
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td class="px-4 py-3 text-center">No orders found.</td>
+                    </tr>
+                @endif
             </tbody>
+
+
         </table>
         @if ($data["links"]["last"] != $data["links"]["first"])
         <nav class="flex items-center space-x-1 pt-8">
@@ -47,7 +104,6 @@
         </nav>
         @endif
     </div>
-</div>
 
 
 @endsection
