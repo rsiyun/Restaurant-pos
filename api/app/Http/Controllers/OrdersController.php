@@ -51,7 +51,7 @@ class OrdersController extends Controller
             ]);
             $totalOrder = 0;
             foreach ($validated["tickets"] as $ticket) {
-                $getTicket = Tickets::where('slug', $ticket["slugTicket"])->where('idOrder', null)->first();
+                $getTicket = Tickets::where('slug', $ticket["slugTicket"])->with(["details", "details.product"])->where('idOrder', null)->first();
                 if (!$getTicket) {
                     throw new HttpResponseException(response()->json(['message' => 'cannot find '.$ticket["slugTicket"], "success" => false], 400));
                 }
@@ -59,6 +59,14 @@ class OrdersController extends Controller
                 $getTicket->update([
                     "idOrder" => $order->idOrder
                 ]);
+                foreach ($getTicket["details"] as $ticketDetail) {
+                    $qnty = $ticketDetail["quantity"];
+                    $newStock = $ticketDetail["product"]["productStock"] - $qnty;
+                    if ($newStock < 0) {
+                        throw new HttpResponseException(response()->json(['message' => 'Stock telah habis '.$ticketDetail["product"]["productName"], "success" => false], 400));
+                    }
+                    $ticketDetail->product->update(["productStock" => $newStock]);
+                }
             }
             $order->update([
                 "totalOrder" => $totalOrder
@@ -94,14 +102,19 @@ class OrdersController extends Controller
                 "buyerName" => $validated["buyerName"] ?? $order->buyerName,
                 "totalOrder" => 1
             ]);
-            $oldTickets = Tickets::where("idOrder", $order->idOrder)->get();
+            $oldTickets = Tickets::where("idOrder", $order->idOrder)->with(["details", "details.product"])->get();
             foreach ($oldTickets as $ticket) {
                 $ticket->idOrder = NULL;
+                foreach ($ticket["details"] as $ticketDetail) {
+                    $qnty = $ticketDetail["quantity"];
+                    $newStock = $ticketDetail["product"]["productStock"] + $qnty;
+                    $ticketDetail->product->update(["productStock" => $newStock]);
+                }
                 $ticket->save();
             }
             $totalOrder = 0;
             foreach ($validated["tickets"] as $ticket) {
-                $getTicket = Tickets::where('slug', $ticket["slugTicket"])->where('idOrder', null)->first();
+                $getTicket = Tickets::where('slug', $ticket["slugTicket"])->with(["details", "details.product"])->where('idOrder', null)->first();
                 if (!$getTicket) {
                     throw new HttpResponseException(response()->json(['message' => 'cannot find '.$ticket["slugTicket"], "success" => false], 400));
                 }
@@ -109,6 +122,14 @@ class OrdersController extends Controller
                 $getTicket->update([
                     "idOrder" => $order->idOrder
                 ]);
+                foreach ($getTicket["details"] as $ticketDetail) {
+                    $qnty = $ticketDetail["quantity"];
+                    $newStock = $ticketDetail["product"]["productStock"] - $qnty;
+                    if ($newStock < 0) {
+                        throw new HttpResponseException(response()->json(['message' => 'Stock telah habis '.$ticketDetail["product"]["productName"], "success" => false], 400));
+                    }
+                    $ticketDetail->product->update(["productStock" => $newStock]);
+                }
             }
             $order->update([
                 "totalOrder" => $totalOrder
