@@ -81,8 +81,9 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
     // Shop
     Route::get("/shop", [ShopController::class, 'index']);
     Route::get("/shop/create", [ShopController::class, 'create']);
-    Route::get("/shop/{slug}", [ShopController::class, 'show']);
     Route::post("/shop", [ShopController::class, 'store']);
+    Route::delete("/shop/{slug}", [ShopController::class, 'destroy']);
+    Route::get("/shop/{slug}", [ShopController::class, 'show']);
 
     // User
     Route::get("/user", [UserController::class, 'index']);

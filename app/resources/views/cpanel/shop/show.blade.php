@@ -4,7 +4,7 @@
         <div class="flex gap-4">
             <a
                 href="{{ url('/dashboard/order') }}{{ '/' . $data['slug'] . '/edit' }}"class="px-4 py-2 bg-blue-500 rounded text-white">update</a>
-            <form action="{{ url('/dashboard/order/' . $data['slug']) }}" method="POST">
+            <form action="{{ url('/dashboard/shop/' . $data['slug']) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="px-4 py-2 bg-red-500 rounded text-white"

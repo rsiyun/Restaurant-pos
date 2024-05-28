@@ -7,12 +7,12 @@
         @csrf
         <div class="flex flex-col gap-4">
             <label for="name">Nama Pemilik</label>
-            <input type="text" name="name" id="name" class="px-4 py-2 border border-gray-300 rounded-md">
+            <input type="text" name="ownerName" id="ownerName" class="px-4 py-2 border border-gray-300 rounded-md">
         </div>
 
         <div class="flex flex-col gap-4">
             <label for="name">Nama Toko</label>
-            <input type="text" name="name" id="name" class="px-4 py-2 border border-gray-300 rounded-md">
+            <input type="text" name="shopName" id="shopName" class="px-4 py-2 border border-gray-300 rounded-md">
         </div>
 
         <div class="pt-8">

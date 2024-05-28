@@ -33,10 +33,10 @@ class ShopController extends Controller
 
     public function store(Request $request)
     {
-        $response = Http::post(ApiUrl::$api_url . "/user", [
-            'ownerName' => $request->name,
-            'shopName' => $request->email,
-        ])->json();
+        $response = Http::post(ApiUrl::$api_url . "/shop", [
+            'ownerName' => $request->ownerName,
+            'shopName' => $request->shopName,
+            ])->json();
         if ($response["success"]) {
             return redirect("/dashboard/shop");
         }
@@ -48,7 +48,6 @@ class ShopController extends Controller
 
         $response = Http::get(ApiUrl::$api_url . "/shop" . "/$slug")->json();
         $user = SessionService::user();
-        // dd(...$response);
         if ($response["success"]) {
             return view('cpanel.shop.show', [
                 "profile" => $user,
@@ -56,6 +55,14 @@ class ShopController extends Controller
             ]);
         }
 
+    }
+
+    public function destroy($slug)
+    {
+        $response = Http::delete(ApiUrl::$api_url . "/shop/$slug")->json();
+        if ($response["success"]) {
+            return redirect('/dashboard/shop')->with(["message" => $response["messages"]]);
+        }
     }
 
 }
