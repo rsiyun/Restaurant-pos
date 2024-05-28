@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Endpoint\ApiUrl;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 use App\Services\SessionService;
 
 class ShopController extends Controller
@@ -22,6 +23,39 @@ class ShopController extends Controller
             ]);
         }
         return view('cpanel.main.shop', ['error' => $response['message']]);
+    }
+
+    public function create()
+    {
+        $user = SessionService::user();
+        return view('cpanel.shop.create', ["profile" => $user]);
+    }
+
+    public function store(Request $request)
+    {
+        $response = Http::post(ApiUrl::$api_url . "/user", [
+            'ownerName' => $request->name,
+            'shopName' => $request->email,
+        ])->json();
+        if ($response["success"]) {
+            return redirect("/dashboard/shop");
+        }
+
+    }
+
+    public function show($slug)
+    {
+
+        $response = Http::get(ApiUrl::$api_url . "/shop" . "/$slug")->json();
+        $user = SessionService::user();
+        // dd(...$response);
+        if ($response["success"]) {
+            return view('cpanel.shop.show', [
+                "profile" => $user,
+                ...$response
+            ]);
+        }
+
     }
 
 }

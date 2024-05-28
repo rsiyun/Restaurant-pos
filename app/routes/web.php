@@ -66,6 +66,7 @@ Route::prefix('products')->group(function () {
 */
 Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
+
     // Order
     Route::get("/order", [OrderController::class, 'index']);
     Route::get("/order/create", [OrderController::class, 'create']);
@@ -79,10 +80,12 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
 
     // Shop
     Route::get("/shop", [ShopController::class, 'index']);
+    Route::get("/shop/create", [ShopController::class, 'create']);
+    Route::get("/shop/{slug}", [ShopController::class, 'show']);
+    Route::post("/shop", [ShopController::class, 'store']);
 
-
+    // User
     Route::get("/user", [UserController::class, 'index']);
-
     Route::get("/user/create", [UserController::class, 'create']);
     Route::post("/user", [UserController::class, 'store']);
     Route::get("/user/{id}/edit", [UserController::class, 'edit']);
