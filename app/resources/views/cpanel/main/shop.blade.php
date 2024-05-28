@@ -49,5 +49,6 @@
         ];
     @endphp
 
-    @include('components.user-table', ['users' => $users])
+    {{-- @include('components.user-table', ['users' => $users]) --}}
+    @include('components.tables.tables1', ['users' => $users])
 @endsection
