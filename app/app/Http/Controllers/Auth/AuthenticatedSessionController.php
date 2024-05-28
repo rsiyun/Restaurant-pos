@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ])->json();
-        if (!$response["success"]) {
+        if (!$response ||!$response["success"]) {
             return redirect()->route("login")->with($response);
         }
         SessionService::setToken($response["data"]["access_token"]);

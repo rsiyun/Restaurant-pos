@@ -22,7 +22,8 @@ class ClientController extends Controller
     public function show($slug)
     {
         $user = SessionService::user();
-
-        return view('clients.show', ["profile" => $user]);
+        $showProduct = Http::get(ApiUrl::$api_url . "/product" . "/".$slug)->json();
+        if (!$showProduct || !$showProduct["success"]) {return redirect()->back();}
+        return view('clients.show', ["profile" => $user, "product" => $showProduct["data"]]);
     }
 }
