@@ -55,12 +55,14 @@ class AuthController extends Controller
                 ]
             ],401));
         }
-        $user = $token->tokenable;
+        $userToken = $token->tokenable;
+        $user = User::with("shop")->where("slug", $userToken["slug"])->first();
         return response()->json([
             "message" => "user get successfully",
             "success" => true,
             "data" => [
                 "idUser" => $user["idUser"],
+                "shopSlug" => $user["shop"]["slug"] ?? null,
                 "name" => $user["name"],
                 "email" => $user["email"],
                 "role" => $user["role"],

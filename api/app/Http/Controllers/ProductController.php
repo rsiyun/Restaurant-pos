@@ -30,6 +30,21 @@ class ProductController extends Controller
         return $this->sendResponse($response, "All Products");
     }
 
+    public function showByShop($slug){
+        $products = Product::with("shop")->whereHas('shop', function($query) use ($slug) {$query->where('slug', $slug);})->paginate(9);
+        $response = [
+            "products" => ProductResource::collection($products),
+            'links' => [
+                'first' => Helper::getParams($products->url(1))["page"] ?? null,
+                'last' => Helper::getParams($products->url($products->lastPage()))["page"] ?? null,
+                'prev' => Helper::getParams($products->previousPageUrl())["page"] ?? null,
+                'next' => Helper::getParams($products->nextPageUrl())["page"] ?? null,
+            ],
+        ];
+        return $this->sendResponse($response, "All Products");
+
+    }
+
     /**
      * Store a newly created resource in storage.
      */

@@ -45,6 +45,7 @@ Route::put("order/{order}", [OrdersController::class, 'update']);
 
 Route::get("product", [ProductController::class, 'index']);
 Route::get("product/{product}", [ProductController::class, 'show']);
+Route::get("productByShop/{product}", [ProductController::class, 'showByShop']);
 Route::post("product", [ProductController::class, 'store']);
 Route::put("product/{product}", [ProductController::class, 'update']);
 Route::delete("product/{product}", [ProductController::class, 'destroy']);
