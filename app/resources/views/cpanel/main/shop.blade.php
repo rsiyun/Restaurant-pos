@@ -1,11 +1,9 @@
 @extends('cpanel.layout.app')
 
 
-{{-- TODO: Nanti dipindah ke folder cpanel/layout/shop/index --}}
 @section('content')
     <div class="pb-8">
         <h2 class="text-2xl font-bold text-right text-blue-600">
-            {{-- Hai, {{ $profile['name'] ?? 'Developer' }}! --}}
         </h2>
     </div>
 
@@ -50,5 +48,88 @@
     @endphp
 
     {{-- @include('components.user-table', ['users' => $users]) --}}
-    @include('components.tables.tables1', ['users' => $users])
+    {{-- @include('components.tables.tables1', ['users' => $users]) --}}
+    <table class="w-full text-left border-collapse rounded table-auto">
+        <thead>
+            <tr>
+                <th
+                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                    No
+                </th>
+                <th
+                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                    Nama
+                </th>
+                <th
+                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                    Email</th>
+                <th
+                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                    Role</th>
+                <th
+                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                    Status
+                </th>
+                <th
+                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                    Action
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (isset($listUser))
+                @foreach ($listUser["shops"] as $user)
+                    <tr class="border border-slate-400">
+                        <td class="px-4 py-3">
+                            {{ $loop->iteration ?? 0 }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ $user['name'] ?? 'Unknown Status' }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ $user['email'] ?? 'Unknown Status' }}
+                        </td>
+
+                        <td class="px-4 py-3">
+                            {{ $user['role'] ?? 'Unknown Status' }}
+                        </td>
+
+                        <td id="status"
+                            class="w-[3rem] px-4 py-3 text-center {{ $user['isActive'] = 1 ? 'text-green-500' : 'bg-orange-500' }}">
+                            <span class="text-xl">
+                                {{ $user['isActive'] = 1 ? '✅' : '❌' }}
+                            </span>
+                        </td>
+
+
+                        <td id="tableaction" class="w-[5rem] px-4 py-3">
+                            <div class="flex gap-4">
+                                <a href="{{ url('/dashboard/user') }}{{ '/' . $user['slug'] . '/edit' }}"
+                                    class="px-4 py-2 text-white border rounded">✏️</a>
+
+                                <form action="{{ url('/dashboard/user/' . $user['slug']) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-4 py-2 text-white bg-red-600 border rounded"
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">🪣</button>
+                                </form>
+                            </div>
+
+                        </td>
+
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td class="px-4 py-3 text-center">No users found.</td>
+                </tr>
+            @endif
+        </tbody>
+
+
+    </table>
 @endsection

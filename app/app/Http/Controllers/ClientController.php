@@ -11,15 +11,6 @@ class ClientController extends Controller
 {
     public function index()
     {
-        /*
-        | Jika User yang loginnya sukses adalah Kasir maka akan diarahkan ke halaman kasir
-        | Jika User adalah loginnya sukses ShopEmployee maka akan diarahkan ke halaman shop
-        */
-        // Contoh
-        // if (SessionService::get('role') == 'Kasir') {
-        //     return view('cpanel.main.dashboard');
-        // }
-
         $user = SessionService::user();
         $productAPI = Http::get(ApiUrl::$api_url . "/productByShop" . "/".$user["shopSlug"])->json();
         return view('clients.index', [
@@ -30,6 +21,8 @@ class ClientController extends Controller
 
     public function show($slug)
     {
-        return view('clients.show');
+        $user = SessionService::user();
+
+        return view('clients.show', ["profile" => $user]);
     }
 }

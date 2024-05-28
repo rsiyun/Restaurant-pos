@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('clients.layouts.app')
 
 @section('slot')
     <div class="min-h-screen py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
