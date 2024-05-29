@@ -105,6 +105,10 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
 Route::middleware("checkRole:ShopEmployee")->group(function () {
     Route::get('/', [ClientController::class, 'index']);
     Route::get('/product/{slug}', [ClientController::class, 'show']);
+    Route::get('/cart', [ClientController::class, 'showCart'])->name('clients.showCart');
+    Route::post('/cart/add/{slug}', [ClientController::class, 'addToCart']);
+    Route::post('/cart/remove/{slug}', [ClientController::class, 'removeFromCart'])->name('clients.removeFromCart');
+    Route::post('/cart/clear', [ClientController::class, 'clearSession'])->name('clients.clearSession');
 });
 
 
