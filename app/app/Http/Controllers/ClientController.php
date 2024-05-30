@@ -98,7 +98,23 @@ class ClientController extends Controller
     public function showCart(Request $request)
     {
         $cartItems = $request->session()->get('cart', []);
-        return view('clients.cart', compact('cartItems'));
+        $user = SessionService::user();
+        // dd($cartItems);
+        return view('clients.cart', [
+            "cartItems" => $cartItems,
+            "profile" => $user
+        ]);
+    }
+    public function updateCart(Request $request){
+        $quantities = $request->input('quantities', []);
+        $cart = $request->session()->get('cart', []);
+        foreach ($quantities as $slug => $qnty) {
+            $quantity = (int) $qnty;
+            $cart[$slug]['quantity'] = $quantity;
+            $cart[$slug]['total'] = $cart[$slug]['quantity'] * ($cart[$slug]['productPrice'] ?? 0);
+        }
+        $request->session()->put('cart', $cart);
+        return redirect()->route('clients.showCart');
     }
 
 }

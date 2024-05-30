@@ -6,6 +6,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -111,6 +112,8 @@ Route::middleware("checkRole:ShopEmployee")->group(function () {
     Route::post('/cart/add/{slug}', [ClientController::class, 'addToCart']);
     Route::post('/cart/remove/{slug}', [ClientController::class, 'removeFromCart'])->name('clients.removeFromCart');
     Route::post('/cart/clear', [ClientController::class, 'clearSession'])->name('clients.clearSession');
+    Route::post('/cart/update', [ClientController::class, 'updateCart']);
+    Route::post('/ticket', [TicketController::class, 'store']);
 });
 
 
