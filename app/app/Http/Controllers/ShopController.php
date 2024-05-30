@@ -59,6 +59,7 @@ class ShopController extends Controller
             "ownerName" => $shopInput["data"]["ownerName"],
             "slug" => $shopInput["data"]["slug"],
             "shopName" => $shopInput["data"]["shopName"],
+            "isActive" => $shopInput["data"]["isActive"],
             "success" => $success,
         ];
         if ($response["success"]) {
@@ -74,12 +75,14 @@ class ShopController extends Controller
         $request->validate([
             "ownerName" => "required|string",
             "shopName" => "required|string",
+            "isActive" => "required|",
         ]);
         $user = SessionService::user();
         $req_api = [
             "idKasir" => $user["idUser"],
             "ownerName" => $request->ownerName,
             "shopName" => $request->shopName,
+            "isActive" => $request->isActive,
         ];
 
         $response = Http::put(ApiUrl::$api_url . "/shop" . "/$slug", $req_api)->json();
@@ -126,7 +129,6 @@ class ShopController extends Controller
 
     public function show($slug)
     {
-
         $response = Http::get(ApiUrl::$api_url . "/shop" . "/$slug")->json();
         $user = SessionService::user();
         if ($response["success"]) {

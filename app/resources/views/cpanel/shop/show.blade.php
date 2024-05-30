@@ -15,6 +15,7 @@
     <p>Id Toko: {{ $data['slug'] }}</p>
     <p>Nama Toko: {{ $data['shopName'] }}</p>
     <p>Pemilik Toko: {{ $data['ownerName'] }}</p>
+    <p>Pemilik Toko: {{ $data['isActive'] }}</p>
 
 
     <table class="w-full text-left border-collapse rounded table-auto">
