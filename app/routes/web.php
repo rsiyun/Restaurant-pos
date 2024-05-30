@@ -80,6 +80,8 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
 
     // Shop
     Route::get("/shop", [ShopController::class, 'index']);
+    Route::get("/shop/{slug}/edit", [ShopController::class, 'edit']);
+    Route::put("/shop/{slug}", [ShopController::class, 'update']);
     Route::get("/shop/create", [ShopController::class, 'create']);
     Route::post("/shop", [ShopController::class, 'store']);
     Route::delete("/shop/{slug}", [ShopController::class, 'destroy']);

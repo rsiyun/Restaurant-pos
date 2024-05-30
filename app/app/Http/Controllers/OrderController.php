@@ -57,19 +57,7 @@ class OrderController extends Controller
         }
 
     }
-    public function show($slug)
-    {
 
-        $response = Http::get(ApiUrl::$api_url . "/order" . "/$slug")->json();
-        $user = SessionService::user();
-        if ($response["success"]) {
-            return view('cpanel.order.show', [
-                "profile" => $user,
-                ...$response
-            ]);
-        }
-
-    }
     public function update(Request $request, $slug)
     {
         $request->validate([
@@ -92,6 +80,21 @@ class OrderController extends Controller
             return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
         }
     }
+
+    public function show($slug)
+    {
+
+        $response = Http::get(ApiUrl::$api_url . "/order" . "/$slug")->json();
+        $user = SessionService::user();
+        if ($response["success"]) {
+            return view('cpanel.order.show', [
+                "profile" => $user,
+                ...$response
+            ]);
+        }
+
+    }
+
     public function store(Request $request)
     {
         $request->validate([
