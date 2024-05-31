@@ -10,9 +10,17 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $page = $request->page ?? "";
+        $user = SessionService::user();
+        $shopResponse = Http::get(ApiUrl::$api_url . "/ticketByShop/" . $user["shopSlug"], ["page" => $page]);
+        if ($shopResponse->failed()) {
+            return redirect("/")->withErrors(['message' => "gagal mendapatkan ticket"]);
+        }
+        $response = $shopResponse->json()["data"];
 
+        return view("clients.ticket.index", ["data" => $response]);
     }
     public function store(Request $request)
     {

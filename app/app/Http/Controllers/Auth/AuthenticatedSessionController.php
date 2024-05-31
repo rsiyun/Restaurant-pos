@@ -41,11 +41,15 @@ class AuthenticatedSessionController extends Controller
         $response = Http::post(ApiUrl::$api_url . "/login", [
             'email' => $request->email,
             'password' => $request->password
-        ])->json();
-        if (!$response || !$response["success"]) {
-            return redirect()->route("login")->with($response);
+        ]);
+        if ($response->failed()) {
+            return redirect()->route("login");
         }
-        SessionService::setToken($response["data"]["access_token"]);
+        $user = $response->json()["data"];
+        if ($user["role"] == "ShopEmployee" && $user["idShop"] == null) {
+            return redirect()->route("login");
+        }
+        SessionService::setToken($user["access_token"]);
         $user = SessionService::user();
         if ($user["role"] == "ShopEmployee") {
             return redirect("/");

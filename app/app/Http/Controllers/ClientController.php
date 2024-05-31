@@ -14,7 +14,6 @@ class ClientController extends Controller
     {
         $user = SessionService::user();
         $productAPI = Http::get(ApiUrl::$api_url . "/productByShop" . "/" . $user["shopSlug"])->json();
-        // dd($productAPI['data']['products'] ?? []);
         return view('clients.index', [
             "profile" => $user ?? "Guest",
             "products" => $productAPI["data"]["products"] ?? []

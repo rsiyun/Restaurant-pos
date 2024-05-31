@@ -11,11 +11,15 @@
 
                     @include('components.nav-link', [
                         'href' => '/',
-                        'slot' => 'Order',
+                        'slot' => 'Product',
                     ])
                     @include('components.nav-link', [
-                        'href' => '/history',
-                        'slot' => 'Riwayat',
+                        'href' => '/ticket',
+                        'slot' => 'Tickets',
+                    ])
+                    @include('components.nav-link', [
+                        'href' => '/order',
+                        'slot' => 'Orders',
                     ])
                 </div>
             </div>
