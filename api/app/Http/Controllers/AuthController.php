@@ -100,7 +100,7 @@ class AuthController extends Controller
             ],401));
         }
 
-        $user = User::select("idUser","slug", "name", "email")->where('email', $request['email'])->where("isActive", 1)->first();
+        $user = User::select("idUser","slug", "name", "email", "role", "idShop")->where('email', $request['email'])->where("isActive", 1)->first();
         if (!$user) {
             throw new HttpResponseException(response([
                 "message" => "Unauthorized",
@@ -120,7 +120,9 @@ class AuthController extends Controller
                 'access_token' => $token,
                 "slug" => $user->slug,
                 "name" => $user->name,
-                "email" => $user->email
+                "email" => $user->email,
+                "role" => $user->role,
+                "idShop" => $user->idShop
             ]
         ]);
     }

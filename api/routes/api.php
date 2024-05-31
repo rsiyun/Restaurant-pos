@@ -57,6 +57,7 @@ Route::put("shop/{shop}", [ShopController::class, 'update']);
 Route::delete("shop/{shop}", [ShopController::class, 'destroy']);
 
 Route::get("ticket", [TicketsController::class, 'index']);
+Route::get("ticketByShop/{shop}", [TicketsController::class, 'ticketByShop']);
 Route::get("ticket/{ticket}", [TicketsController::class, 'show']);
 Route::post("ticket", [TicketsController::class, 'store']);
 Route::delete("ticket/{ticket}", [TicketsController::class, 'destroy']);

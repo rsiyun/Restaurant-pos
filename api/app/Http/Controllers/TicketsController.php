@@ -8,7 +8,9 @@ use App\Http\Requests\Tickets\UpdateRequest;
 use App\Http\Resources\Tickets\ShowTicketResource;
 use App\Http\Resources\Tickets\TicketResource;
 use App\Models\Product;
+use App\Models\Shop;
 use App\Models\Tickets;
+use Carbon\Carbon;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -21,6 +23,20 @@ class TicketsController extends Controller
     public function index()
     {
         $tickets = Tickets::paginate(9);
+        $response = [
+            "tickets" => TicketResource::collection($tickets),
+            'links' => [
+                'first' => Helper::getParams($tickets->url(1))["page"] ?? null,
+                'last' => Helper::getParams($tickets->url($tickets->lastPage()))["page"] ?? null,
+                'prev' => Helper::getParams($tickets->previousPageUrl())["page"] ?? null,
+                'next' => Helper::getParams($tickets->nextPageUrl())["page"] ?? null,
+            ],
+        ];
+        return $this->sendResponse($response, "Tickets Successfully Retrieved");
+    }
+    public function ticketByShop($slug){
+        $shop = Shop::where("slug", $slug)->first();
+        $tickets = Tickets::where("idShop", $shop->idShop)->orderBy('idOrder', 'asc')->paginate(9);
         $response = [
             "tickets" => TicketResource::collection($tickets),
             'links' => [
