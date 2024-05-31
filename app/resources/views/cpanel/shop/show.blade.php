@@ -15,7 +15,11 @@
     <p>Id Toko: {{ $data['slug'] }}</p>
     <p>Nama Toko: {{ $data['shopName'] }}</p>
     <p>Pemilik Toko: {{ $data['ownerName'] }}</p>
-    <p>Pemilik Toko: {{ $data['isActive'] }}</p>
+    @if ($data['isActive'])
+        <p>Status Toko: active</p>
+    @else
+        <p>Status Toko: Non active</p>
+    @endif
 
 
     <table class="w-full text-left border-collapse rounded table-auto">
@@ -47,7 +51,7 @@
                             {{ $product['idProduct'] }}
                         </td>
                         <td class="px-4 py-3">
-                            <img src="{{SessionService::image_url().$product["productImage"]}}" alt="gambar produk">
+                            <img src="{{ SessionService::image_url() . $product['productImage'] }}" alt="gambar produk">
                         </td>
                         <td class="px-4 py-3">
                             {{ $product['productName'] }}

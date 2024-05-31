@@ -31,25 +31,6 @@ class ShopController extends Controller
         return view('cpanel.shop.create', ["profile" => $user]);
     }
 
-    // public function edit($slug)
-    // {
-    //     $shopInput = Http::get(ApiUrl::$api_url . "/shop". "/$slug")->json();
-    //     $user = SessionService::user();
-    //     $success = $shopInput["success"];
-    //     $response = [
-    //         "ownerName" => $shopInput["data"]["ownerName"],
-    //         "slug" => $shopInput["data"]["slug"],
-    //         "shopName" => $shopInput["data"]["shopName"],
-    //         "success" => $success,
-    //     ];
-    //     if ($response["success"]) {
-    //         return view('cpanel.shop.edit', [
-    //             "profile" => $user,
-    //             ...$response
-    //         ]);
-    //     }
-    // }
-
     public function edit($slug)
     {
         $shopInput = Http::get(ApiUrl::$api_url . "/shop" . "/$slug")->json();
@@ -86,6 +67,7 @@ class ShopController extends Controller
         ];
 
         $response = Http::put(ApiUrl::$api_url . "/shop" . "/$slug", $req_api)->json();
+        // dd($response);
         if ($response["success"]) {
             return redirect('/dashboard/shop')->with(["message" => $response["messages"]]);
         } else {
@@ -94,25 +76,6 @@ class ShopController extends Controller
         }
     }
 
-
-    // public function update(Request $request, $slug)
-    // {
-    //     $request->validate([
-    //         "ownerName" => "required|array",
-    //         "shopName" => "required|array",
-    //     ]);
-    //     $user = SessionService::user();
-    //     $req_api = [
-    //         "idKasir" => $user["idUser"],
-    //         "ownerName" => $request->ownerName ?? null,
-    //         "shopName" => $request->shopName ?? null,
-    //     ];
-
-    //     $response = Http::put(ApiUrl::$api_url . "/shop"."/$slug", $req_api)->json();
-    //     if ($response["success"]) {
-    //         return redirect('/dashboard/shop')->with(["message" => $response["messages"]]);
-    //     }
-    // }
 
     public function store(Request $request)
     {
