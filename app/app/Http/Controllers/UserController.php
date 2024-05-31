@@ -44,17 +44,49 @@ class UserController extends Controller
 
     }
 
-    public function edit($id)
+    public function edit($slug)
     {
-        $response = Http::get(ApiUrl::$api_url . "/user/" . $id)->json();
+        $response = Http::get(ApiUrl::$api_url . "/user/" . $slug);
+        // dd($response);
         $user = SessionService::user();
-        if ($response["success"]) {
-            $user = $response['data'];
-            return view('cpanel.user.edit', [
-                "profile" => $user,
-                "user" => $user
-            ]);
+        if ($response->failed()) {
+            return view('cpanel.user.edit', ['error' => $response['message']]);
         }
-        return view('cpanel.user.edit', ['error' => $response['message']]);
+        $OddUser= $response->json()['data'];
+        // dd($OddUser);
+        return view('cpanel.user.edit', [
+            "profile" => $user,
+            "user" => $OddUser
+        ]);
     }
+
+    public function update(Request $request, $slug ){
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|string|email',
+            'password' => 'nullable|string',
+            'idShop' => 'nullable|string',
+            'role' => 'nullable|string',
+            'isActive' => 'nullable|boolean',
+        ]);
+        $req_api= [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'idShop' => $request->idShop,
+            'role' => $request->role,
+            'isActive' => $request->isActive,
+        ];
+        $response = Http::put(ApiUrl::$api_url . "/user/" . $slug, $req_api)->json();
+        
+        // dd($response);
+        if ($response["success"]) {
+            return redirect('/dashboard/user')->with(["message" => $response["messages"] ?? ""]);
+        }
+        else{
+            return redirect('/dashboard/user')->with(["message" => $response["messages"] ?? ""]);
+        }
+
+
+    }   
 }

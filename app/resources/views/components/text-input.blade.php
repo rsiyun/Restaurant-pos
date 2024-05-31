@@ -1,6 +1,6 @@
 @props(['disabled' => false,
-        'value',
-        'name',
+        'value' => "",
+        'name' => "",
         ])
 
 {{-- IKI KURANG NAME @YOGA --}}

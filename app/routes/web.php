@@ -76,9 +76,9 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
     Route::put("/order/{slug}", [OrderController::class, 'update']);
     Route::delete("/order/{slug}", [OrderController::class, 'destroy']);
     Route::get("/order/{slug}", [OrderController::class, 'show']);
-
+    
     Route::get("/dev", [DashboardController::class, 'dev']);
-
+    
     // Shop
     Route::get("/shop", [ShopController::class, 'index']);
     Route::get("/shop/{slug}/edit", [ShopController::class, 'edit']);
@@ -89,13 +89,14 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
     Route::put("/shop/{slug}", [ShopController::class, 'update']);
     Route::delete("/shop/{slug}", [ShopController::class, 'destroy']);
     Route::get("/shop/{slug}", [ShopController::class, 'show']);
-
+    
     // User
     Route::get("/user", [UserController::class, 'index']);
     Route::get("/user/create", [UserController::class, 'create']);
     Route::post("/user", [UserController::class, 'store']);
     Route::get("/user/{id}/edit", [UserController::class, 'edit']);
-
+    Route::put("/user/{id}", [UserController::class, 'update']);
+    
 
     /*
     |  Contoh Komponen yang bisa digunakan (tapi perlu di edit sesuai kebutuhan dulu ya guys)

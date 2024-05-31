@@ -6,16 +6,23 @@
         </h2>
     </div>
 
-    <div class="item-center place-item-center border border-black h-[30rem] rounded-[5px] px-5 mt-[50px]">
-        @csrf
-        <form method="{{ url('') }}">
+    <div class="item-center place-item-center border border-black h-[35rem] rounded-[5px] px-5 mt-[50px]">
+        <form method="POST" action="{{ url('dashboard/user/' . $user['slug']) }}">
+            @csrf
+            @method('PUT')
+
+            {{-- <div class="flex flex-col gap-4">
+                <label for="name">Username</label>
+                <input type="text" name="name" id="name" class="px-4 py-2 border border-gray-300 rounded-md" value="{{ $user['name'] }}">
+            </div> --}}
+
             <div class="flex flex-col gap-1 mt-[20px]">
                 @include('components.input-label', [
                     'slot' => 'Username',
                 ])
-
                 @include('components.text-input', [
-                    'value' => $profile['name'],
+                    'value' => $user['name'],
+                    'name' =>"name"
                 ])
             </div>
 
@@ -24,7 +31,8 @@
                     'slot' => 'Email',
                 ])
                 @include('components.text-input', [
-                    'value' => $profile['email'],
+                    'value' => $user['email'],
+                    'name' =>"email"
                 ])
             </div>
 
@@ -33,7 +41,8 @@
                     'slot' => 'Password',
                 ])
                 @include('components.text-input', [
-                    'value' => '',
+                    'value' => $user['password'] ?? '',
+                    'name' =>"password"
                 ])
             </div>
 
@@ -47,18 +56,47 @@
                     'name' => 'role',
                     'id' => 'role',
                     'options' => [
-                        'admin' => 'Admin',
-                        'user' => 'User',
-                        'shopEmployee' => 'Shop Employee',
+                        'Admin' => 'Admin',
+                        'Kasir' => 'Kasir',
+                        'ShopEmployee' => 'ShopEmployee',
                     ],
                 ])
             </div>
 
-            <div class="flex flex-col gap-1 mt-[20px] w-fit">
-                @include('components.buttons.button', [
-                    'label' => 'Update',
-                    'buttonTitle' => 'Update User',
+            <div class="flex flex-col gap-1 mt-[20px]">
+                @include('components.input-label', [
+                    'slot' => 'Role',
                 ])
+                @include('components.dropdown.dropdown', [
+                    'title' => '',
+                    'name' => 'isActive',
+                    'id' => 'isActive',
+                    'options' => [
+                        '1' => 'isActive',
+                        '0' => 'nonActive',
+                    ],
+                ])
+            </div>
+
+            @if($user['role'] == 'ShopEmployee')
+            <div class="flex flex-col gap-1 mt-[20px]">
+                @include('components.input-label', [
+                    'slot' => 'idshop',
+                ])
+                <!-- Your Blade template -->
+                @include('components.dropdown.dropdown', [
+                    'title' => '',
+                    'name' => 'idshop',
+                    'id' => 'idshop',
+                    'options' => $shop ?? [],
+                ])
+            </div>
+            @endif
+
+            
+
+            <div class="mt-[40px]">
+                <button type="submit">Submit</button>
             </div>
         </form>
 
