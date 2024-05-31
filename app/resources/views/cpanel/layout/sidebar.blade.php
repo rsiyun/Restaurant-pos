@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<div class="flex flex-col justify-between w-64 text-white bg-blue-900">
+<div class="flex flex-col justify-between w-64 h-screen text-white bg-blue-900">
     {{-- Sidebar Top --}}
     <div class="flex flex-col flex-grow">
         {{-- Circle Avatar --}}
