@@ -29,6 +29,7 @@ class UpdateRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'string'],
             'password' => ['required', 'string'],
+            'idShop' => ['nullable', 'integer'],
             'role' => ['required', new Enum(Role::class)],
             'isActive' => ['required', 'boolean'],
         ];
