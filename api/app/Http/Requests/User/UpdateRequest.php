@@ -26,12 +26,12 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'string'],
-            'password' => ['required', 'string'],
+            'name' => ['nullable', 'string'],
+            'email' => ['nullable', 'string'],
+            'password' => ['nullable', 'string'],
             'idShop' => ['nullable', 'integer'],
-            'role' => ['required', new Enum(Role::class)],
-            'isActive' => ['required', 'boolean'],
+            'role' => ['nullable', new Enum(Role::class)],
+            'isActive' => ['nullable', 'boolean'],
         ];
     }
 
