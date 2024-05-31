@@ -7,24 +7,35 @@ use App\Models\Shop;
 use App\Helpers\Helper;
 use App\Http\Requests\Shop\CreateRequest;
 use App\Http\Requests\Shop\UpdateRequest;
-
+use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $shops = Shop::paginate(9);
+        $request->validate([
+            "isPaginate" => "nullable"
+        ]);
+        $shops = Shop::all();
+        $paginate = [];
+        if ($request->only("isPaginate")) {
+            $shops = Shop::paginate(2);
+            $paginate = [
+                'links' => [
+                    'first' => Helper::getParams($shops->url(1))["page"] ?? null,
+                    'last' => Helper::getParams($shops->url($shops->lastPage()))["page"] ?? null,
+                    'prev' => Helper::getParams($shops->previousPageUrl())["page"] ?? null,
+                    'next' => Helper::getParams($shops->nextPageUrl())["page"] ?? null,
+                ]
+            ];
+        }
+
         $response = [
             "shops" => ShopResource::collection($shops),
-            'links' => [
-                'first' => Helper::getParams($shops->url(1))["page"] ?? null,
-                'last' => Helper::getParams($shops->url($shops->lastPage()))["page"] ?? null,
-                'prev' => Helper::getParams($shops->previousPageUrl())["page"] ?? null,
-                'next' => Helper::getParams($shops->nextPageUrl())["page"] ?? null,
-            ],
+            ...$paginate
         ];
         return $this->sendResponse($response, 'All Data Shops Successfully Retrieved');
     }
