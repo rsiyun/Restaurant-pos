@@ -63,7 +63,6 @@ class AuthenticatedSessionController extends Controller
     {
 
         $logout = SessionService::logout();
-        session()->flush();
 
         if ($logout) {
             return redirect("/login");

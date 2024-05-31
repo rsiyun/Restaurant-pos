@@ -32,42 +32,26 @@ class TicketController extends Controller
 
         $ticketCart = [];
         $orderNote = $request->input('order_note', '');
-        $totalPrice = 0;
 
         foreach ($cart as $item) {
-            $productResponse = Http::get(ApiUrl::$api_url . "/product/" . $item["slug"]);
-            if ($productResponse->successful()) {
-                $product = $productResponse->json()["data"];
-                $totalPrice += $product["productPrice"] * $item["quantity"];
-
-                $ticketCart[] = [
-                    "slugProduct" => $item["slug"],
-                    "quantity" => $item["quantity"],
-                    "priceTicketDetail" => $product["productPrice"] * $item["quantity"]
-                ];
-            } else {
-                return redirect('/')->with("message", "Gagal mengambil data produk: " . $item["slug"]);
-            }
+            $ticketCart[] = [
+                "slugProduct" => $item["slug"],
+                "quantity" => $item["quantity"]
+            ];
         }
 
         $ticketResponse = Http::post(ApiUrl::$api_url . "/ticket", [
             "idShop" => $shop["idShop"],
             "orderNote" => $orderNote,
-            "ticketCart" => $ticketCart,
-            "priceTickets" => $totalPrice
+            "ticketCart" => $ticketCart
         ]);
-        // dd($ticketResponse->json());
-        // die;
+
         if ($ticketResponse->failed()) {
             return redirect('/')->with("message", "Gagal membuat tiket: " . $ticketResponse->body());
         }
 
-        if ($ticketResponse->successful()) {
-            $request->session()->forget('cart');
-            return redirect('/')->with("message", "Tiket berhasil dibuat");
-        } else {
-            return redirect('/')->with("message", "Gagal membuat tiket");
-        }
+        $request->session()->forget('cart');
+        return redirect('/')->with("message", "Tiket berhasil dibuat");
     }
 
     public function edit()

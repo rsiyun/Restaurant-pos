@@ -34,7 +34,7 @@ class SessionService{
         if (!$response["success"]) {
             return false;
         }
-        session()->forget('user');
+        session()->flush();
         return true;
     }
     public static function setToken($token){
