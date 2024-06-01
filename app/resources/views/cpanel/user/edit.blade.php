@@ -16,7 +16,7 @@
                     'slot' => 'Username',
                 ])
                 @include('components.text-input', [
-                    'value' => $user['name'],
+                    'value' => $user['name'] ?? 'No Name',
                     'name' => 'name',
                 ])
             </div>
@@ -26,7 +26,7 @@
                     'slot' => 'Email',
                 ])
                 @include('components.text-input', [
-                    'value' => $user['email'],
+                    'value' => $user['email'] ?? 'No Email',
                     'name' => 'email',
                 ])
             </div>
@@ -50,7 +50,7 @@
                     'title' => '',
                     'name' => 'role',
                     'id' => 'role',
-                    'options' => $profile ?? [
+                    'options' => [
                         'Admin' => 'Admin',
                         'Kasir' => 'Kasir',
                         'ShopEmployee' => 'ShopEmployee',
@@ -76,18 +76,16 @@
             @if ($user['role'] == 'ShopEmployee')
                 <div class="flex flex-col gap-1 mt-[20px]">
                     @include('components.input-label', [
-                        'slot' => 'idshop',
+                        'slot' => 'Nama Shop',
                     ])
 
-                    {{-- fetch all shop list name --}}
                     @include('components.dropdown.dropdown', [
                         'title' => '',
-                        'name' => 'idshop',
-                        'id' => 'idshop',
+                        'name' => 'idShop',
+                        'id' => 'idShop',
                         'options' => $shopList ?? [
+                            '' => '',
                             'Admin' => 'Admin',
-                            'Kasir' => 'Kasir',
-                            'ShopEmployee' => 'ShopEmployee',
                         ],
                     ])
                 </div>

@@ -74,6 +74,8 @@ class UserController extends Controller
 
     public function update(Request $request, $slug)
     {
+        // 1. Validate request
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'nullable|string|email',
@@ -82,21 +84,54 @@ class UserController extends Controller
             'role' => 'nullable|string',
             'isActive' => 'nullable|boolean',
         ]);
+
+
+
+        // 2. If request is having shop id while shop is exist, add shop to user, if not exist, create the shop
+        if ($request->idShop) {
+            $response = Http::get(ApiUrl::$api_url . "/shop/" . $request->idShop);
+            if ($response == false) {
+                $response = Http::post(ApiUrl::$api_url . "/shop", [
+                    'idShop' => $request->idShop,
+                    'shopName' => $request->idShop,
+                ]);
+            }
+        }
+
         $req_api = [
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => $request->password ?? "password",
             'idShop' => $request->idShop,
             'role' => $request->role,
             'isActive' => $request->isActive,
         ];
-        $response = Http::put(ApiUrl::$api_url . "/user/" . $slug, $req_api)->json();
+        // dd($req_api);
 
+        $response = Http::put(ApiUrl::$api_url . "/user/" . $slug, $req_api)->json();
         // dd($response);
         if ($response["success"]) {
-            return redirect('/dashboard/user')->with(["message" => $response["messages"] ?? ""]);
+            return redirect('/dashboard/user')->with(["message" => $response["messages"] ?? []]);
         } else {
-            return redirect('/dashboard/user')->with(["message" => $response["messages"] ?? ""]);
+            return redirect('/dashboard/user')->with(["message" => $response["messages"] ?? []]);
+        }
+    }
+
+    // Add new shop to user
+    public function addShop(Request $request, $slug)
+    {
+        $request->validate([
+            'idShop' => 'required|string',
+        ]);
+
+        $response = Http::post(ApiUrl::$api_url . "/user/" . $slug . "/shop", [
+            'idShop' => $request->idShop,
+        ])->json();
+
+        if ($response["success"]) {
+            return redirect('/dashboard/user/' . $slug . '/edit')->with(["message" => $response["messages"] ?? ""]);
+        } else {
+            return redirect('/dashboard/user/' . $slug . '/edit')->with(["message" => $response["messages"] ?? ""]);
         }
     }
 }
