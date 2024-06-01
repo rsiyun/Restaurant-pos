@@ -111,6 +111,12 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
 // Jika user bukan admin, tapi kasir, dan shop employee maka setelah login kesini
 Route::middleware("checkRole:ShopEmployee")->group(function () {
     Route::get('/', [ClientController::class, 'index']);
+
+    // Product creation from shop employee
+    Route::get('/product/create', [ClientController::class, 'create']);
+    Route::post('/product', [ProductController::class, 'store']);
+
+
     Route::get('/product/{slug}', [ClientController::class, 'show']);
     Route::get('/cart', [CartController::class, 'showCart'])->name('clients.showCart');
     Route::post('/cart/add/{slug}', [CartController::class, 'addToCart']);

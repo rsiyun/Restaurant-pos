@@ -30,4 +30,11 @@ class ClientController extends Controller
         return view('clients.show', ["profile" => $user, "product" => $showProduct["data"]]);
     }
 
+    public function create()
+    {
+        $user = SessionService::user();
+        // dump($user);
+        return view('clients.create', ["profile" => $user]);
+    }
+
 }
