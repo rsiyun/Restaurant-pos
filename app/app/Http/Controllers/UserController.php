@@ -41,7 +41,6 @@ class UserController extends Controller
         if ($response["success"]) {
             return redirect("/dashboard/user");
         }
-
     }
 
     public function edit($slug)
@@ -52,15 +51,29 @@ class UserController extends Controller
         if ($response->failed()) {
             return view('cpanel.user.edit', ['error' => $response['message']]);
         }
-        $OddUser= $response->json()['data'];
+        $OddUser = $response->json()['data'];
         // dd($OddUser);
+
+        $shopListResponse = Http::get(ApiUrl::$api_url . "/shop");
+        $shopList = $shopListResponse->json();
+        // dd($shopList['data']['shops']);
+
+        $shops = [];
+        if (isset($shopList['data']['shops'])) {
+            foreach ($shopList['data']['shops'] as $shop) {
+                $shops[$shop['idShop']] = $shop['shopName'];
+            }
+        }
+
         return view('cpanel.user.edit', [
             "profile" => $user,
-            "user" => $OddUser
+            "user" => $OddUser,
+            "shopList" => $shops,
         ]);
     }
 
-    public function update(Request $request, $slug ){
+    public function update(Request $request, $slug)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'nullable|string|email',
@@ -69,7 +82,7 @@ class UserController extends Controller
             'role' => 'nullable|string',
             'isActive' => 'nullable|boolean',
         ]);
-        $req_api= [
+        $req_api = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
@@ -78,15 +91,12 @@ class UserController extends Controller
             'isActive' => $request->isActive,
         ];
         $response = Http::put(ApiUrl::$api_url . "/user/" . $slug, $req_api)->json();
-        
+
         // dd($response);
         if ($response["success"]) {
             return redirect('/dashboard/user')->with(["message" => $response["messages"] ?? ""]);
-        }
-        else{
+        } else {
             return redirect('/dashboard/user')->with(["message" => $response["messages"] ?? ""]);
         }
-
-
-    }   
+    }
 }
