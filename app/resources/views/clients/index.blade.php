@@ -2,17 +2,19 @@
 
 @section('slot')
     <div class="px-4 mx-auto space-y-3 max-w-7xl sm:px-6 lg:px-8 min-h-[85vh]">
-
-        <div class="flex justify-between mt-8 border">
-
+        {{-- Section Controls --}}
+        <div class="flex justify-between mt-8">
             <div class="flex flex-col gap-4 w-[13rem]">
-                <select id="" name=""
-                    class="border-gray-300 rounded-sm shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                    <option class="rounded-sm" value="1">Kategori</option>
-                    <option class="rounded-sm" value="1">Makanan</option>
-                    <option class="rounded-sm" value="2">Minuman</option>
-                    <option class="rounded-sm" value="3">Jajan</option>
-                </select>
+                @include('components.dropdown.dropdown', [
+                    'title' => 'Kategori',
+                    'name' => 'category',
+                    'id' => 'category',
+                    'options' => [
+                        '1' => 'Makanan',
+                        '2' => 'Minuman',
+                        '3' => 'Jajan',
+                    ],
+                ])
             </div>
 
             <div class="flex content-center justify-center gap-6 items-middle">
@@ -23,26 +25,27 @@
                     Search
                 </button>
             </div>
-
             <div class="">
                 <x-buttons.action-link title="Tambah Produk" href="{{ url('/product/create') }}" />
             </div>
         </div>
 
-        <div class="pb-8">
-            <div class="flex flex-wrap items-center justify-center">
-                @foreach ($products as $product)
-                    <div class="px-8">
-                        @include('components.small-card-content', [
-                            'foto' => SessionService::image_url() . $product['productImage'],
-                            'name' => $product['productName'],
-                            'content' => 'Rp. ' . $product['productPrice'],
-                            'link' => url('/product' . '/' . $product['slug']),
-                        ])
-                    </div>
-                @endforeach
+        {{-- Border separator --}}
+        <div class="my-2 border-b border-gray-300"></div>
 
-            </div>
+        {{-- Main Content --}}
+        <div class="grid justify-center grid-cols-4 gap-3">
+            @foreach ($products as $product)
+                <div class="inline-flex items-center justify-center ">
+                    @include('components.small-card-content', [
+                        'foto' => SessionService::image_url() . $product['productImage'] ?? "",
+                        'name' => $product['productName'],
+                        'content' => 'Rp. ' . $product['productPrice'],
+                        'link' => url('/product' . '/' . $product['slug']),
+                    ])
+                </div>
+            @endforeach
         </div>
+
     </div>
 @endsection
