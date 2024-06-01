@@ -21,16 +21,14 @@
         </div>
         <!-- Main Content -->
         <div class="flex flex-col flex-1">
-            <div class="flex-1 p-6 overflow-y-auto">
+            <div class="flex-1 p-6 overflow-y-auto bg-slate-100">
+                <div class="pb-8">
+                    <h2 class="text-2xl font-bold text-right text-blue-600">
+                        Hai, {{ $profile["name"] ?? 'Developer' }}!
+                    </h2>
+                </div>
                 @yield('content')
             </div>
-            <footer class="w-full h-12 text-center text-white bg-blue-900">
-                <div class="flex items-center justify-center h-full">
-                    <span class="text-sm">
-                        &copy; 2021 - {{ config('app.name') }}
-                    </span>
-                </div>
-            </footer>
         </div>
     </div>
 </body>

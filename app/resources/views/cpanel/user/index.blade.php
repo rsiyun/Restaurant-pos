@@ -1,27 +1,17 @@
 @extends('cpanel.layout.app')
 
 @section('content')
-
-    {{-- ! HELP! ini harusnya kalo pakai breeze tinggal panggil auth()->user --}}
-    <div class="pb-8">
-        <h2 class="text-2xl font-bold text-right text-blue-600">
-            Hai, {{ $profile["name"] ?? 'Developer' }}!
-        </h2>
-    </div>
-
     {{-- Judul Section --}}
-    <h1 class="flex-col mt-6 text-3xl text-blue-600 font-extralight">
-        Dashboard
-        <h2 class="text-2xl font-bold text-slate-700">
-            User
-        </h2>
-    </h1>
+    @include('components.texts.h1-dashboard', ['title' => 'User', 'subtitle' => 'Dashboard'])
 
     {{-- border separator --}}
-    <div class="my-4 border-b border-gray-300"></div>
+    <div class="my-2 border-b border-gray-300"></div>
 
     {{-- Section Controls --}}
     <div class="flex flex-row justify-start gap-5 pb-5">
+        {{-- Search Bar --}}
+
+        {{-- Sort by -> Pake Selects --}}
         <select name="role" id="role"
             class="px-4 py-2 text-black border-blue-500 rounded-md shadow-sm appearance-none min-w-2 focus:outline-none focus:ring-1 w-[12rem]">
             <option value="" disabled selected>Sortir berdasarkan</option>
@@ -67,7 +57,7 @@
         </thead>
         <tbody>
             @if (isset($listUser))
-                @foreach ($listUser["users"] as $user)
+                @foreach ($listUser['users'] as $user)
                     <tr class="border border-slate-400">
                         <td class="px-4 py-3">
                             {{ $loop->iteration ?? 0 }}

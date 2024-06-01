@@ -2,18 +2,12 @@
 
 
 @section('content')
-    <div class="pb-8">
-        <h2 class="text-2xl font-bold text-right text-blue-600">
-            Hai, {{ $profile['name'] ?? 'Developer' }}!
-        </h2>
-    </div>
-
     @include('components.texts.h1-dashboard', [
         'title' => 'Toko',
         'subtitle' => 'Dashboard',
     ])
 
-    <div class="my-4 border-b border-gray-300"></div>
+    <div class="my-2 border-b border-gray-300"></div>
 
     {{-- TAMBAH TOKO --}}
     <div class="flex flex-row justify-start gap-5 pb-5">
@@ -63,7 +57,7 @@
 
                         <td id="tableaction" class="w-[5rem] px-4 py-3">
                             <a href="{{ url('/dashboard/shop', [$shop['slug']]) }}"
-                                class="px-4 py-2 bg-green-500 rounded text-white">Detail</a>
+                                class="px-4 py-2 text-white bg-green-500 rounded">Detail</a>
                         </td>
 
                     </tr>

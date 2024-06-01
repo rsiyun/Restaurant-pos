@@ -1,29 +1,11 @@
 @extends('cpanel.layout.app')
 
 @section('content')
-    {{-- @include('components.receipts.receipts', [
-        'type' => 'success',
-        'message' => 'This is a success message',
-    ]) --}}
-
-    {{-- @include('components.receipts.receipts', [
-        'type' => 'failed',
-        'message' => 'This is a failed message',
-    ]) --}}
-
-    <div class="pb-8">
-        <h2 class="text-2xl font-bold text-right text-blue-600">
-            Hai, {{ $profile["name"] ?? 'Developer' }}!
-        </h2>
-    </div>
-
-    {{-- Judul Section --}}
-    <h1 class="mt-6 text-3xl font-bold text-blue-600">
-        Statistik Bisnis
-    </h1>
+   {{-- Judul Section --}}
+   @include('components.texts.h1-dashboard', ['title' => 'Overview', 'subtitle' => 'Dashboard'])
 
     {{-- border separator --}}
-    <div class="my-4 border-b border-gray-300"></div>
+    <div class="my-2 border-b border-gray-300"></div>
 
     {{-- Card untuk informasi user --}}
     <div class="grid grid-cols-3 space-x-5">
