@@ -11,15 +11,15 @@ class LabelWithInput extends Component
     public string $label;
     public string $name;
     public string $type;
-    public string $placeholder;
-    public string $value;
-    public ?string $error;
-    public ?string $required;
+    public ?string $placeholder;
+    public $value;
+    public string $error;
+    public $required;
 
     /**
      * Create a new component instance.
      */
-    public function __construct(string $label = 'Label', string $name = 'name', string $type = 'text', string $placeholder = 'Placeholder', string $value = '', ?string $error = null, ?string $required)
+    public function __construct(string $label = 'Label', string $name = 'name', string $type = 'text', $value = '', string $error = '', $required = null, ?string $placeholder = '')
     {
         $this->label = $label;
         $this->name = $name;
