@@ -9,6 +9,7 @@ use App\Http\Requests\Product\CreateRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Http\Resources\Products\ProductResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -30,8 +31,22 @@ class ProductController extends Controller
         return $this->sendResponse($response, "All Products");
     }
 
-    public function showByShop($slug){
-        $products = Product::with("shop")->whereHas('shop', function($query) use ($slug) {$query->where('slug', $slug);})->paginate(9);
+    public function showByShop(Request $request, $slug){
+        $request->validate([
+            "s" => "nullable|string",
+            "type" => "nullable|string"
+        ]);
+        $search = $request->input('s');
+        $type = $request->input('type');
+
+        $query = Product::with("shop")->whereHas('shop', function($query) use ($slug) {$query->where('slug', $slug);});
+        if ($search) {
+            $query->where('productName', 'like', '%' . $search . '%');
+        }
+        if ($type) {
+            $query->where('productType', $type);
+        }
+        $products = $query->paginate(8);
         $response = [
             "products" => ProductResource::collection($products),
             'links' => [
@@ -44,7 +59,6 @@ class ProductController extends Controller
         return $this->sendResponse($response, "All Products");
 
     }
-
     /**
      * Store a newly created resource in storage.
      */

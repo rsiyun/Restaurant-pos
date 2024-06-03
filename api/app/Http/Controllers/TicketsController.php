@@ -34,17 +34,27 @@ class TicketsController extends Controller
         ];
         return $this->sendResponse($response, "Tickets Successfully Retrieved");
     }
-    public function ticketByShop($slug){
+    public function ticketByShop(Request $request, $slug){
+        $request->validate([
+            "isPaginate" => "nullable"
+        ]);
         $shop = Shop::where("slug", $slug)->first();
-        $tickets = Tickets::where("idShop", $shop->idShop)->orderBy('idOrder', 'asc')->paginate(9);
+        $tickets = Tickets::where("idShop", $shop->idShop)->with("details")->orderBy('idOrder', 'asc')->get();
+        $paginate = [];
+        if ($request->only("isPaginate")) {
+            $tickets = Tickets::where("idShop", $shop->idShop)->with("details")->orderBy('idOrder', 'asc')->paginate(9);
+            $paginate = [
+                'links' => [
+                    'first' => Helper::getParams($tickets->url(1))["page"] ?? null,
+                    'last' => Helper::getParams($tickets->url($tickets->lastPage()))["page"] ?? null,
+                    'prev' => Helper::getParams($tickets->previousPageUrl())["page"] ?? null,
+                    'next' => Helper::getParams($tickets->nextPageUrl())["page"] ?? null,
+                ]
+            ];
+        }
         $response = [
             "tickets" => TicketResource::collection($tickets),
-            'links' => [
-                'first' => Helper::getParams($tickets->url(1))["page"] ?? null,
-                'last' => Helper::getParams($tickets->url($tickets->lastPage()))["page"] ?? null,
-                'prev' => Helper::getParams($tickets->previousPageUrl())["page"] ?? null,
-                'next' => Helper::getParams($tickets->nextPageUrl())["page"] ?? null,
-            ],
+            ...$paginate
         ];
         return $this->sendResponse($response, "Tickets Successfully Retrieved");
     }

@@ -22,7 +22,7 @@ class ShopController extends Controller
         $shops = Shop::all();
         $paginate = [];
         if ($request->only("isPaginate")) {
-            $shops = Shop::paginate(2);
+            $shops = Shop::paginate(9);
             $paginate = [
                 'links' => [
                     'first' => Helper::getParams($shops->url(1))["page"] ?? null,

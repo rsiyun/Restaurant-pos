@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $this->sendResponse(new UserResource($user), 'Get a User');
+        return $this->sendResponse(new UserResource($user->load('shop')), 'Get a User');
     }
 
     /**
