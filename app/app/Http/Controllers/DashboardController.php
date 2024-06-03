@@ -12,10 +12,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $response = Http::get(ApiUrl::$api_url . "/user")->json();
+        $response = Http::get(ApiUrl::$api_url . "/user");
         $user = SessionService::user();
-        if ($response["success"]) {
-            $listUser = $response['data'];
+        if ($response->successful()) {
+            $listUser = $response->json()['data'];
             return view('cpanel.main.dashboard', [
                 "listUser" => $listUser,
                 "profile" => $user

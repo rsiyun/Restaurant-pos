@@ -3,7 +3,7 @@
     {{-- Gambar nanti revisi ya, ini hanya stock --}}
     <div class="relative w-full overflow-hidden rounded-t-lg">
         <img class="object-cover w-full h-48"
-            src="https://ui-avatars.com/api/?name={{ $name ?? 'Developer Mode' }}&background=C2410C&color=ffffff"
+            src="{{$foto ?? 'https://ui-avatars.com/api/?name=Developer Mode&backgrou1nd=C2410C&color=ffffff'}}"
             alt="{{ $name ?? 'No Name' }}">
     </div>
 

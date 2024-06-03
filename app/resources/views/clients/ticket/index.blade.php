@@ -34,7 +34,7 @@
                                 Rp. {{$item["priceTickets"]}}
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <x-modal.modal-ticket />
+                                <x-modal.modal-ticket :data="$item"/>
                             </td>
                         </tr>
                     @endforeach

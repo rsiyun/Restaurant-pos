@@ -46,25 +46,23 @@ class UserController extends Controller
     public function edit($slug)
     {
         $response = Http::get(ApiUrl::$api_url . "/user/" . $slug);
-        // dd($response);
         $user = SessionService::user();
         if ($response->failed()) {
             return view('cpanel.user.edit', ['error' => $response['message']]);
         }
         $OddUser = $response->json()['data'];
-        // dd($OddUser);
 
         $shopListResponse = Http::get(ApiUrl::$api_url . "/shop");
         $shopList = $shopListResponse->json();
-        // dd($shopList['data']['shops']);
-
+        $oddIdShop = null;
         $shops = [];
         if (isset($shopList['data']['shops'])) {
-            foreach ($shopList['data']['shops'] as $shop) {
-                $shops[$shop['idShop']] = $shop['shopName'];
-            }
+            $shops = array_column($shopList['data']['shops'], 'shopName', 'idShop');
+            $oddIdShop = array_reduce($shopList['data']['shops'], function($carry, $shop) use ($OddUser) {
+                return $OddUser["shopSlug"] && $shop["slug"] == $OddUser["shopSlug"] ? $shop["idShop"] : $carry;
+            }, null);
         }
-
+        $OddUser["idShop"] = $oddIdShop;
         return view('cpanel.user.edit', [
             "profile" => $user,
             "user" => $OddUser,
@@ -85,36 +83,24 @@ class UserController extends Controller
             'isActive' => 'nullable|boolean',
         ]);
 
-
-
-        // 2. If request is having shop id while shop is exist, add shop to user, if not exist, create the shop
-        if ($request->idShop) {
-            $response = Http::get(ApiUrl::$api_url . "/shop/" . $request->idShop);
-            if ($response == false) {
-                $response = Http::post(ApiUrl::$api_url . "/shop", [
-                    'idShop' => $request->idShop,
-                    'shopName' => $request->idShop,
-                ]);
-            }
-        }
-
         $req_api = [
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password ?? "password",
             'idShop' => $request->idShop,
             'role' => $request->role,
             'isActive' => $request->isActive,
         ];
-        // dd($req_api);
 
-        $response = Http::put(ApiUrl::$api_url . "/user/" . $slug, $req_api)->json();
-        // dd($response);
-        if ($response["success"]) {
-            return redirect('/dashboard/user')->with(["message" => $response["messages"] ?? []]);
-        } else {
-            return redirect('/dashboard/user')->with(["message" => $response["messages"] ?? []]);
+        if ($request->input('password')) {
+            $req_api['password'] = $request->input('password');
         }
+
+        $response = Http::put(ApiUrl::$api_url . "/user/" . $slug, $req_api);
+        if ($response->failed()) {
+            $errors = $response->json()["error"]["description"];
+            return redirect("/product/create")->withErrors($errors)->withInput();
+        }
+        return redirect("/dashboard");
     }
 
     // Add new shop to user

@@ -10,70 +10,44 @@ use Illuminate\Support\Facades\Http;
 
 class ProductController extends Controller
 {
-    function index()
+    public function index()
     {
-        $productAPI = Http::get('http://localhost:8001/api/products');
+        $product = Http::get(ApiUrl::$api_url .'/products');
 
-        return view('products.index', ['products' => $productAPI->json()]);
+        return view('products.index', ['products' => $product->json()]);
     }
 
-    // public function store(Request $request)
-    // {
-    //     // Expected ID shop, tapi dapetnya null bang, ga ada di session
-    //     $idShop = SessionService::user()['idShop'] ?? null;
-
-    //     $getShop = Http::get(ApiUrl::$api_url . "/shop/" . SessionService::user()['shopSlug'])->json();
-
-    //     // get only the idShop
-    //     $idShop = $getShop['data']['idShop'];
-
-    //     // This become string, not an array
-    //     $optimized = Http::get(ApiUrl::$api_url . "/shop/" . SessionService::user()['shopSlug']['data']['idShop']);
-
-    //     // Print that $optimized
-    //     // dd($optimized->json());
-
-    //     $response = Http::post(ApiUrl::$api_url . "/product", [
-    //         'productName' => $request->input('productName'),
-    //         'productPrice' => $request->input('productPrice'),
-    //         'productStock' => $request->input('productStock'),
-    //         'productType' => $request->input('productType'),
-    //         'idShop' => $idShop,
-    //     ])->json();
-
-    //     // dump($response, $idShop, $profile, $getShop, $idShop);
-    //     dump($response, $optimized->json());
-    // }
-
-    // versi 2
     public function store(Request $request)
     {
-        // Retrieve the shop slug from the session
-        $shopSlug = SessionService::user()['shopSlug'];
-
-        // Get shop details using the shop slug
-        $shopResponse = Http::get(ApiUrl::$api_url . "/shop/" . $shopSlug);
-        $shopData = $shopResponse->json();
-
-        // Extract the shop ID from the shop details
-        $idShop = $shopData['data']['idShop'];
-
-        // Fetch optimized shop data
-        $optimizedResponse = Http::get(ApiUrl::$api_url . "/shop/" . $shopSlug);
-        $optimizedData = $optimizedResponse->json();
-
-        // Send product data to the API
-        $response = Http::post(ApiUrl::$api_url . "/product", [
+        $user =  SessionService::user();
+        $getShop = Http::get(ApiUrl::$api_url . "/shop/" .$user["shopSlug"]);
+        if ($getShop->failed()) {
+            return redirect("/product/create")->withErrors(['error', 'Tambah product gagal']);
+        }
+        $idShop = $getShop['data']['idShop'];
+        $req_api = [
             'productName' => $request->input('productName'),
             'productPrice' => $request->input('productPrice'),
             'productStock' => $request->input('productStock'),
             'productType' => $request->input('productType'),
-            'idShop' => $idShop,
-        ]);
+            'idShop' => $idShop
+        ];
+        $response = $this->postStore($request, $req_api);
+        if ($response->failed()) {
+            $errors = $response->json()["error"]["description"];
+            return redirect("/product/create")->withErrors($errors)->withInput();
+        }
+        return redirect("/")->with("message", "product berhasil ditambahkan");
+    }
 
-        // Dump the response for debugging
-        // dump($response->json(), $optimizedData);
-        // redirect to the product index page
-        return redirect("/");
+    private function postStore($request, $req_api){
+        if ($request->hasFile("productImage")) {
+            $response = Http::attach(
+                'productImage', file_get_contents($request->file('productImage')), $request->file('productImage')->getClientOriginalName()
+            )->post(ApiUrl::$api_url . "/product", $req_api);
+            return $response;
+        }
+        $response = Http::post(ApiUrl::$api_url . "/product", $req_api);
+        return $response;
     }
 }

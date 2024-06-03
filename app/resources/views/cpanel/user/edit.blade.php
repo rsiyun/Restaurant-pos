@@ -1,10 +1,5 @@
 @extends('cpanel.layout.app')
 @section('content')
-    <div class="pb-8">
-        <h2 class="text-2xl font-bold text-right text-blue-600">
-            Hai, {{ $profile['name'] ?? 'Developer' }}!
-        </h2>
-    </div>
 
     <div class="item-center place-item-center border border-black rounded-[5px] px-5 mt-[50px]">
         <form method="POST" action="{{ url('dashboard/user/' . $user['slug']) }}">
@@ -36,58 +31,22 @@
                     'slot' => 'Password',
                 ])
                 @include('components.text-input', [
-                    'value' => $user['password'] ?? '',
+                    'value' => '',
                     'name' => 'password',
                 ])
             </div>
 
             <div class="flex flex-col gap-1 mt-[20px]">
-                @include('components.input-label', [
-                    'slot' => 'Role',
-                ])
-                <!-- Your Blade template -->
-                @include('components.dropdown.dropdown', [
-                    'title' => '',
-                    'name' => 'role',
-                    'id' => 'role',
-                    'options' => [
-                        'Admin' => 'Admin',
-                        'Kasir' => 'Kasir',
-                        'ShopEmployee' => 'ShopEmployee',
-                    ],
-                ])
+                <x-forms.input-select :selected="$user['role']" :options="['Admin' => 'Admin', 'Kasir' => 'Kasir', 'ShopEmployee' => 'ShopEmployee']" name="role" label="Role"/>
             </div>
 
             <div class="flex flex-col gap-1 mt-[20px]">
-                @include('components.input-label', [
-                    'slot' => 'Status',
-                ])
-                @include('components.dropdown.dropdown', [
-                    'title' => '',
-                    'name' => 'isActive',
-                    'id' => 'isActive',
-                    'options' => [
-                        '1' => 'isActive',
-                        '0' => 'nonActive',
-                    ],
-                ])
+                <x-forms.input-select :selected="$user['isActive']" :options="['0' => 'Non Active', '1' => 'Active']" name="isActive" label="Role"/>
             </div>
 
             @if ($user['role'] == 'ShopEmployee')
                 <div class="flex flex-col gap-1 mt-[20px]">
-                    @include('components.input-label', [
-                        'slot' => 'Nama Shop',
-                    ])
-
-                    @include('components.dropdown.dropdown', [
-                        'title' => '',
-                        'name' => 'idShop',
-                        'id' => 'idShop',
-                        'options' => $shopList ?? [
-                            '' => '',
-                            'Admin' => 'Admin',
-                        ],
-                    ])
+                    <x-forms.input-select :selected="$user['idShop']" :options="$shopList" name="idShop" label="Nama Shop"/>
                 </div>
             @endif
 

@@ -3,32 +3,35 @@
 @section('slot')
     <div class="px-4 mx-auto space-y-3 max-w-7xl sm:px-6 lg:px-8 min-h-[85vh]">
         {{-- Section Controls --}}
-        <div class="flex justify-between mt-8">
-            <div class="flex flex-col gap-4 w-[13rem]">
-                @include('components.dropdown.dropdown', [
-                    'title' => 'Kategori',
-                    'name' => 'category',
-                    'id' => 'category',
-                    'options' => [
-                        '1' => 'Makanan',
-                        '2' => 'Minuman',
-                        '3' => 'Jajan',
-                    ],
-                ])
-            </div>
+        <form action="{{ url('/') }}" method="GET">
+            <div class="flex justify-between mt-8">
+                <div class="flex flex-col gap-4 w-[13rem]">
+                    @include('components.dropdown.dropdown', [
+                        'title' => 'Kategori',
+                        'name' => 'type',
+                        'id' => 'category',
+                        'options' => [
+                            '' => 'Product Type',
+                            'Makanan' => 'Makanan',
+                            'Minuman' => 'Minuman',
+                            'Snack' => 'Snack',
+                        ],
+                    ])
+                </div>
 
-            <div class="flex content-center justify-center gap-6 items-middle">
-                <input type="text" class="w-[20rem] h-10 bg-gray-200 rounded-sm">
+                <div class="flex content-center justify-center gap-6 items-middle">
+                    <input type="text" class="w-[20rem] h-10 bg-gray-200 rounded-sm" name="s">
 
-                <button
-                    class="px-4 py-2 font-bold text-white transition w-[6rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-lg">
-                    Search
-                </button>
+                    <button
+                        class="px-4 py-2 font-bold text-white transition w-[6rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-lg">
+                        Search
+                    </button>
+                </div>
+                <div class="">
+                    <x-buttons.action-link title="Tambah Produk" href="{{ url('/product/create') }}" />
+                </div>
             </div>
-            <div class="">
-                <x-buttons.action-link title="Tambah Produk" href="{{ url('/product/create') }}" />
-            </div>
-        </div>
+        </form>
 
         {{-- Border separator --}}
         <div class="my-2 border-b border-gray-300"></div>
@@ -46,6 +49,22 @@
                 </div>
             @endforeach
         </div>
+        @if ($links["last"] != $links["first"])
+        <nav class="flex items-center py-8 space-x-1">
+            <a class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100" href="{{ url('/?page=') }}{{$links['first']}}">
+                first
+            </a>
+            @if ($links["next"])
+            <a href="{{ url('/?page=') }}{{$links['next']}}" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100">next</a>
+            @endif
+            @if ($links["prev"])
+            <a href="{{ url('/?page=') }}{{$links['prev']}}" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100">prev</a>
+            @endif
 
+            <a href="{{ url('/?page=') }}{{$links['last']}}" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100">
+                last
+            </a>
+        </nav>
+        @endif
     </div>
 @endsection

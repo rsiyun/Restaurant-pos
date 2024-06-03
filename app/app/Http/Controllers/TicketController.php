@@ -16,10 +16,9 @@ class TicketController extends Controller
         $user = SessionService::user();
         $shopResponse = Http::get(ApiUrl::$api_url . "/ticketByShop/" . $user["shopSlug"], ["page" => $page]);
         if ($shopResponse->failed()) {
-            return redirect("/")->withErrors(['message' => "gagal mendapatkan ticket"]);
+            return redirect("/")->rs(['message' => "gagal mendapatkan ticket"]);
         }
         $response = $shopResponse->json()["data"];
-
         return view("clients.ticket.index", ["data" => $response]);
     }
     public function store(Request $request)
