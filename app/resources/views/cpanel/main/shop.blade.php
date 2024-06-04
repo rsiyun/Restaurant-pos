@@ -17,58 +17,61 @@
     </div>
 
     {{-- TABLE TOKO --}}
-    <table class="w-full text-left border-collapse rounded table-auto">
-        <thead>
-            <tr>
-                <th
-                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
-                    No
-                </th>
-                <th
-                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
-                    Nama Pemilik
-                </th>
-                <th
-                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
-                    Nama Toko</th>
-                <th
-                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
-                    Action
-                </th>
-
-
-            </tr>
-        </thead>
-        <tbody>
-            @if (isset($shops))
-                @foreach ($shops as $shop)
-                    <tr class="border border-slate-400">
-                        <td class="px-4 py-3">
-                            {{ $loop->iteration ?? 0 }}
-                        </td>
-
-                        <td class="px-4 py-3">
-                            {{ $shop['ownerName'] ?? 'Unknown Status' }}
-                        </td>
-
-                        <td class="px-4 py-3">
-                            {{ $shop['shopName'] ?? 'Unknown Status' }}
-                        </td>
-
-                        <td id="tableaction" class="w-[5rem] px-4 py-3">
-                            <a href="{{ url('/dashboard/shop', [$shop['slug']]) }}"
-                                class="px-4 py-2 text-white bg-green-500 rounded">Detail</a>
-                        </td>
-
-                    </tr>
-                @endforeach
-            @else
+    <x-tables.table>
+        <table id="table" class="w-full text-left border-collapse rounded table-auto">
+            <thead>
                 <tr>
-                    <td class="px-4 py-3 text-center">No users found.</td>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                        No
+                    </th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                        Nama Pemilik
+                    </th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                        Nama Toko</th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                        Action
+                    </th>
+
+
                 </tr>
-            @endif
-        </tbody>
+            </thead>
+            <tbody>
+                @if (isset($shops))
+                    @foreach ($shops as $shop)
+                        <tr class="border border-slate-400">
+                            <td class="px-4 py-3">
+                                {{ $loop->iteration ?? 0 }}
+                            </td>
+
+                            <td class="px-4 py-3">
+                                {{ $shop['ownerName'] ?? 'Unknown Status' }}
+                            </td>
+
+                            <td class="px-4 py-3">
+                                {{ $shop['shopName'] ?? 'Unknown Status' }}
+                            </td>
+
+                            <td id="tableaction" class="w-[5rem] px-4 py-3">
+                                <a href="{{ url('/dashboard/shop', [$shop['slug']]) }}"
+                                    class="px-4 py-2 text-white bg-green-500 rounded">Detail</a>
+                            </td>
+
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td class="px-4 py-3 text-center">No users found.</td>
+                    </tr>
+                @endif
+            </tbody>
 
 
-    </table>
+        </table>
+    </x-tables.table>
+
 @endsection

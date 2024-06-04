@@ -21,51 +21,55 @@
         <p>Status Toko: Non active</p>
     @endif
 
+    <x-tables.table>
 
-    <table class="w-full text-left border-collapse rounded table-auto">
-        <thead>
-            <tr>
-                <th
-                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
-                    No
-                </th>
-                <th
-                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
-                    Foto
-                </th>
-                <th
-                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
-                    Nama Produk
-                </th>
-                <th
-                    class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
-                    Harga Produk</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @if (isset($data))
-                @foreach ($data['products'] as $product)
-                    <tr class="border border-slate-400">
-                        <td class="px-4 py-3">
-                            {{ $product['idProduct'] }}
-                        </td>
-                        <td class="px-4 py-3">
-                            <img src="{{ SessionService::image_url() . $product['productImage'] }}" alt="gambar produk" class="max-w-[5rem]">
-                        </td>
-                        <td class="px-4 py-3">
-                            {{ $product['productName'] }}
-                        </td>
-                        <td class="px-4 py-3">
-                            {{ $product['productPrice'] }}
-                        </td>
-                    </tr>
-                @endforeach
-            @else
+        <table id="table" class="w-full text-left border-collapse rounded table-auto">
+            <thead>
                 <tr>
-                    <td class="px-4 py-3 text-center">No Product found.</td>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                        No
+                    </th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                        Foto
+                    </th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                        Nama Produk
+                    </th>
+                    <th
+                        class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                        Harga Produk</th>
                 </tr>
-            @endif
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+                @if (isset($data))
+                    @foreach ($data['products'] as $product)
+                        <tr class="border border-slate-400">
+                            <td class="px-4 py-3">
+                                {{ $product['idProduct'] }}
+                            </td>
+                            <td class="px-4 py-3">
+                                <img src="{{ SessionService::image_url() . $product['productImage'] }}" alt="gambar produk"
+                                    class="max-w-[5rem]">
+                            </td>
+                            <td class="px-4 py-3">
+                                {{ $product['productName'] }}
+                            </td>
+                            <td class="px-4 py-3">
+                                {{ $product['productPrice'] }}
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td class="px-4 py-3 text-center">No Product found.</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
+    </x-tables.table>
+
 @endsection
