@@ -30,9 +30,15 @@
                         <button class="p-2 text-white bg-green-500 rounded-md hover:bg-green-600">
                             Edit
                         </button>
-                        <button class="p-2 text-white bg-red-500 rounded-md hover:bg-red-600">
-                            Delete
-                        </button>
+                        <form action="{{ url('/product/' . $product['slug']) }}" method="POST"
+                            style="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="p-2 text-white bg-red-500 rounded-md hover:bg-red-600"
+                                onclick="return confirm('Are you sure?')">
+                                Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

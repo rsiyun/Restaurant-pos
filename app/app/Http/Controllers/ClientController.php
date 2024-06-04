@@ -15,7 +15,7 @@ class ClientController extends Controller
         $productType = $request->type ?? "";
         $search = $request->s ?? "";
         $user = SessionService::user();
-        $productAPI = Http::get(ApiUrl::$api_url . "/productByShop" . "/" . $user["shopSlug"], ["page" => $page, "s"=> $search, "type"=>$productType])->json();
+        $productAPI = Http::get(ApiUrl::$api_url . "/productByShop" . "/" . $user["shopSlug"], ["page" => $page, "s" => $search, "type" => $productType])->json();
         return view('clients.index', [
             "profile" => $user,
             "products" => $productAPI["data"]["products"],
@@ -40,4 +40,11 @@ class ClientController extends Controller
         return view('clients.create', ["profile" => $user]);
     }
 
+    public function destroy($slug)
+    {
+        $response = Http::delete(ApiUrl::$api_url . "/product" . "/" . $slug)->json();
+        if ($response["success"]) {
+            return redirect('/')->with(["message" => $response["messages"]]);
+        }
+    }
 }
