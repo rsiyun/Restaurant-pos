@@ -9,18 +9,46 @@ use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $response = Http::get(ApiUrl::$api_url . "/user")->json();
+        // $response = Http::get(ApiUrl::$api_url . "/user")->json();
+        // $data = $response['data'];
+        // get only 5 user
+        // $response['data'] = array_slice($response['data'], 0, 5);
+
+        // another way to get user limited to 5 and by using query parameter
+        // $getUserBy = array_values(
+        //     array_filter(
+        //         $data,
+        //         function ($user, $index) {
+        //             return $index < 5;
+        //         },
+        //         ARRAY_FILTER_USE_BOTH
+        //     )
+        // );
+
+        // $user = SessionService::user();
+        // if ($response["success"]) {
+        //     $listUser = $getUserBy;
+        //     return view('cpanel.user.index', [
+        //         "profile" => $user,
+        //         "listUser" => $listUser
+        //     ]);
+        // return view('cpanel.user.index', ['error' => $response['message']]);
+        // }
+        $page = $request->page ?? "";
         $user = SessionService::user();
-        if ($response["success"]) {
-            $listUser = $response['data'];
-            return view('cpanel.user.index', [
-                "profile" => $user,
-                "listUser" => $listUser
-            ]);
+        $userResponse = Http::get(ApiUrl::$api_url . "/user", ["page" => $page]);
+
+        if ($userResponse->failed()) {
+            return redirect("/")->withErrors(['message' => "gagal mendapatkan user"]);
         }
-        return view('cpanel.user.index', ['error' => $response['message']]);
+
+        $response = $userResponse->json()["data"];
+        // dd($response);
+        return view("cpanel.user.index", ["listUser" => $response]);
+
+
     }
 
     public function create()
@@ -57,7 +85,7 @@ class UserController extends Controller
         $shops = [];
         if (isset($shopList['data']['shops'])) {
             $shops = array_column($shopList['data']['shops'], 'shopName', 'idShop');
-            $oddIdShop = array_reduce($shopList['data']['shops'], function($carry, $shop) use ($OddUser) {
+            $oddIdShop = array_reduce($shopList['data']['shops'], function ($carry, $shop) use ($OddUser) {
                 return $OddUser["shopSlug"] && $shop["slug"] == $OddUser["shopSlug"] ? $shop["idShop"] : $carry;
             }, null);
         }
