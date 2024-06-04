@@ -33,7 +33,7 @@ class OrderController extends Controller
     }
     public function edit($slug)
     {
-        $oldDataOrder = Http::get(ApiUrl::$api_url . "/order". "/$slug")->json();
+        $oldDataOrder = Http::get(ApiUrl::$api_url . "/order" . "/$slug")->json();
         $user = SessionService::user();
         $ticketList = Http::get(ApiUrl::$api_url . "/unpaymentTicket", ["idOrder" => $oldDataOrder["data"]["idOrder"]])->json();
         $success = $ticketList["success"] && $oldDataOrder["success"];
@@ -43,9 +43,7 @@ class OrderController extends Controller
             "totalOrder" => $oldDataOrder["data"]["totalOrder"],
             "buyerName" => $oldDataOrder["data"]["buyerName"],
             "oldTickets" => $oldDataOrder["data"]["tickets"],
-            "unPayment" => [
-                ...$ticketList["data"]
-            ],
+            "unPayment" => $ticketList["data"],
             "success" => $success
         ];
         if ($response["success"]) {
@@ -73,7 +71,7 @@ class OrderController extends Controller
             ...$newTicket
         ];
 
-        $response = Http::put(ApiUrl::$api_url . "/order"."/$slug", $req_api)->json();
+        $response = Http::put(ApiUrl::$api_url . "/order" . "/$slug", $req_api)->json();
 
         if ($response["success"]) {
             return redirect('/dashboard/order')->with(["message" => $response["messages"]]);

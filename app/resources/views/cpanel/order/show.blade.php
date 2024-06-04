@@ -1,5 +1,18 @@
 @extends('cpanel.layout.app')
 @section('content')
+    <div class="flex justify-end">
+        <div class="flex gap-4">
+            <a
+                href="{{ url('/dashboard/order') }}{{ '/' . $data['slug'] . '/edit' }}"class="px-4 py-2 bg-blue-500 rounded text-white">update</a>
+            <form action="{{ url('/dashboard/order/' . $data['slug']) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="px-4 py-2 bg-red-500 rounded text-white"
+                    onclick="return confirm('Apakah Anda yakin ingin menghapus pesanan ini?')">Hapus</button>
+            </form>
+        </div>
+    </div>
+
     <div class="p-6 text-black rounded-lg shadow-lg bg-white w-[52rem]">
         <div class="flex flex-col items-end justify-end gap-5">
             {{-- From --}}

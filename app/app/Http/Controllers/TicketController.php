@@ -19,7 +19,7 @@ class TicketController extends Controller
             return redirect("/")->rs(['message' => "gagal mendapatkan ticket"]);
         }
         $response = $shopResponse->json()["data"];
-        return view("clients.ticket.index", ["data" => $response]);
+        return view("clients.ticket.index", ["data" => $response, "profile" => $user]);
     }
     public function store(Request $request)
     {
