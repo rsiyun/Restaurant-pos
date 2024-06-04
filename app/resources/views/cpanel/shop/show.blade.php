@@ -51,7 +51,7 @@
                             {{ $product['idProduct'] }}
                         </td>
                         <td class="px-4 py-3">
-                            <img src="{{ SessionService::image_url() . $product['productImage'] }}" alt="gambar produk">
+                            <img src="{{ SessionService::image_url() . $product['productImage'] }}" alt="gambar produk" class="max-w-[5rem]">
                         </td>
                         <td class="px-4 py-3">
                             {{ $product['productName'] }}
