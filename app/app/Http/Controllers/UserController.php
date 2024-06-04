@@ -46,7 +46,7 @@ class UserController extends Controller
 
         $response = $userResponse->json()["data"];
         // dd($response);
-        return view("cpanel.user.index", ["listUser" => $response]);
+        return view("cpanel.user.index", ["listUser" => $response, "profile" => $user]);
 
 
     }
