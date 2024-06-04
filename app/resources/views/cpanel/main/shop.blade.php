@@ -41,7 +41,7 @@
         </thead>
         <tbody>
             @if (isset($shops))
-                @foreach ($shops['shops'] as $shop)
+                @foreach ($shops as $shop)
                     <tr class="border border-slate-400">
                         <td class="px-4 py-3">
                             {{ $loop->iteration ?? 0 }}

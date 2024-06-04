@@ -46,7 +46,7 @@
             <tbody>
 
                 @if (isset($data))
-                    @foreach ($data["orders"] as $order)
+                    @foreach ($data as $order)
                         <tr class="border border-slate-400">
                             <td class="px-4 py-3">
                                 {{ $loop->iteration ?? 0 }}
@@ -82,23 +82,6 @@
 
 
         </table>
-        @if ($data["links"]["last"] != $data["links"]["first"])
-        <nav class="flex items-center pt-8 space-x-1">
-            <a class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100" href="{{ url('/dashboard/order?page=') }}{{$data['links']['first']}}">
-                first
-            </a>
-            @if ($data["links"]["next"])
-            <a href="{{ url('/dashboard/order?page=') }}{{$data['links']['next']}}" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100">next</a>
-            @endif
-            @if ($data["links"]["prev"])
-            <a href="{{ url('/dashboard/order?page=') }}{{$data['links']['prev']}}" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100">prev</a>
-            @endif
-
-            <a href="{{ url('/dashboard/order?page=') }}{{$data['links']['last']}}" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100">
-                last
-            </a>
-        </nav>
-        @endif
     </div>
 
 

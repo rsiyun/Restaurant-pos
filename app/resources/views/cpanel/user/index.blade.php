@@ -57,7 +57,7 @@
         </thead>
         <tbody>
             @if (isset($listUser))
-                @foreach ($listUser['users'] as $user)
+                @foreach ($listUser as $user)
                     <tr class="border border-slate-400">
                         <td class="px-4 py-3">
                             {{ $loop->iteration ?? 0 }}

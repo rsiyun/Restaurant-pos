@@ -9,10 +9,9 @@ use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $page = $request->page ?? "";
-        $response = Http::get(ApiUrl::$api_url . "/order", ["page" => $page])->json();
+        $response = Http::get(ApiUrl::$api_url . "/order")->json();
         $profile = SessionService::user();
         if ($response["success"]) {
             return view('cpanel.order.index', [
@@ -28,7 +27,7 @@ class OrderController extends Controller
         if ($response["success"]) {
             return view('cpanel.order.create', [
                 "profile" => $user,
-                'tickets' => $response['data']['tickets']
+                'tickets' => $response['data']
             ]);
         }
     }

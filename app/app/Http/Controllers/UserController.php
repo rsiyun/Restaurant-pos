@@ -15,7 +15,6 @@ class UserController extends Controller
         $user = SessionService::user();
         if ($response["success"]) {
             $listUser = $response['data'];
-
             return view('cpanel.user.index', [
                 "profile" => $user,
                 "listUser" => $listUser

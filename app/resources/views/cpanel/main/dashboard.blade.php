@@ -17,7 +17,7 @@
             Jumlah Pengguna:
             <span class="text-2xl font-bold text-blue-600">
                 @if ($listUser)
-                    {{ count($listUser['users']) }}
+                    {{ count($listUser) }}
                 @else
                     Unknown
                 @endif
