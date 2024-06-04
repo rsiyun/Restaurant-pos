@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Helpers\Helper;
 use App\Http\Requests\User\CreateRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\Models\Orders;
+use App\Models\Shop;
+use App\Models\Tickets;
 
 class UserController extends Controller
 {
@@ -17,6 +20,22 @@ class UserController extends Controller
     {
         $users = User::all();
         return $this->sendResponse(UserResource::collection($users), 'Get All Users');
+    }
+
+    public function dashboard(){
+        $user = User::all();
+        $shop = Shop::all();
+        $order = Orders::all();
+        $ticket = Tickets::where("idOrder", NULL)->get();
+
+        $response = [
+            "users" => $user,
+            "shops" => $shop,
+            "orders" => $order,
+            "tickets" => $ticket
+        ];
+
+        return $this->sendResponse($response, "Get data dashboard");
     }
 
     /**

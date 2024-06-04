@@ -31,6 +31,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/user/token', [AuthController::class, "showWithToken"]);
 
 // User
+Route::get("/dashboard", [UserController::class, "dashboard"]);
 Route::get("/user", [UserController::class, "index"]);
 Route::get("/user/{user}", [UserController::class, 'show']);
 Route::post("/user", [UserController::class, 'store']);
