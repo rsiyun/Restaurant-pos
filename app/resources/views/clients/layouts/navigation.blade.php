@@ -4,7 +4,7 @@
             <div class="flex">
                 <div class="flex items-center shrink-0">
                     <a href="#">
-                        <x-application-logo class="block w-auto text-gray-800 fill-current h-9" />
+                        <img src="{{ asset('img/logo/Firefly buatkan sebuah logo dari kalimant -ANKEL- buta bertema makanan 91663 1.png' ) }}" class="max-w-[3rem] max-h-[3rem] " alt="..." style="height: 18rem">
                     </a>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
