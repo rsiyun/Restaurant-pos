@@ -36,10 +36,6 @@
             'url' => url('/dashboard/order'),
             'title' => 'Kelola Order (Pesanan)',
         ])
-        @include('components.buttons.side-navbar', [
-            'url' => url('/dashboard/components'),
-            'title' => 'FRONT END COMPONENT',
-        ])
     </div>
 
     {{-- Bottom of the sidebar --}}

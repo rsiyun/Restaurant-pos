@@ -8,7 +8,7 @@
     <div class="my-2 border-b border-gray-300"></div>
 
     {{-- Card untuk informasi user --}}
-    <div class="grid grid-cols-3 gap-3 ">
+    <div class="grid grid-cols-4 gap-3 ">
 
         <div id="userCard"
             class="min-h-[4rem]
@@ -60,12 +60,12 @@
             class="min-h-[4rem]
         min-w-[10rem]
         p-4 flex flex-col bg-white border-2 shadow-sm rounded-2xl justify-around">
-            Jumlah Ticket:
+            Jumlah Ticket Yang Belum Dibayar:
             <span class="text-2xl font-bold text-blue-600">
                 @if ($listTicket)
                     {{ count($listTicket) }}
                 @else
-                    Unknown
+                    Tidak Ada
                 @endif
             </span>
         </div>
