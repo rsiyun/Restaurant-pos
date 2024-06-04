@@ -22,41 +22,13 @@ class TicketsController extends Controller
      */
     public function index()
     {
-        $tickets = Tickets::paginate(9);
-        $response = [
-            "tickets" => TicketResource::collection($tickets),
-            'links' => [
-                'first' => Helper::getParams($tickets->url(1))["page"] ?? null,
-                'last' => Helper::getParams($tickets->url($tickets->lastPage()))["page"] ?? null,
-                'prev' => Helper::getParams($tickets->previousPageUrl())["page"] ?? null,
-                'next' => Helper::getParams($tickets->nextPageUrl())["page"] ?? null,
-            ],
-        ];
-        return $this->sendResponse($response, "Tickets Successfully Retrieved");
+        $tickets = Tickets::all();
+        return $this->sendResponse(TicketResource::collection($tickets), "Tickets Successfully Retrieved");
     }
     public function ticketByShop(Request $request, $slug){
-        $request->validate([
-            "isPaginate" => "nullable"
-        ]);
         $shop = Shop::where("slug", $slug)->first();
         $tickets = Tickets::where("idShop", $shop->idShop)->with("details")->orderBy('idOrder', 'asc')->get();
-        $paginate = [];
-        if ($request->only("isPaginate")) {
-            $tickets = Tickets::where("idShop", $shop->idShop)->with("details")->orderBy('idOrder', 'asc')->paginate(9);
-            $paginate = [
-                'links' => [
-                    'first' => Helper::getParams($tickets->url(1))["page"] ?? null,
-                    'last' => Helper::getParams($tickets->url($tickets->lastPage()))["page"] ?? null,
-                    'prev' => Helper::getParams($tickets->previousPageUrl())["page"] ?? null,
-                    'next' => Helper::getParams($tickets->nextPageUrl())["page"] ?? null,
-                ]
-            ];
-        }
-        $response = [
-            "tickets" => TicketResource::collection($tickets),
-            ...$paginate
-        ];
-        return $this->sendResponse($response, "Tickets Successfully Retrieved");
+        return $this->sendResponse(TicketResource::collection($tickets), "Tickets Successfully Retrieved");
     }
     public function unpayment(Request $request)
     {
@@ -67,10 +39,7 @@ class TicketsController extends Controller
         if ($validated["idOrder"] ?? NULL != NULL) {
             $tickets = Tickets::where("idOrder", NULL)->orWhere("idOrder" , $validated["idOrder"])->orderByDesc("idOrder")->get();
         }
-        $response = [
-            "tickets" => TicketResource::collection($tickets),
-        ];
-        return $this->sendResponse($response, "Tickets Successfully Retrieved");
+        return $this->sendResponse(TicketResource::collection($tickets), "Tickets Successfully Retrieved");
 
     }
 

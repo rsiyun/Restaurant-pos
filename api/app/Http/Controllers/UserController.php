@@ -15,17 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(9);
-        $response = [
-            "users" => UserResource::collection($users),
-            'links' => [
-                'first' => Helper::getParams($users->url(1))["page"] ?? null,
-                'last' => Helper::getParams($users->url($users->lastPage()))["page"] ?? null,
-                'prev' => Helper::getParams($users->previousPageUrl())["page"] ?? null,
-                'next' => Helper::getParams($users->nextPageUrl())["page"] ?? null,
-            ],
-        ];
-        return $this->sendResponse($response, 'Get All Users');
+        $users = User::all();
+        return $this->sendResponse(UserResource::collection($users), 'Get All Users');
     }
 
     /**

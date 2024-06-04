@@ -13,7 +13,7 @@ class TicketDetailsController extends Controller
      */
     public function index()
     {
-        $ticketDetails = TicketDetails::paginate(9);
+        $ticketDetails = TicketDetails::all();
         $response = [
             "ticketDetails" => TicketDetailResource::collection($ticketDetails),
             'links' => [

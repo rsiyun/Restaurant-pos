@@ -18,17 +18,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with("shop")->paginate(9);
-        $response = [
-            "products" => ProductResource::collection($products),
-            'links' => [
-                'first' => Helper::getParams($products->url(1))["page"] ?? null,
-                'last' => Helper::getParams($products->url($products->lastPage()))["page"] ?? null,
-                'prev' => Helper::getParams($products->previousPageUrl())["page"] ?? null,
-                'next' => Helper::getParams($products->nextPageUrl())["page"] ?? null,
-            ],
-        ];
-        return $this->sendResponse($response, "All Products");
+        $products = Product::with("shop")->get();
+        return $this->sendResponse(ProductResource::collection($products), "All Products");
     }
 
     public function showByShop(Request $request, $slug){

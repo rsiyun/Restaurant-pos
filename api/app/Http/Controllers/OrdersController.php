@@ -20,17 +20,8 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Orders::with("kasir")->paginate(9);
-        $response = [
-            "orders" => OrderResource::collection($orders),
-            'links' => [
-                'first' => Helper::getParams($orders->url(1))["page"] ?? null,
-                'last' => Helper::getParams($orders->url($orders->lastPage()))["page"] ?? null,
-                'prev' => Helper::getParams($orders->previousPageUrl())["page"] ?? null,
-                'next' => Helper::getParams($orders->nextPageUrl())["page"] ?? null,
-            ],
-        ];
-        return $this->sendResponse($response, 'All Orders Successfully Retrieved');
+        $orders = Orders::with("kasir")->get();
+        return $this->sendResponse(OrderResource::collection($orders), 'All Orders Successfully Retrieved');
     }
 
     /**

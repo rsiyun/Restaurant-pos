@@ -16,28 +16,8 @@ class ShopController extends Controller
      */
     public function index(Request $request)
     {
-        $request->validate([
-            "isPaginate" => "nullable"
-        ]);
         $shops = Shop::all();
-        $paginate = [];
-        if ($request->only("isPaginate")) {
-            $shops = Shop::paginate(9);
-            $paginate = [
-                'links' => [
-                    'first' => Helper::getParams($shops->url(1))["page"] ?? null,
-                    'last' => Helper::getParams($shops->url($shops->lastPage()))["page"] ?? null,
-                    'prev' => Helper::getParams($shops->previousPageUrl())["page"] ?? null,
-                    'next' => Helper::getParams($shops->nextPageUrl())["page"] ?? null,
-                ]
-            ];
-        }
-
-        $response = [
-            "shops" => ShopResource::collection($shops),
-            ...$paginate
-        ];
-        return $this->sendResponse($response, 'All Data Shops Successfully Retrieved');
+        return $this->sendResponse(ShopResource::collection($shops), 'All Data Shops Successfully Retrieved');
     }
 
     /**
