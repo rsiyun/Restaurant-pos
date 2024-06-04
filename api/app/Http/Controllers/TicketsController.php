@@ -56,7 +56,7 @@ class TicketsController extends Controller
             $slugTicket = Helper::generateSlug("t", "tickets");
             $ticket = Tickets::create([
                 "idShop" => $validated["idShop"],
-                "orderNote" => $validated["orderNote"],
+                "orderNote" => $validated["orderNote"] ?? null,
                 "priceTickets" => 1,
                 "slug" => $slugTicket
             ]);

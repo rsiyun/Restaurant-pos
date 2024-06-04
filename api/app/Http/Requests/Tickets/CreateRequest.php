@@ -25,7 +25,7 @@ class CreateRequest extends FormRequest
     {
         return [
             "idShop" => ['required', 'integer'],
-            "orderNote" => ['required'],
+            "orderNote" => ['nullable', 'string'],
             "ticketCart" => ['required', 'array'],
             "ticketCart.*.slugProduct" => ['required', 'string'],
             "ticketCart.*.quantity" => ['required', 'integer'],
