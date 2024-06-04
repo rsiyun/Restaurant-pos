@@ -12,14 +12,19 @@
             </form>
         </div>
     </div>
-    <p>Id Toko: {{ $data['slug'] }}</p>
-    <p>Nama Toko: {{ $data['shopName'] }}</p>
-    <p>Pemilik Toko: {{ $data['ownerName'] }}</p>
-    @if ($data['isActive'])
-        <p>Status Toko: active</p>
-    @else
-        <p>Status Toko: Non active</p>
-    @endif
+
+    <div class="border border-black w-[300px] h-[120px] mt-[-90px] pl-[10px] pt-[10px] space-y-1 rounded-2">
+
+        <p class=""><strong>Id Toko:</strong> {{ $data['slug'] }}</p>
+        <p><strong>Nama Toko:</strong> {{ $data['shopName'] }}</p>
+        <p><strong>Pemilik Toko:</strong> {{ $data['ownerName'] }}</p>
+        @if ($data['isActive'])
+            <p><strong>Status Toko:</strong> active</p>
+        @else
+            <p><strong>Status Toko:</strong> Non active</p>
+        @endif
+    </div>
+
 
     <x-tables.table>
 
