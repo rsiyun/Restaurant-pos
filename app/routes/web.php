@@ -82,7 +82,6 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
 
     // Shop
     Route::get("/shop", [ShopController::class, 'index']);
-    Route::get("/shop/{slug}/edit", [ShopController::class, 'edit']);
     Route::put("/shop/{slug}", [ShopController::class, 'update']);
     Route::get("/shop/create", [ShopController::class, 'create']);
     Route::get("/shop/{slug}/edit", [ShopController::class, 'edit']);
@@ -115,6 +114,10 @@ Route::middleware("checkRole:ShopEmployee")->group(function () {
     // Product creation from shop employee
     Route::get('/product/create', [ClientController::class, 'create']);
     Route::post('/product', [ProductController::class, 'store']);
+
+    Route::get("/product/{slug}/edit", [ClientController::class, 'edit']);
+    Route::put("/product/{slug}", [ClientController::class, 'update']);
+
     Route::get('/product/{slug}', [ClientController::class, 'show']);
     Route::delete('/product/{slug}', [ClientController::class, 'destroy']);
 

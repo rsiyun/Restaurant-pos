@@ -27,9 +27,10 @@
                 <div>
                     {{-- Action button --}}
                     <div class="mb-4">
-                        <button class="p-2 text-white bg-green-500 rounded-md hover:bg-green-600">
+
+                        <a href="{{ url('product/' . $product['slug'] . '/edit') }}" class="p-2 text-white bg-green-500 rounded-md hover:bg-green-600">
                             Edit
-                        </button>
+                        </a>
                         <form action="{{ url('/product/' . $product['slug']) }}" method="POST"
                             style="display:inline-block;">
                             @csrf
