@@ -25,6 +25,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get("product", [ProductController::class, 'index']);
+    Route::get("product", [ProductController::class, 'index']);
+    Route::get("product/{product}", [ProductController::class, 'show']);
+    Route::get("productByShop/{product}", [ProductController::class, 'showByShop']);
+    Route::post("product", [ProductController::class, 'store']);
+    Route::put("product/{product}", [ProductController::class, 'update']);
+    Route::delete("product/{product}", [ProductController::class, 'destroy']);
+
+    // Route::get("shop", [ShopController::class, 'index']);
+    // Route::get("shop/{shop}", [ShopController::class, 'show']);
+    // Route::post("shop", [ShopController::class, 'store']);
+    // Route::put("shop/{shop}", [ShopController::class, 'update']);
+    // Route::delete("shop/{shop}", [ShopController::class, 'destroy']);
+
+});
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -44,12 +61,12 @@ Route::post("order", [OrdersController::class, 'store']);
 Route::delete("order/{order}", [OrdersController::class, 'destroy']);
 Route::put("order/{order}", [OrdersController::class, 'update']);
 
-Route::get("product", [ProductController::class, 'index']);
-Route::get("product/{product}", [ProductController::class, 'show']);
-Route::get("productByShop/{product}", [ProductController::class, 'showByShop']);
-Route::post("product", [ProductController::class, 'store']);
-Route::put("product/{product}", [ProductController::class, 'update']);
-Route::delete("product/{product}", [ProductController::class, 'destroy']);
+// Route::get("product", [ProductController::class, 'index']);
+// Route::get("product/{product}", [ProductController::class, 'show']);
+// Route::get("productByShop/{product}", [ProductController::class, 'showByShop']);
+// Route::post("product", [ProductController::class, 'store']);
+// Route::put("product/{product}", [ProductController::class, 'update']);
+// Route::delete("product/{product}", [ProductController::class, 'destroy']);
 
 Route::get("shop", [ShopController::class, 'index']);
 Route::get("shop/{shop}", [ShopController::class, 'show']);
