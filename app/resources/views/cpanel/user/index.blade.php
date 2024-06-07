@@ -79,12 +79,12 @@
                                         <a href="{{ url('/dashboard/user') }}{{ '/' . $user['slug'] . '/edit' }}"
                                             class="px-4 py-2 text-white border rounded">✏️</a>
 
-                                        <form action="{{ url('/dashboard/user/' . $user['slug']) }}" method="POST">
+                                        {{-- <form action="{{ url('/dashboard/user/' . $user['slug']) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="px-4 py-2 text-white bg-red-600 border rounded"
                                                 onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">🪣</button>
-                                        </form>
+                                        </form> --}}
                                     </div>
 
                                 </td>

@@ -14,9 +14,9 @@ class inputSelect extends Component
     public array $options;
     public string $label;
     public string $name;
-    public ?string $required;
+    public $required;
     public ?string $selected;
-    public function __construct(string $name, string $label, array $options, ?string $required, ?string $selected = null)
+    public function __construct(string $name, string $label, array $options, $required, ?string $selected = null)
     {
         $this->options = $options;
         $this->name = $name;

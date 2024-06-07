@@ -16,7 +16,7 @@
                 <label for="ticket_{{ $ticket['slug'] }}">{{ $ticket['slug'] }}</label><br>
             @endforeach
         </div> --}}
-        <table class="min-w-full bg-white shadow-md rounded-lg">
+        <table class="min-w-full bg-white shadow-md rounded-lg mt-[20px]">
             <thead>
                 <tr class="bg-gray-800 text-white">
                     <th class="py-3 px-4">
@@ -40,7 +40,7 @@
             </tbody>
         </table>
         <div>
-            <button type="submit">Submit</button>
+            <button type="submit" class="px-4 py-2 mt-[20px] text-white bg-blue-600 rounded-md hover:bg-blue-700">Submit</button>
         </div>
     </form>
 @endsection

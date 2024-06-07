@@ -9,7 +9,7 @@
             <input type="text" id="BuyerName" name="buyerName" required value="{{ $buyerName }}">
         </div>
 
-        <table class="min-w-full bg-white shadow-md rounded-lg">
+        <table class="min-w-full bg-white shadow-md rounded-lg mt-[20px]">
             <thead>
                 <tr class="bg-gray-800 text-white">
                     <th class="py-3 px-4">
@@ -45,7 +45,7 @@
         </table>
 
         <div>
-            <button type="submit">Submit</button>
+            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 mt-[20px]">Submit</button>
         </div>
     </form>
 @endsection
