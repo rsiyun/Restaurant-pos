@@ -12,15 +12,21 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $product = Http::get(ApiUrl::$api_url .'/products');
+        $user = SessionService::user();
+        $token = session('user.access_token');
 
+        if (!$token) {
+            return redirect()->route('login');
+        }
+
+        $product = Http::withToken($token)->get(ApiUrl::$api_url . '/products');
         return view('products.index', ['products' => $product->json()]);
     }
 
     public function store(Request $request)
     {
-        $user =  SessionService::user();
-        $getShop = Http::get(ApiUrl::$api_url . "/shop/" .$user["shopSlug"]);
+        $user = SessionService::user();
+        $getShop = Http::get(ApiUrl::$api_url . "/shop/" . $user["shopSlug"]);
         if ($getShop->failed()) {
             return redirect("/product/create")->withErrors(['error', 'Tambah product gagal']);
         }
@@ -40,10 +46,13 @@ class ProductController extends Controller
         return redirect("/")->with("message", "product berhasil ditambahkan");
     }
 
-    private function postStore($request, $req_api){
+    private function postStore($request, $req_api)
+    {
         if ($request->hasFile("productImage")) {
             $response = Http::attach(
-                'productImage', file_get_contents($request->file('productImage')), $request->file('productImage')->getClientOriginalName()
+                'productImage',
+                file_get_contents($request->file('productImage')),
+                $request->file('productImage')->getClientOriginalName()
             )->post(ApiUrl::$api_url . "/product", $req_api);
             return $response;
         }

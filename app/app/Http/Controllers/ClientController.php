@@ -15,7 +15,13 @@ class ClientController extends Controller
         $productType = $request->type ?? "";
         $search = $request->s ?? "";
         $user = SessionService::user();
-        $productAPI = Http::get(ApiUrl::$api_url . "/productByShop" . "/" . $user["shopSlug"], ["page" => $page, "s" => $search, "type" => $productType])->json();
+        $token = session('user.access_token');
+
+        if (!$token) {
+            return redirect()->route('login');
+        }
+
+        $productAPI = Http::withToken($token)->get(ApiUrl::$api_url . "/productByShop" . "/" . $user["shopSlug"], ["page" => $page, "s" => $search, "type" => $productType])->json();
         return view('clients.index', [
             "profile" => $user,
             "products" => $productAPI["data"]["products"],
@@ -36,7 +42,7 @@ class ClientController extends Controller
             "productType" => $productInput["data"]["productType"],
             "productStock" => $productInput["data"]["productStock"],
         ];
-        if ($response){
+        if ($response) {
             return view('clients.edit', [
                 "profile" => $user,
                 "product" => $response,
@@ -44,44 +50,44 @@ class ClientController extends Controller
             ]);
         }
     }
-    
-    
+
+
     public function update(Request $request, $slug)
-        {
-            // dd($user);
-            $req_api = [
-                "productName" => $request->productName,
-                "productPrice" => $request->productPrice,
-                "productType" => $request->productType,
-                "productStock" => $request->productStock,
-            ];
-            if ($request->hasFile('productImage')) {
-                $response = Http::withHeaders([
-                    'X-HTTP-Method-Override' => 'PUT',
-                ])->attach(
+    {
+        // dd($user);
+        $req_api = [
+            "productName" => $request->productName,
+            "productPrice" => $request->productPrice,
+            "productType" => $request->productType,
+            "productStock" => $request->productStock,
+        ];
+        if ($request->hasFile('productImage')) {
+            $response = Http::withHeaders([
+                'X-HTTP-Method-Override' => 'PUT',
+            ])->attach(
                     'productImage',
                     file_get_contents($request->file('productImage')),
                     $request->file('productImage')->getClientOriginalName()
                 )->post(ApiUrl::$api_url . "/product/" . $slug, $req_api);
-            } else {
-                $response = Http::withHeaders([
-                    'X-HTTP-Method-Override' => 'PUT',
-                ])->post(ApiUrl::$api_url . "/product/" . $slug, $req_api);
-            }
-            
-            // dd($req_api);
-        
-            // dd($response->json());
-        
-            if ($response->successful()) {
-                $res = $response->json();
-                // dd($res);
-                return redirect('/')->with('message', $res['messages']);
-            } else {
-                return back()->withErrors(['message' => 'Gagal memperbarui produk']);
-            }
+        } else {
+            $response = Http::withHeaders([
+                'X-HTTP-Method-Override' => 'PUT',
+            ])->post(ApiUrl::$api_url . "/product/" . $slug, $req_api);
         }
-    
+
+        // dd($req_api);
+
+        // dd($response->json());
+
+        if ($response->successful()) {
+            $res = $response->json();
+            // dd($res);
+            return redirect('/')->with('message', $res['messages']);
+        } else {
+            return back()->withErrors(['message' => 'Gagal memperbarui produk']);
+        }
+    }
+
 
 
     public function show($slug)
