@@ -56,7 +56,6 @@ class UserController extends Controller
     public function create()
     {
         $user = SessionService::user();
-        $token = session('user.access_token') ?? "";
 
         return view('cpanel.user.create', ["profile" => $user]);
     }
@@ -79,7 +78,6 @@ class UserController extends Controller
 
     public function edit($slug)
     {
-        $user = SessionService::user();
         $token = session('user.access_token') ?? "";
 
         $response = Http::withToken($token)->get(ApiUrl::$api_url . "/user/" . $slug);
