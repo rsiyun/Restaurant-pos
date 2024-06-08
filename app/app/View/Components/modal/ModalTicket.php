@@ -11,11 +11,8 @@ class ModalTicket extends Component
     /**
      * Create a new component instance.
      */
-    public $data;
-    public function __construct($data)
+    public function __construct(public string $datas)
     {
-        $this->data = $data;
-        // $this->nameModal = $nameModal;
     }
 
     /**

@@ -1,5 +1,11 @@
-@if (isset($data))
+@php
+$data = json_decode($datas, true);
+// dd($data)
+@endphp
+
+{{-- @if (isset($data)) --}}
     <div>
+
         <div class="max-w-2xl mx-auto">
 
             <!-- Modal toggle -->
@@ -68,7 +74,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                                 @foreach ($data['ticketDetail'] as $item)
+
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row"
                                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -103,4 +111,4 @@
 
         <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.min.js"></script>
     </div>
-@endif
+{{-- @endif --}}

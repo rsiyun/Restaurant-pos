@@ -36,7 +36,8 @@
                                         Rp. {{ $item['priceTickets'] }}
                                     </td>
                                     <td class="px-6 py-4 text-right">
-                                        <x-modal.modal-ticket :data="$item" />
+                                        {{-- @dd($item) --}}
+                                        <x-modal.modal-ticket :datas="json_encode($item, JSON_FORCE_OBJECT)" />
 
                                         {{-- <button class="bg-[#002D4C] border p-1 border-[#2B4F69] rounded-md" data-modal-toggle="{{ $item['slug'] }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -48,7 +49,7 @@
                                         </button> --}}
 
                                         <!-- Tombol untuk menampilkan modal atau alert -->
-                                        <button class="bg-[#002D4C] border p-1 border-[#2B4F69] rounded-md show-alert"
+                                        {{-- <button class="bg-[#002D4C] border p-1 border-[#2B4F69] rounded-md show-alert"
                                             data-id="{{ $item['slug'] }}"
                                             data-note="{{ $item['orderNote'] }}"
                                             data-price="{{ $item['priceTickets'] }}"
@@ -60,14 +61,14 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                             </svg>
-                                        </button>
+                                        </button> --}}
 
                                     </td>
                                 </tr>
                             @endforeach
 
                             <!-- Script to handle button click -->
-                            <script>
+                            {{-- <script>
                                 document.addEventListener('DOMContentLoaded', function() {
                                     // Get all elements with the class 'show-alert'
                                     var buttons = document.querySelectorAll('.show-alert');
@@ -87,7 +88,7 @@
                                         });
                                     });
                                 });
-                            </script>
+                            </script> --}}
 
                         </tbody>
                     </table>
