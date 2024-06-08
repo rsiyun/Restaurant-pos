@@ -28,7 +28,7 @@ class Handler extends ExceptionHandler
                 "code"=> 401,
                 "description" => "Access is denied due to invalid credentials. Please provide valid authentication."
             ]
-        ]);
+        ], 401);
     }
 
     /**

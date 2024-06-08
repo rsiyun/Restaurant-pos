@@ -35,7 +35,7 @@ class TicketDetailsController extends Controller
         $ticketDetails = TicketDetails::where('slug', $slug)->with('product')->first();
 
         if (!$ticketDetails) {
-            return $this->sendError('TicketDetail not found.');
+            return $this->sendError('TicketDetail not found.', [], 404);
         }
 
         return $this->sendResponse(new TicketDetailResource($ticketDetails), "TicketDetail Successfully Retrieved");

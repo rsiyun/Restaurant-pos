@@ -39,7 +39,7 @@ class AuthController extends Controller
             "message" => "Registration Successfull",
             "success" => true,
             "data" => $response
-        ]);
+        ], 201);
     }
 
     public function showWithToken(Request $request){
@@ -124,7 +124,7 @@ class AuthController extends Controller
                 "role" => $user->role,
                 "idShop" => $user->idShop
             ]
-        ]);
+        ], 200);
     }
 
     public function logout(Request $request){
