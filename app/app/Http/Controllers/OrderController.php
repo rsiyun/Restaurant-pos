@@ -11,8 +11,10 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $response = Http::get(ApiUrl::$api_url . "/order")->json();
         $profile = SessionService::user();
+        $token = session('user.access_token') ?? "";
+        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/order")->json();
+
         if ($response["success"]) {
             return view('cpanel.order.index', [
                 "profile" => $profile,
@@ -22,8 +24,10 @@ class OrderController extends Controller
     }
     public function create()
     {
-        $response = Http::get(ApiUrl::$api_url . "/unpaymentTicket")->json();
         $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/unpaymentTicket")->json();
+
         if ($response["success"]) {
             return view('cpanel.order.create', [
                 "profile" => $user,
@@ -33,9 +37,10 @@ class OrderController extends Controller
     }
     public function edit($slug)
     {
-        $oldDataOrder = Http::get(ApiUrl::$api_url . "/order" . "/$slug")->json();
+        $token = session('user.access_token') ?? "";
+        $oldDataOrder = Http::withToken($token)->get(ApiUrl::$api_url . "/order" . "/$slug")->json();
         $user = SessionService::user();
-        $ticketList = Http::get(ApiUrl::$api_url . "/unpaymentTicket", ["idOrder" => $oldDataOrder["data"]["idOrder"]])->json();
+        $ticketList = Http::withToken($token)->get(ApiUrl::$api_url . "/unpaymentTicket", ["idOrder" => $oldDataOrder["data"]["idOrder"]])->json();
         $success = $ticketList["success"] && $oldDataOrder["success"];
         $response = [
             "idKasir" => $oldDataOrder["data"]["kasir"]["idKasir"],
@@ -60,6 +65,8 @@ class OrderController extends Controller
         $request->validate([
             "tickets" => "required|array",
         ]);
+        $token = session('user.access_token') ?? "";
+
         $user = SessionService::user();
         $newTicket = [];
         foreach ($request->tickets as $ticket) {
@@ -71,7 +78,7 @@ class OrderController extends Controller
             ...$newTicket
         ];
 
-        $response = Http::put(ApiUrl::$api_url . "/order" . "/$slug", $req_api)->json();
+        $response = Http::withToken($token)->put(ApiUrl::$api_url . "/order" . "/$slug", $req_api)->json();
 
         if ($response["success"]) {
             return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
@@ -80,8 +87,10 @@ class OrderController extends Controller
 
     public function show($slug)
     {
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
 
-        $response = Http::get(ApiUrl::$api_url . "/order" . "/$slug")->json();
+        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/order" . "/$slug")->json();
         $user = SessionService::user();
         if ($response["success"]) {
             return view('cpanel.order.show', [
@@ -98,6 +107,8 @@ class OrderController extends Controller
             "tickets" => "required|array",
         ]);
         $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
         $newTicket = [];
         foreach ($request->tickets as $ticket) {
             $newTicket["tickets"][] = ["slugTicket" => $ticket];
@@ -107,7 +118,7 @@ class OrderController extends Controller
             "buyerName" => $request->buyerName,
             ...$newTicket
         ];
-        $response = Http::post(ApiUrl::$api_url . "/order", $req_api)->json();
+        $response = Http::withToken($token)->post(ApiUrl::$api_url . "/order", $req_api)->json();
 
         if ($response["success"]) {
             return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
@@ -116,7 +127,10 @@ class OrderController extends Controller
     }
     public function destroy($slug)
     {
-        $response = Http::delete(ApiUrl::$api_url . "/order/$slug")->json();
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
+        $response = Http::withToken($token)->delete(ApiUrl::$api_url . "/order/$slug")->json();
         if ($response["success"]) {
             return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
         }

@@ -51,7 +51,7 @@
                 @if ($listOrder)
                     {{ count($listOrder) }}
                 @else
-                    Unknown
+                    Tidak Ada
                 @endif
             </span>
         </div>
