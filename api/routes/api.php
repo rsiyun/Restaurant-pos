@@ -31,6 +31,10 @@ Route::group(['middleware' => ['auth:sanctum', 'checkrole:Admin,ShopEmployee']],
     Route::get("productByShop/{product}", [ProductController::class, 'showByShop']);
     Route::post("product", [ProductController::class, 'store']);
     Route::put("product/{product}", [ProductController::class, 'update']);
+
+    Route::get("ticketByShop/{shop}", [TicketsController::class, 'ticketByShop']);
+    Route::get("shop/{shop}", [ShopController::class, 'show']);
+    Route::post("ticket", [TicketsController::class, 'store']);
 });
 Route::group(['middleware' => ['auth:sanctum', 'checkrole:Admin,Kasir']], function () {
     Route::get("order", [OrdersController::class, 'index']);
