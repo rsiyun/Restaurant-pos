@@ -23,10 +23,11 @@ class SessionService
             return null;
         }
         $response = Http::withToken($token)->get(ApiUrl::$api_url . "/user/token");
-        if (!$response["success"]) {
+        if ($response->failed()) {
             return null;
         }
-        return $response["data"];
+        $user = $response->json()["data"];
+        return $user;
     }
     public static function logout()
     {

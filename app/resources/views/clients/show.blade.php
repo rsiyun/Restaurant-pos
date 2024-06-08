@@ -31,32 +31,24 @@
                         <a href="{{ url('product/' . $product['slug'] . '/edit') }}" class="p-2 text-white bg-green-500 rounded-md hover:bg-green-600">
                             Edit
                         </a>
-                        <form action="{{ url('/product/' . $product['slug']) }}" method="POST"
-                            style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="p-2 text-white bg-red-500 rounded-md hover:bg-red-600"
-                                onclick="return confirm('Are you sure?')">
-                                Delete
-                            </button>
-                        </form>
                     </div>
                 </div>
             </div>
 
             {{-- CONTROL PANEL --}}
-            <div id="control" class="flex flex-col justify-between p-4 bg-white border rounded-md shadow-md w-[20rem]">
-                <p class="mb-4">
+            <div id="control" class="flex flex-col justify-around p-4 bg-white border rounded-md shadow-md w-[20rem]">
+                <p class="mb-2">
                     Atur jumlah yang diinginkan
                 </p>
-                <!-- Form untuk menambahkan ke keranjang belanja -->
                 <form method="POST" action="{{ url('/cart/add/' . $product['slug']) }}">
                     @csrf
-                    <input type="number" name="quantity" class="p-2 mb-4 border rounded-md" placeholder="Jumlah"
-                        min="1" max="{{ $product['productStock'] }}" required>
-                    <button type="submit" class="p-2 text-white bg-green-500 rounded-md hover:bg-green-600">
-                        Tambahkan ke keranjang
-                    </button>
+                    <div class="flex flex-col">
+                        <input type="number" name="quantity" class="p-2 mb-4 border rounded-md" placeholder="Jumlah"
+                            min="1" max="{{ $product['productStock'] }}" required>
+                        <button type="submit" class="p-2 text-white bg-green-500 rounded-md hover:bg-green-600">
+                            Tambahkan ke keranjang
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

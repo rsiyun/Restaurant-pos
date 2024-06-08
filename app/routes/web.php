@@ -112,14 +112,11 @@ Route::middleware("checkRole:ShopEmployee")->group(function () {
     Route::get('/', [ClientController::class, 'index']);
 
     // Product creation from shop employee
-    Route::get('/product/create', [ClientController::class, 'create']);
+    Route::get('/product/create', [ProductController::class, 'create']);
     Route::post('/product', [ProductController::class, 'store']);
-
-    Route::get("/product/{slug}/edit", [ClientController::class, 'edit']);
-    Route::put("/product/{slug}", [ClientController::class, 'update']);
-
-    Route::get('/product/{slug}', [ClientController::class, 'show']);
-    Route::delete('/product/{slug}', [ClientController::class, 'destroy']);
+    Route::get("/product/{slug}/edit", [ProductController::class, 'edit']);
+    Route::put("/product/{slug}", [ProductController::class, 'update']);
+    Route::get('/product/{slug}', [ProductController::class, 'show']);
 
     Route::get('/cart', [CartController::class, 'showCart'])->name('clients.showCart');
     Route::post('/cart/add/{slug}', [CartController::class, 'addToCart']);

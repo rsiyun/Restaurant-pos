@@ -1,3 +1,13 @@
+<style>
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    /* Hides the arrows/spinner for Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 </style>
 <div class="flex flex-col pb-4" x-data="{ focused: false }">
     <label for="{{ $name }}" class="text-sm pb-2 font-semibold text-gray-600"

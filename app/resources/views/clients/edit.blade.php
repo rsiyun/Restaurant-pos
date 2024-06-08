@@ -9,42 +9,42 @@
     <form action="{{ url('product/' . $product['slug']) }}" method="POST" class="space-y-3" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <x-forms.label-with-input 
-            label="Nama Produk" 
-            name="productName" 
-            type="text" 
-            :value="old('productName', $product['productName'])" 
-            :error="$errors->first('productName')" 
-            required 
+        <x-forms.label-with-input
+            label="Nama Produk"
+            name="productName"
+            type="text"
+            :value="old('productName', $product['productName'])"
+            :error="$errors->first('productName')"
+            required
         />
-        <x-forms.label-with-input 
-            label="Gambar produk" 
-            name="productImage" 
-            type="file" 
-            :value="old('productImage')" 
-            :error="$errors->first('productImage')" 
+        <x-forms.label-with-input
+            label="Harga Produk"
+            name="productPrice"
+            type="number"
+            :value="old('productPrice', $product['productPrice'])"
+            :error="$errors->first('productPrice')"
+            required
         />
-        <x-forms.label-with-input 
-            label="Harga Produk" 
-            name="productPrice" 
-            type="number" 
-            :value="old('productPrice', $product['productPrice'])" 
-            :error="$errors->first('productPrice')" 
-            required 
+        <x-forms.label-with-input
+            label="Stok Produk"
+            name="productStock"
+            type="number"
+            :value="old('productStock', $product['productStock'])"
+            :error="$errors->first('productStock')"
+            required
         />
-        <x-forms.label-with-input 
-            label="Stok Produk" 
-            name="productStock" 
-            type="number" 
-            :value="old('productStock', $product['productStock'])" 
-            :error="$errors->first('productStock')" 
-            required 
-        />
-        <x-forms.input-select 
-            required 
-            :options="['Makanan' => 'Makanan', 'Minuman' => 'Minuman', 'Snack' => 'Snack']" 
-            name="productType" 
-            label="Jenis Produk" 
+        <x-forms.label-with-input
+        label="Gambar produk"
+        name="productImage"
+        type="file"
+        :value="old('productImage')"
+        :error="$errors->first('productImage')"
+    />
+        <x-forms.input-select
+            required
+            :options="['Makanan' => 'Makanan', 'Minuman' => 'Minuman', 'Snack' => 'Snack']"
+            name="productType"
+            label="Jenis Produk"
             :selected="old('productType', $product['productType'])"
         />
         <div class="pt-8">
@@ -53,11 +53,11 @@
             </button>
         </div>
     </form>
-    
+
     </div>
 
 
-    
+
 
 
 
