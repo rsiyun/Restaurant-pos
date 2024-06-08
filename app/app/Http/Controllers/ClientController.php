@@ -18,8 +18,8 @@ class ClientController extends Controller
         $token = session('user.access_token');
 
         if (!$token) {
-            return redirect()->route('login')->withErrors(["message", "tolong login terlebih dahulu"]);
             SessionService::logout();
+            return redirect()->route('login')->withErrors(["message", "tolong login terlebih dahulu"]);
         }
 
         $response = Http::withToken($token)->get(ApiUrl::$api_url . "/productByShop" . "/" . $user["shopSlug"], ["page" => $page, "s" => $search, "type" => $productType]);
@@ -40,7 +40,9 @@ class ClientController extends Controller
 
     public function destroy($slug)
     {
-        $response = Http::delete(ApiUrl::$api_url . "/product" . "/" . $slug)->json();
+        $token = session('user.access_token');
+
+        $response = Http::withToken($token)->delete(ApiUrl::$api_url . "/product" . "/" . $slug)->json();
         if ($response["success"]) {
             return redirect('/')->with(["message" => $response["messages"]]);
         }

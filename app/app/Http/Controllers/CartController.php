@@ -7,11 +7,14 @@ use App\Services\SessionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class CartController extends Controller{
-
+class CartController extends Controller
+{
     public function addToCart(Request $request, $slug)
     {
-        $productResponse = Http::get(ApiUrl::$api_url . "/product/" . $slug);
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
+        $productResponse = Http::withToken($token)->get(ApiUrl::$api_url . "/product/" . $slug);
 
         if ($productResponse->failed()) {
             return response()->json(['error' => 'Product not found.'], 404);
@@ -84,7 +87,8 @@ class CartController extends Controller{
             "profile" => $user
         ]);
     }
-    public function updateCart(Request $request){
+    public function updateCart(Request $request)
+    {
         $quantities = $request->input('quantities', []);
         $cart = $request->session()->get('cart', []);
         foreach ($quantities as $slug => $qnty) {

@@ -12,9 +12,11 @@ class TicketController extends Controller
 {
     public function index(Request $request)
     {
+        $token = session('user.access_token') ?? "";
+
         $page = $request->page ?? "";
         $user = SessionService::user();
-        $shopResponse = Http::get(ApiUrl::$api_url . "/ticketByShop/" . $user["shopSlug"], ["page" => $page]);
+        $shopResponse = Http::withToken($token)->get(ApiUrl::$api_url . "/ticketByShop/" . $user["shopSlug"], ["page" => $page]);
         if ($shopResponse->failed()) {
             return redirect("/")->rs(['message' => "gagal mendapatkan ticket"]);
         }
@@ -23,6 +25,8 @@ class TicketController extends Controller
     }
     public function store(Request $request)
     {
+        $token = session('user.access_token') ?? "";
+
         $cart = $request->session()->get('cart', []);
         $user = SessionService::user();
 
@@ -30,7 +34,7 @@ class TicketController extends Controller
             return redirect('/')->with("message", "Anda belum bergabung dengan toko");
         }
 
-        $shopResponse = Http::get(ApiUrl::$api_url . "/shop/" . $user["shopSlug"]);
+        $shopResponse = Http::withToken($token)->get(ApiUrl::$api_url . "/shop/" . $user["shopSlug"]);
         if ($shopResponse->failed() || !$shopResponse->json()["success"]) {
             return redirect('/')->with("message", "Gagal mengambil data toko");
         }
@@ -47,7 +51,7 @@ class TicketController extends Controller
             ];
         }
 
-        $ticketResponse = Http::post(ApiUrl::$api_url . "/ticket", [
+        $ticketResponse = Http::withToken($token)->post(ApiUrl::$api_url . "/ticket", [
             "idShop" => $shop["idShop"],
             "orderNote" => $orderNote,
             "ticketCart" => $ticketCart

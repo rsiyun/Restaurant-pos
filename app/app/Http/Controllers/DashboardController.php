@@ -12,7 +12,9 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $dashboard = Http::get(ApiUrl::$api_url . "/dashboard");
+        $token = session('user.access_token') ?? "";
+
+        $dashboard = Http::withToken($token)->get(ApiUrl::$api_url . "/dashboard");
         $user = SessionService::user();
         $response = $dashboard->json();
 

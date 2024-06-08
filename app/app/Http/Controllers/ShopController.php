@@ -12,7 +12,8 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $response = Http::get(ApiUrl::$api_url . "/shop")->json();
+        $token = session('user.access_token') ?? "";
+        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/shop")->json();
         $user = SessionService::user();
         if ($response["success"]) {
             $shops = $response['data'];
@@ -33,7 +34,9 @@ class ShopController extends Controller
 
     public function edit($slug)
     {
-        $shopInput = Http::get(ApiUrl::$api_url . "/shop" . "/$slug")->json();
+        $token = session('user.access_token') ?? "";
+
+        $shopInput = Http::withToken($token)->get(ApiUrl::$api_url . "/shop" . "/$slug")->json();
         $user = SessionService::user();
         $success = $shopInput["success"];
         $response = [
@@ -65,8 +68,9 @@ class ShopController extends Controller
             "shopName" => $request->shopName,
             "isActive" => $request->isActive,
         ];
+        $token = session('user.access_token') ?? "";
 
-        $response = Http::put(ApiUrl::$api_url . "/shop" . "/$slug", $req_api)->json();
+        $response = Http::withToken($token)->put(ApiUrl::$api_url . "/shop" . "/$slug", $req_api)->json();
         // dd($response);
         if ($response["success"]) {
             return redirect('/dashboard/shop')->with(["message" => $response["messages"]]);
@@ -79,7 +83,10 @@ class ShopController extends Controller
 
     public function store(Request $request)
     {
-        $response = Http::post(ApiUrl::$api_url . "/shop", [
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
+        $response = Http::withToken($token)->post(ApiUrl::$api_url . "/shop", [
             'ownerName' => $request->ownerName,
             'shopName' => $request->shopName,
         ])->json();
@@ -88,11 +95,12 @@ class ShopController extends Controller
         }
     }
 
-
-
     public function show($slug)
     {
-        $response = Http::get(ApiUrl::$api_url . "/shop" . "/$slug")->json();
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
+        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/shop" . "/$slug")->json();
         $user = SessionService::user();
         if ($response["success"]) {
             return view('cpanel.shop.show', [
@@ -104,7 +112,10 @@ class ShopController extends Controller
 
     public function destroy($slug)
     {
-        $response = Http::delete(ApiUrl::$api_url . "/shop/$slug")->json();
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
+        $response = Http::withToken($token)->delete(ApiUrl::$api_url . "/shop/$slug")->json();
         if ($response["success"]) {
             return redirect('/dashboard/shop')->with(["message" => $response["messages"]]);
         }

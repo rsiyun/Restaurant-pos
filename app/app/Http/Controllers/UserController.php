@@ -38,7 +38,9 @@ class UserController extends Controller
         // }
         $page = $request->page ?? "";
         $user = SessionService::user();
-        $userResponse = Http::get(ApiUrl::$api_url . "/user", ["page" => $page]);
+        $token = session('user.access_token') ?? "";
+
+        $userResponse = Http::withToken($token)->get(ApiUrl::$api_url . "/user", ["page" => $page]);
 
         if ($userResponse->failed()) {
             return redirect("/")->withErrors(['message' => "gagal mendapatkan user"]);
@@ -54,12 +56,17 @@ class UserController extends Controller
     public function create()
     {
         $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
         return view('cpanel.user.create', ["profile" => $user]);
     }
 
     public function store(Request $request)
     {
-        $response = Http::post(ApiUrl::$api_url . "/user", [
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
+        $response = Http::withToken($token)->post(ApiUrl::$api_url . "/user", [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
@@ -72,14 +79,17 @@ class UserController extends Controller
 
     public function edit($slug)
     {
-        $response = Http::get(ApiUrl::$api_url . "/user/" . $slug);
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
+        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/user/" . $slug);
         $user = SessionService::user();
         if ($response->failed()) {
             return view('cpanel.user.edit', ['error' => $response['message']]);
         }
         $OddUser = $response->json()['data'];
 
-        $shopListResponse = Http::get(ApiUrl::$api_url . "/shop");
+        $shopListResponse = Http::withToken($token)->get(ApiUrl::$api_url . "/shop");
         $shopList = $shopListResponse->json();
         $oddIdShop = null;
         $shops = [];
@@ -99,7 +109,8 @@ class UserController extends Controller
 
     public function update(Request $request, $slug)
     {
-        // 1. Validate request
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -122,7 +133,7 @@ class UserController extends Controller
             $req_api['password'] = $request->input('password');
         }
 
-        $response = Http::put(ApiUrl::$api_url . "/user/" . $slug, $req_api);
+        $response = Http::withToken($token)->put(ApiUrl::$api_url . "/user/" . $slug, $req_api);
         if ($response->failed()) {
             $errors = $response->json()["error"]["description"];
             return redirect("/product/create")->withErrors($errors)->withInput();
@@ -133,11 +144,14 @@ class UserController extends Controller
     // Add new shop to user
     public function addShop(Request $request, $slug)
     {
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
         $request->validate([
             'idShop' => 'required|string',
         ]);
 
-        $response = Http::post(ApiUrl::$api_url . "/user/" . $slug . "/shop", [
+        $response = Http::withToken($token)->post(ApiUrl::$api_url . "/user/" . $slug . "/shop", [
             'idShop' => $request->idShop,
         ])->json();
 
