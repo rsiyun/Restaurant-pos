@@ -70,7 +70,9 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => $request->password,
             'role' => $request->role,
+            'isActive' => $request->isActive,
         ])->json();
+        // dd($response);
         if ($response["success"]) {
             return redirect("/dashboard/user");
         }

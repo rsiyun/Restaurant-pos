@@ -9,7 +9,7 @@ $data = json_decode($datas, true);
         <div class="max-w-2xl mx-auto">
 
             <!-- Modal toggle -->
-            <button class="bg-[#002D4C] border p-1 border-[#2B4F69] rounded-md" data-modal-toggle="{{ $data['slug'] }}">
+            <button class="border p-1 border-[#008000] rounded-md" data-modal-toggle="{{ $data['slug'] }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6 text-green-600">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -20,13 +20,13 @@ $data = json_decode($datas, true);
 
             <!-- Main modal -->
             <div id="{{ $data['slug'] }}" aria-hidden="true"
-                class="hidden overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center">
+                class="bg-white hidden overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center">
                 <div class="relative w-full max-w-2xl px-4 h-full md:h-auto text-left">
                     <!-- Modal content -->
-                    <div class="bg-white rounded-lg shadow relative dark:bg-gray-700">
+                    <div class="bg-white rounded-lg shadow relative dark:bg-gray-700" style="border: 1px  black; box-shadow: 10px 10px rgba(128, 128, 128, 0.634);">
                         <!-- Modal header -->
-                        <div class="flex items-start justify-between p-5 border-b rounded-t dark:border-gray-600">
-                            <h3 class="text-gray-900 text-xl lg:text-2xl font-semibold dark:text-white">
+                        <div class="flex items-start bg-white justify-between p-5 border-b rounded-t dark:border-gray-600" style="border: 1px solid black;">
+                            <h3 class="text-gray-900 text-xl lg:text-2xl font-semibold dark:text-black">
                                 Ticket Detail
                             </h3>
                             <button type="button"
@@ -41,23 +41,23 @@ $data = json_decode($datas, true);
                             </button>
                         </div>
                         <!-- Modal body -->
-                        <div class="p-6">
-                            <p class="text-gray-500 text-base leading-relaxed dark:text-gray-400">
+                        <div class="p-6 bg-white" style="border: 1px solid black;">
+                            <p class="text-black text-base leading-relaxed dark:text-black">
                                 idTicket: {{ $data['slug'] }}
                             </p>
-                            <p class="text-gray-500 text-base leading-relaxed dark:text-gray-400">
+                            <p class="text-black text-base leading-relaxed dark:text-black">
                                 Catatan: {{ $data['orderNote'] }}
                             </p>
-                            <p class="text-gray-500 text-base dark:text-gray-400">
+                            <p class="text-black text-base dark:text-black">
                                 price: {{ $data['priceTickets'] }}
                             </p>
-                            <p class="text-gray-500 text-base dark:text-gray-400">
+                            <p class="text-black text-base dark:text-black">
                                 status: {{ $data['idOrder'] == null ? 'Belum Terbayar' : 'Terbayar' }}
                             </p>
                         </div>
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead
-                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                class="text-xs text-black uppercase bg-gray-50 dark:bg-white dark:text-black-400" style="border: 1px solid black;">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
 
@@ -77,20 +77,20 @@ $data = json_decode($datas, true);
 
                                 @foreach ($data['ticketDetail'] as $item)
 
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <tr class="bg-white dark:bg-white-800 dark:border-gray-700" style="border:1px solid black;">
                                         <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            class="px-6 py-4 font-medium text-black whitespace-nowrap dark:text-white">
                                             <img class="w-20 rounded"
                                                 src="{{ SessionService::image_url() . $item['product']['productImage'] }}"
                                                 alt="test">
                                         </th>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-4 text-black">
                                             {{ $item['product']['productName'] }}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-4 text-black">
                                             {{ $item['quantity'] }}
                                         </td>
-                                        <td class="px-6 py-4 text-right">
+                                        <td class="px-6 py-4 text-black">
                                             {{ $item['product']['productPrice'] }}
                                         </td>
                                     </tr>
@@ -99,7 +99,7 @@ $data = json_decode($datas, true);
                         </table>
                         <!-- Modal footer -->
                         <div
-                            class="flex space-x-2 items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600">
+                            class="flex space-x-2 bg-white items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600" style="border: 1px solid black;">
                             <button data-modal-toggle="{{ $data['slug'] }}" type="button"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Close</button>
                         </div>

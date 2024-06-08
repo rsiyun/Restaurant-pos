@@ -37,11 +37,11 @@
             </div>
 
             <div class="flex flex-col gap-1 mt-[20px]">
-                <x-forms.input-select :selected="$user['role']" :options="['Admin' => 'Admin', 'Kasir' => 'Kasir', 'ShopEmployee' => 'ShopEmployee']" name="role" label="Role"/>
+                <x-forms.input-select :selected="$user['role']" required :options="['Admin' => 'Admin', 'Kasir' => 'Kasir', 'ShopEmployee' => 'ShopEmployee']" name="role" label="Role"/>
             </div>
 
             <div class="flex flex-col gap-1 mt-[20px]">
-                <x-forms.input-select :selected="$user['isActive']" :options="['0' => 'Non Active', '1' => 'Active']" name="isActive" label="Role" required/>
+                <x-forms.input-select :selected="$user['isActive']" :options="['0' => 'Non Active', '1' => 'Active']" name="isActive" label="Status" required/>
             </div>
 
             @if ($user['role'] == 'ShopEmployee')
