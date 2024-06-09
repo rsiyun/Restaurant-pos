@@ -24,7 +24,7 @@ class ProductController extends Controller
         $token = session('user.access_token')??"";
         $getShop = Http::withToken($token)->get(ApiUrl::$api_url . "/shop/" . $user["shopSlug"]);
         if ($getShop->failed()) {
-            return redirect("/product/create")->withErrors(['message', 'Tambah product gagal']);
+            return redirect("/product/create")->withErrors(['message'=>'Tambah product gagal'])->withInput();
         }
         $idShop = $getShop['data']['idShop'];
         $req_api = [
@@ -47,7 +47,7 @@ class ProductController extends Controller
         $response = Http::withToken($token)->get(ApiUrl::$api_url . "/product" . "/$slug");
         $user = SessionService::user();
         if ($response->failed()) {
-            return redirect()->back()->withErrors(["message", "tidak dizinkan masuk kehalaman ini, silahkan login ulang"]);
+            return redirect()->back()->withErrors(["message" => "tidak dizinkan masuk kehalaman ini, silahkan login ulang"]);
         }
         $productInput = $response->json();
         $response = [

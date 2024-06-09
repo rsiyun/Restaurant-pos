@@ -14,7 +14,7 @@ class OrderController extends Controller
         $profile = SessionService::user();
         $token = session('user.access_token') ?? "";
         if (!$token) {
-            return redirect("/login")->withErrors(["message", "silahkan login terlebih dahulu"]);
+            return redirect("/login")->withErrors(["message" => "silahkan login terlebih dahulu"]);
         }
         $response = Http::withToken($token)->get(ApiUrl::$api_url . "/order");
 
