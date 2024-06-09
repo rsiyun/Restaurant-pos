@@ -73,15 +73,12 @@
                                     </span>
                                 </td>
 
-
-                                <td id="tableaction" class="w-[5rem] px-4 py-3">
-                                    <div class="flex gap-4">
-                                        <a href="{{ url('/dashboard/user') }}{{ '/' . $user['slug'] . '/edit' }}"
-                                            class="px-4 py-2 text-white border rounded">✏️</a>
+                                <td class="px-4 py-3 border border-slate-400">
+                                    <div class="p-1 flex justify-center">
+                                        <a href="{{ url('/dashboard/user', [$user['slug']]) }}"
+                                            class="px-4 py-2 text-white bg-green-500 rounded">Detail</a>
                                     </div>
-
                                 </td>
-
                             </tr>
                         @endforeach
                     @else

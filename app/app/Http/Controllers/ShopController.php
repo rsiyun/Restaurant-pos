@@ -98,7 +98,6 @@ class ShopController extends Controller
         $token = session('user.access_token') ?? "";
 
         $response = Http::withToken($token)->get(ApiUrl::$api_url . "/shop" . "/$slug");
-        $user = SessionService::user();
         if ($response->successful()) {
             $res = $response->json();
             return view('cpanel.shop.show', [

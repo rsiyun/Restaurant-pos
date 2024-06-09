@@ -112,6 +112,21 @@ class UserController extends Controller
         return redirect("/dashboard");
     }
 
+    public function show($slug)
+    {
+        $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
+        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/user/" . $slug);
+        if ($response->successful()) {
+            $res = $response->json();
+            return view('cpanel.user.show', [
+                "profile" => $user,
+                ...$res
+            ]);
+        }
+    }
+
     // Add new shop to user
     public function addShop(Request $request, $slug)
     {

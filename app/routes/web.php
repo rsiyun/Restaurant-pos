@@ -75,6 +75,7 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
     Route::post("/user", [UserController::class, 'store']);
     Route::get("/user/{id}/edit", [UserController::class, 'edit']);
     Route::put("/user/{id}", [UserController::class, 'update']);
+    Route::get("/user/{id}", [UserController::class, 'show']);
 });
 
 // Jika user bukan admin, tapi kasir, dan shop employee maka setelah login kesini
