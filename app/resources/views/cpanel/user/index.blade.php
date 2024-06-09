@@ -17,39 +17,35 @@
     {{-- Table untuk informasi user --}}
     <div class="w-full gap-3">
         <x-tables.table>
-            <table class="text-left border-collapse rounded table-auto " id="table">
+            <table class="w-full text-left" id="table">
                 <thead>
-                    <tr>
-                        <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                    <tr class="bg-gray-800 text-white">
+                        <th class="font-medium capitalize ">
                             No
                         </th>
-                        <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                        <th class="font-medium capitalize">
                             Nama
                         </th>
-                        <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
-                            Email</th>
-                        <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
-                            Role</th>
-                        <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                        <th class="font-medium capitalize">
+                            Email
+                        </th>
+                        <th class="font-medium capitalize">
+                            Role
+                        </th>
+                        <th class="font-medium capitalize">
                             Status
                         </th>
-                        <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                        <th class="font-medium capitalize">
                             Action
                         </th>
 
 
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white">
                     @if (isset($listUser))
                         @foreach ($listUser as $user)
-                            <tr class="border border-slate-400">
+                            <tr>
                                 <td class="px-4 py-3">
                                     {{ $loop->iteration ?? 0 }}
                                 </td>
@@ -67,13 +63,13 @@
                                 </td>
 
                                 <td id="status"
-                                    class="w-[3rem] px-4 py-3 text-center {{ $user['isActive'] = 1 ? 'text-green-500' : 'bg-orange-500' }}">
+                                    class="px-4 py-3 {{ $user['isActive'] = 1 ? 'text-green-500' : 'bg-orange-500' }}">
                                     <span class="text-xl">
                                         {{ $user['isActive'] = 1 ? '✅' : '❌' }}
                                     </span>
                                 </td>
 
-                                <td class="px-4 py-3 border border-slate-400">
+                                <td class="px-4 py-3">
                                     <div class="p-1 flex justify-center">
                                         <a href="{{ url('/dashboard/user', [$user['slug']]) }}"
                                             class="px-4 py-2 text-white bg-green-500 rounded">Detail</a>

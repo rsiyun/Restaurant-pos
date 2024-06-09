@@ -15,28 +15,23 @@
     </div>
     <div>
         <x-tables.table>
-            <table id="table" class="w-full border-collapse rounded table-auto">
+            <table id="table" class="w-full text-left">
                 <thead>
-                    <tr>
-                        <th class="font-medium text-black border bg-white capitalize border-slate-400">
+                    <tr class="bg-gray-800 text-white">
+                        <th class="font-medium capitalize">
                             No
                         </th>
-                        <th
-                            class="font-medium text-black border bg-white capitalize border-slate-400">
+                        <th class="font-medium capitalize">
                             Id order
                         </th>
-                        <th
-                            class="font-medium text-black bg-white border capitalize border-slate-400">
+                        <th class="font-medium capitalize">
                             Nama Pembeli</th>
-                        <th
-                            class="font-medium text-black bg-white border capitalize border-slate-400">
+                        <th class="font-medium capitalize">
                             Total</th>
-                        <th
-                            class="font-medium text-black bg-white border capitalize border-slate-400">
+                        <th class="font-medium capitalize">
                             Nama Kasir
                         </th>
-                        <th
-                            class="font-medium text-black bg-white border capitalize border-slate-400">
+                        <th class="font-medium capitalize">
                             Action
                         </th>
 
@@ -45,23 +40,23 @@
                 </thead>
                 <tbody class="bg-white">
                         @foreach ($data as $order)
-                            <tr class="border border-slate-400">
-                                <td class="px-4 py-3 border border-slate-400">
+                            <tr>
+                                <td class="px-4 py-3">
                                     {{ $loop->iteration ?? 0 }}
                                 </td>
 
-                                <td class="px-4 py-3 border border-slate-400">
+                                <td class="px-4 py-3">
                                     {{ $order['slug'] ?? 'Unknown Status' }}
                                 </td>
 
-                                <td class="px-4 py-3 border border-slate-400">
+                                <td class="px-4 py-3">
                                     {{ $order['buyerName'] ?? 'Unknown Status' }}
                                 </td>
 
-                                <td class="px-4 py-3 border border-slate-400">
+                                <td class="px-4 py-3">
                                     {{ $order['totalOrder'] ?? 'Unknown Status' }}
                                 </td>
-                                <td class="px-4 py-3 border border-slate-400">
+                                <td class="px-4 py-3">
                                     {{ $order['kasir']['name'] ?? 'Unknown Status' }}
                                 </td>
 

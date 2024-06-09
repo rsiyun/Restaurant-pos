@@ -18,22 +18,19 @@
 
     {{-- TABLE TOKO --}}
     <x-tables.table>
-        <table id="table" class="w-full text-left border-collapse rounded table-auto">
+        <table id="table" class="w-full text-left">
             <thead>
-                <tr>
-                    <th
-                        class="font-medium text-black border bg-white capitalize border-slate-400">
+                <tr class="bg-gray-800 text-white">
+                    <th class="font-medium capitalize">
                         No
                     </th>
-                    <th
-                        class="font-medium text-black border bg-white capitalize border-slate-400">
+                    <th class="font-medium capitalize">
                         Nama Pemilik
                     </th>
-                    <th
-                        class="font-medium text-black border bg-white capitalize border-slate-400">
-                        Nama Toko</th>
-                    <th
-                        class="font-medium text-black border bg-white capitalize border-slate-400">
+                    <th class="font-medium capitalize">
+                        Nama Toko
+                    </th>
+                    <th class="font-medium capitalize">
                         Action
                     </th>
 
@@ -42,20 +39,20 @@
             </thead>
             <tbody class="bg-white">
                     @foreach ($shops as $shop)
-                        <tr class="border border-slate-400">
-                            <td class="px-4 py-3 border border-slate-400">
+                        <tr>
+                            <td class="px-4 py-3">
                                 {{ $loop->iteration ?? 0 }}
                             </td>
 
-                            <td class="px-4 py-3 border border-slate-400">
+                            <td class="px-4 py-3">
                                 {{ $shop['ownerName'] ?? 'Unknown Status' }}
                             </td>
 
-                            <td class="px-4 py-3 border border-slate-400">
+                            <td class="px-4 py-3">
                                 {{ $shop['shopName'] ?? 'Unknown Status' }}
                             </td>
 
-                            <td class="px-4 py-3 border border-slate-400">
+                            <td class="px-4 py-3">
                                 <div class="p-1 flex justify-center">
                                 <a href="{{ url('/dashboard/shop', [$shop['slug']]) }}"
                                     class="px-4 py-2 text-white bg-green-500 rounded">Detail</a>
