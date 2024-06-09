@@ -1,21 +1,13 @@
 @extends('cpanel.layout.app')
 
 @section('content')
-    Form Pembuatan Toko (Registrasi)
-
+    <h4 class="pb-4 text-2xl font-bold">Form Pembuatan Toko</h4>
     <form action="{{ url('dashboard/shop') }}" method="POST">
         @csrf
-        <div class="flex flex-col gap-4">
-            <label for="name">Nama Pemilik</label>
-            <input type="text" name="ownerName" id="ownerName" class="px-4 py-2 border border-gray-300 rounded-md">
-        </div>
+        <x-forms.label-with-input label="Nama Pemilik" name="ownerName" type="text" :value="old('ownerName')" :error="$errors->first('ownerName')" required/>
+        <x-forms.label-with-input label="Nama Toko" name="shopName" type="text" :value="old('shopName')" :error="$errors->first('shopName')" required/>
 
-        <div class="flex flex-col gap-4">
-            <label for="name">Nama Toko</label>
-            <input type="text" name="shopName" id="shopName" class="px-4 py-2 border border-gray-300 rounded-md">
-        </div>
-
-        <div class="pt-8">
+        <div>
             <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
                 Tambah toko
             </button>

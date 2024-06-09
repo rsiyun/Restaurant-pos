@@ -8,14 +8,6 @@
             <label for="buyerName">Buyer Name:</label>
             <input type="text" id="buyerName" name="buyerName" required>
         </div>
-        {{-- <div>
-            <label for="tickets">Select Tickets:</label><br>
-            @foreach ($tickets as $ticket)
-                <input type="checkbox" id="ticket_{{ $ticket['slug'] }}" name="tickets[][slugTicket]"
-                    value="{{ $ticket['slug'] }}">
-                <label for="ticket_{{ $ticket['slug'] }}">{{ $ticket['slug'] }}</label><br>
-            @endforeach
-        </div> --}}
         <table class="min-w-full bg-white shadow-md rounded-lg mt-[20px]">
             <thead>
                 <tr class="bg-gray-800 text-white">

@@ -22,27 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/shop', [ShopController::class, 'index']);
-
-// Route::get('/', function () {
-//     return view('landing-page');
-// })->name('landing-page');
-
-// Route::get('/tambah-produk', function () {
-//     return view('role.shop.tambah-produk');
-// })->name('tambah-produk');
-
-// Route::get('/Riwayat', function () {
-//     return view('role.shop.riwayat-page');
-// })->name('riwayat-page');
-
-// Route::get('/shop', function () {
-//     return view('role.shop.order-page-shop');
-// })->name('order-page');
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware("checkRole:Admin,Kasir,ShopEmployee")->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -96,22 +75,12 @@ Route::prefix('dashboard')->middleware("checkRole:Admin,Kasir")->group(function 
     Route::post("/user", [UserController::class, 'store']);
     Route::get("/user/{id}/edit", [UserController::class, 'edit']);
     Route::put("/user/{id}", [UserController::class, 'update']);
-
-
-    /*
-    |  Contoh Komponen yang bisa digunakan (tapi perlu di edit sesuai kebutuhan dulu ya guys)
-    */
-    Route::get(
-        '/components',
-        [DashboardController::class, 'components']
-    );
 });
 
 // Jika user bukan admin, tapi kasir, dan shop employee maka setelah login kesini
 Route::middleware("checkRole:ShopEmployee")->group(function () {
     Route::get('/', [ClientController::class, 'index']);
 
-    // Product creation from shop employee
     Route::get('/product/create', [ProductController::class, 'create']);
     Route::post('/product', [ProductController::class, 'store']);
     Route::get("/product/{slug}/edit", [ProductController::class, 'edit']);

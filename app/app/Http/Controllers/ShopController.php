@@ -18,7 +18,7 @@ class ShopController extends Controller
         if ($response->successful()) {
             $shops = $response['data'];
 
-            return view('cpanel.main.shop', [
+            return view('cpanel.shop.index', [
                 "profile" => $user,
                 "shops" => $shops
             ]);
@@ -70,27 +70,24 @@ class ShopController extends Controller
         ];
         $token = session('user.access_token') ?? "";
 
-        $response = Http::withToken($token)->put(ApiUrl::$api_url . "/shop" . "/$slug", $req_api)->json();
+        $response = Http::withToken($token)->put(ApiUrl::$api_url . "/shop" . "/$slug", $req_api);
         // dd($response);
-        if ($response["success"]) {
+        if ($response->successful()) {
             return redirect('/dashboard/shop')->with(["message" => $response["messages"]]);
-        } else {
-            // handle the failure case
-            return back()->withErrors(['message' => 'Failed to update shop']);
         }
+        return back()->withErrors(['message' => 'Failed to update shop']);
     }
 
 
     public function store(Request $request)
     {
-        $user = SessionService::user();
         $token = session('user.access_token') ?? "";
 
         $response = Http::withToken($token)->post(ApiUrl::$api_url . "/shop", [
             'ownerName' => $request->ownerName,
             'shopName' => $request->shopName,
-        ])->json();
-        if ($response["success"]) {
+        ]);
+        if ($response->successful()) {
             return redirect("/dashboard/shop");
         }
     }
@@ -100,19 +97,19 @@ class ShopController extends Controller
         $user = SessionService::user();
         $token = session('user.access_token') ?? "";
 
-        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/shop" . "/$slug")->json();
+        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/shop" . "/$slug");
         $user = SessionService::user();
-        if ($response["success"]) {
+        if ($response->successful()) {
+            $res = $response->json();
             return view('cpanel.shop.show', [
                 "profile" => $user,
-                ...$response
+                ...$res
             ]);
         }
     }
 
     public function destroy($slug)
     {
-        $user = SessionService::user();
         $token = session('user.access_token') ?? "";
 
         $response = Http::withToken($token)->delete(ApiUrl::$api_url . "/shop/$slug")->json();

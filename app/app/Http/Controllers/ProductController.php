@@ -12,7 +12,6 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $user = SessionService::user();
         $token = session('user.access_token')??"";
 
         $product = Http::withToken($token)->get(ApiUrl::$api_url . '/products');

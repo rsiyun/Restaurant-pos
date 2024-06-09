@@ -57,7 +57,7 @@
             <span class="text-sm">
                 {{ now()->format('Y') }} - &copy;
                 <span class="font-bold">
-                    Tim Penjual Organ Balita
+                    ankel
                 </span>
             </span>
         </div>

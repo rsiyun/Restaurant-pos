@@ -15,72 +15,65 @@
     </div>
     <div>
         <x-tables.table>
-
-            <table id="table" class="w-full text-left border-collapse rounded table-auto">
+            <table id="table" class="w-full border-collapse rounded table-auto">
                 <thead>
                     <tr>
-                        <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                        <th class="font-medium text-black border bg-white capitalize border-slate-400">
                             No
                         </th>
                         <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black border bg-blue text-md text-2xluppercase border-slate-400 dark:bg-blue">
+                            class="font-medium text-black border bg-white capitalize border-slate-400">
                             Id order
                         </th>
                         <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                            class="font-medium text-black bg-white border capitalize border-slate-400">
                             Nama Pembeli</th>
                         <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                            class="font-medium text-black bg-white border capitalize border-slate-400">
                             Total</th>
                         <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                            class="font-medium text-black bg-white border capitalize border-slate-400">
                             Nama Kasir
                         </th>
                         <th
-                            class="px-4 py-3 font-medium leading-4 tracking-wider text-black bg-white border text-md text-2xluppercase border-slate-400 dark:bg-white">
+                            class="font-medium text-black bg-white border capitalize border-slate-400">
                             Action
                         </th>
 
 
                     </tr>
                 </thead>
-                <tbody>
-
-                    @if (isset($data))
+                <tbody class="bg-white">
                         @foreach ($data as $order)
                             <tr class="border border-slate-400">
-                                <td class="px-4 py-3">
+                                <td class="px-4 py-3 border border-slate-400">
                                     {{ $loop->iteration ?? 0 }}
                                 </td>
 
-                                <td class="px-4 py-3">
+                                <td class="px-4 py-3 border border-slate-400">
                                     {{ $order['slug'] ?? 'Unknown Status' }}
                                 </td>
 
-                                <td class="px-4 py-3">
+                                <td class="px-4 py-3 border border-slate-400">
                                     {{ $order['buyerName'] ?? 'Unknown Status' }}
                                 </td>
 
-                                <td class="px-4 py-3">
+                                <td class="px-4 py-3 border border-slate-400">
                                     {{ $order['totalOrder'] ?? 'Unknown Status' }}
                                 </td>
-                                <td class="px-4 py-3">
+                                <td class="px-4 py-3 border border-slate-400">
                                     {{ $order['kasir']['name'] ?? 'Unknown Status' }}
                                 </td>
 
-                                <td id="tableaction" class="w-[5rem] px-4 py-3">
-                                    <a href="{{ url('/dashboard/order', [$order['slug']]) }}"
+                                <td class="px-4 py-3">
+                                    <div class="p-1 flex justify-center">
+                                        <a href="{{ url('/dashboard/order', [$order['slug']]) }}"
                                         class="px-4 py-2 text-white bg-green-500 rounded">Detail</a>
+                                    </div>
                                 </td>
 
                             </tr>
                         @endforeach
-                    @else
-                        <tr>
-                            <td class="px-4 py-3 text-center">No orders found.</td>
-                        </tr>
-                    @endif
                 </tbody>
 
 
