@@ -24,14 +24,17 @@
             'url' => url('/dashboard'),
             'title' => 'Dashboard',
         ])
+        @if ($profile['role'] == "Admin")
+
         @include('components.buttons.side-navbar', [
             'url' => url('/dashboard/user'),
             'title' => 'Kelola Pengguna',
-        ])
+            ])
         @include('components.buttons.side-navbar', [
             'url' => url('/dashboard/shop'),
             'title' => 'Kelola Toko',
-        ])
+            ])
+        @endif
         @include('components.buttons.side-navbar', [
             'url' => url('/dashboard/order'),
             'title' => 'Kelola Order (Pesanan)',

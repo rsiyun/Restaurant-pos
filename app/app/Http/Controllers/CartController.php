@@ -11,7 +11,6 @@ class CartController extends Controller
 {
     public function addToCart(Request $request, $slug)
     {
-        $user = SessionService::user();
         $token = session('user.access_token') ?? "";
 
         $productResponse = Http::withToken($token)->get(ApiUrl::$api_url . "/product/" . $slug);

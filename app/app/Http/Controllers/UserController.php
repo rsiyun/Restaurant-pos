@@ -11,46 +11,19 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        // $response = Http::get(ApiUrl::$api_url . "/user")->json();
-        // $data = $response['data'];
-        // get only 5 user
-        // $response['data'] = array_slice($response['data'], 0, 5);
-
-        // another way to get user limited to 5 and by using query parameter
-        // $getUserBy = array_values(
-        //     array_filter(
-        //         $data,
-        //         function ($user, $index) {
-        //             return $index < 5;
-        //         },
-        //         ARRAY_FILTER_USE_BOTH
-        //     )
-        // );
-
-        // $user = SessionService::user();
-        // if ($response["success"]) {
-        //     $listUser = $getUserBy;
-        //     return view('cpanel.user.index', [
-        //         "profile" => $user,
-        //         "listUser" => $listUser
-        //     ]);
-        // return view('cpanel.user.index', ['error' => $response['message']]);
-        // }
         $page = $request->page ?? "";
         $user = SessionService::user();
         $token = session('user.access_token') ?? "";
 
+
         $userResponse = Http::withToken($token)->get(ApiUrl::$api_url . "/user", ["page" => $page]);
 
         if ($userResponse->failed()) {
-            return redirect("/")->withErrors(['message' => "gagal mendapatkan user"]);
+            return redirect("/dashboard")->withErrors(['message' => "gagal mendapatkan user"]);
         }
 
         $response = $userResponse->json()["data"];
-        // dd($response);
         return view("cpanel.user.index", ["listUser" => $response, "profile" => $user]);
-
-
     }
 
     public function create()
@@ -62,20 +35,18 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $user = SessionService::user();
         $token = session('user.access_token') ?? "";
-
         $response = Http::withToken($token)->post(ApiUrl::$api_url . "/user", [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
             'role' => $request->role,
             'isActive' => $request->isActive,
-        ])->json();
-        // dd($response);
-        if ($response["success"]) {
-            return redirect("/dashboard/user");
+        ]);
+        if ($response->failed()) {
+            return redirect()->back()->withErrors(['message' => "gagal mendapatkan user"]);
         }
+        return redirect("/dashboard/user");
     }
 
     public function edit($slug)

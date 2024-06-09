@@ -13,12 +13,16 @@ class OrderController extends Controller
     {
         $profile = SessionService::user();
         $token = session('user.access_token') ?? "";
-        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/order")->json();
+        if (!$token) {
+            return redirect("/login")->withErrors(["message", "silahkan login terlebih dahulu"]);
+        }
+        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/order");
 
-        if ($response["success"]) {
+        if ($response->successful()) {
+            $res = $response->json();
             return view('cpanel.order.index', [
                 "profile" => $profile,
-                ...$response
+                ...$res
             ]);
         }
     }

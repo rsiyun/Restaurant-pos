@@ -13,9 +13,9 @@ class ShopController extends Controller
     public function index()
     {
         $token = session('user.access_token') ?? "";
-        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/shop")->json();
+        $response = Http::withToken($token)->get(ApiUrl::$api_url . "/shop");
         $user = SessionService::user();
-        if ($response["success"]) {
+        if ($response->successful()) {
             $shops = $response['data'];
 
             return view('cpanel.main.shop', [
@@ -23,7 +23,7 @@ class ShopController extends Controller
                 "shops" => $shops
             ]);
         }
-        return view('cpanel.main.shop', ['error' => $response['message']]);
+        return redirect('/dashboard');
     }
 
     public function create()

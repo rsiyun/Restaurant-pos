@@ -1,14 +1,8 @@
 @php
 $data = json_decode($datas, true);
-// dd($data)
 @endphp
-
-{{-- @if (isset($data)) --}}
     <div>
-
         <div class="max-w-2xl mx-auto">
-
-            <!-- Modal toggle -->
             <button class="border p-1 border-[#008000] rounded-md" data-modal-toggle="{{ $data['slug'] }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6 text-green-600">
