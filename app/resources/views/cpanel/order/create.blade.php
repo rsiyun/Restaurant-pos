@@ -4,10 +4,14 @@
 
     <form action="{{ url('dashboard/order') }}" method="POST">
         @csrf
-        <div>
+        {{-- <div>
             <label for="buyerName">Buyer Name:</label>
             <input type="text" id="buyerName" name="buyerName" required>
+        </div> --}}
+        <div class="w-[150px]">
+            <x-forms.label-with-input label="Buyer Name" name="buyerName" type="text" :value="old('buyerName')" :error="$errors->first('buyerName')"/>
         </div>
+
         <table class="min-w-full bg-white shadow-md rounded-lg mt-[20px]">
             <thead>
                 <tr class="bg-gray-800 text-white">

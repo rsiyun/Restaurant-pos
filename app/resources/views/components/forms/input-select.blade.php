@@ -1,4 +1,4 @@
-<div class="flex flex-col">
+<div class="flex flex-col pb-4">
     <label for="{{$name}}" class="text-sm pb-2 font-semibold text-gray-600"
     x-bind:class="{ 'text-gray-400': focused }">{{$label}}
     @if (isset($required))

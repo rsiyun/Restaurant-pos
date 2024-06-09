@@ -64,12 +64,13 @@ class UserController extends Controller
         $shopList = $shopListResponse->json();
         $oddIdShop = null;
         $shops = [];
-        if (isset($shopList['data']['shops'])) {
-            $shops = array_column($shopList['data']['shops'], 'shopName', 'idShop');
-            $oddIdShop = array_reduce($shopList['data']['shops'], function ($carry, $shop) use ($OddUser) {
+        if (isset($shopList['data'])) {
+            $shops = array_column($shopList['data'], 'shopName', 'idShop');
+            $oddIdShop = array_reduce($shopList['data'], function ($carry, $shop) use ($OddUser) {
                 return $OddUser["shopSlug"] && $shop["slug"] == $OddUser["shopSlug"] ? $shop["idShop"] : $carry;
             }, null);
         }
+        
         $OddUser["idShop"] = $oddIdShop;
         return view('cpanel.user.edit', [
             "profile" => $user,

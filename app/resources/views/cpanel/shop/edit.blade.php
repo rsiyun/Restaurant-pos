@@ -5,26 +5,8 @@
         @csrf
         @method('PUT')
 
-        <div class="flex flex-col gap-1 mt-[20px]">
-            @include('components.input-label', [
-                'slot' => 'Owner Name',
-            ])
-
-            @include('components.text-input', [
-                'value' => $ownerName,
-                'name' => "ownerName"
-            ])
-        </div>
-
-        <div class="flex flex-col gap-1 mt-[20px]">
-            @include('components.input-label', [
-                'slot' => 'Shop Name',
-            ])
-            @include('components.text-input', [
-                'value' => $shopName ,
-                'name' => "shopName"
-            ])
-        </div>
+        <x-forms.label-with-input label="Owner Name" name="ownerName" type="text" :value="$ownerName" />
+        <x-forms.label-with-input label="Shop Name" name="shopName" type="text" :value="$shopName" />
 
         <div class="flex flex-col gap-1 mt-[20px]">
             <x-forms.input-select
