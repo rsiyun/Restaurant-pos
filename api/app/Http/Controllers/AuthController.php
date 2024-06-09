@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
@@ -111,6 +112,11 @@ class AuthController extends Controller
                 ]
             ],401));
         }
+        $idShop = null;
+        if ($user->idShop) {
+            $shop = Shop::select("isActive", "slug")->where("idShop", $user->idShop)->where("isActive", 1)->first();
+            $idShop = $shop ? $shop->slug : null;
+        }
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -122,7 +128,7 @@ class AuthController extends Controller
                 "name" => $user->name,
                 "email" => $user->email,
                 "role" => $user->role,
-                "idShop" => $user->idShop
+                "idShop" => $idShop
             ]
         ], 200);
     }
