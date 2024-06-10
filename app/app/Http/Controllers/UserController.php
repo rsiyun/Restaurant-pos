@@ -70,7 +70,7 @@ class UserController extends Controller
                 return $OddUser["shopSlug"] && $shop["slug"] == $OddUser["shopSlug"] ? $shop["idShop"] : $carry;
             }, null);
         }
-        
+
         $OddUser["idShop"] = $oddIdShop;
         return view('cpanel.user.edit', [
             "profile" => $user,
@@ -115,17 +115,28 @@ class UserController extends Controller
 
     public function show($slug)
     {
-        $user = SessionService::user();
         $token = session('user.access_token') ?? "";
 
         $response = Http::withToken($token)->get(ApiUrl::$api_url . "/user/" . $slug);
-        if ($response->successful()) {
-            $res = $response->json();
-            return view('cpanel.user.show', [
-                "profile" => $user,
-                ...$res
-            ]);
+        if ($response->failed()) {
+            return view('cpanel.user.index', ['error' => $response['message']]);
         }
+        $res = $response->json();
+
+        $shopList = null;
+        if (!empty($res["data"]["shopSlug"])) {
+            $shopResponse = Http::withToken($token)->get(ApiUrl::$api_url . "/shop/" . $res["data"]["shopSlug"]);
+            if (!$shopResponse->failed()) {
+                $shopList = $shopResponse->json()["data"];
+            }
+        }
+        // dd($shopList);
+        $user = SessionService::user();
+        return view('cpanel.user.show', [
+            "profile" => $user,
+            "user" => $res["data"],
+            "shopList" => $shopList
+        ]);
     }
 
     // Add new shop to user
