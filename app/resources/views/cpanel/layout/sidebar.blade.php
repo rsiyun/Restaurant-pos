@@ -47,7 +47,7 @@
             class="flex items-end justify-start h-full font-bold "action="{{ route('logout') }}"
             method="POST">
             @csrf
-            <button type="submit" class="px-4 py-2 text-blue-700 transition bg-white rounded-md hover:text-white hover:bg-red-700">
+            <button type="submit" class="px-4 py-2 text-blue-900 transition bg-white rounded-sm hover:text-white hover:bg-red-700">
                 Logout
             </button>
         </form>

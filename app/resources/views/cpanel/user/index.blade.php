@@ -9,7 +9,7 @@
 
     {{-- Section Controls --}}
     <div class="flex flex-row justify-start gap-5 pb-5">
-        <a href="{{ url('/dashboard/user/create') }}" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+        <a href="{{ url('/dashboard/user/create') }}" class="px-4 py-2 text-white bg-blue-900 mt-2 duration-300 ease-in-out rounded-sm hover:drop-shadow-[3px_3px_1px_grey]">
             Tambah User
         </a>
     </div>
@@ -72,7 +72,7 @@
                                 <td class="px-4 py-3">
                                     <div class="p-1 flex justify-center">
                                         <a href="{{ url('/dashboard/user', [$user['slug']]) }}"
-                                            class="px-4 py-2 text-white bg-green-500 rounded">Detail</a>
+                                            class="px-4 py-2 text-white bg-green-500 rounded-sm">Detail</a>
                                     </div>
                                 </td>
                             </tr>

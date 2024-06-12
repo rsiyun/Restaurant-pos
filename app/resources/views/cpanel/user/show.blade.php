@@ -3,7 +3,7 @@
     <div class="flex justify-end">
         <div class="flex gap-4">
             <a
-                href="{{ url('/dashboard/user') }}{{ '/' . $user['slug'] . '/edit' }}"class="px-4 py-2 bg-blue-500 rounded text-white">update</a>
+                href="{{ url('/dashboard/user') }}{{ '/' . $user['slug'] . '/edit' }}"class="px-4 py-2 bg-blue-900 duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey] rounded-sm text-white">update</a>
         </div>
     </div>
 

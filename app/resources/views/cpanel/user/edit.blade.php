@@ -1,6 +1,6 @@
 @extends('cpanel.layout.app')
 @section('content')
-    <div class="item-center place-item-center border border-black rounded-[5px] px-5 mt-[50px]">
+    <div class="item-center place-item-center border border-black rounded-[5px] px-5 pt-5 mt-[50px]">
         <form method="POST" action="{{ url('dashboard/user/' . $user['slug']) }}">
             @csrf
             @method('PUT')
@@ -24,7 +24,7 @@
             @endif
 
             <div class="py-8">
-                <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                <button type="submit" class="px-4 py-2 text-white bg-blue-900 rounded-sm duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey]">
                     Edit User
                 </button>
             </div>
