@@ -19,7 +19,7 @@
     </label>
 
     <input type="{{ $type }}" name="{{ $name }}" id="{{ $name }}"
-        class="px-4 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+        class="px-4 border border-gray-300 rounded-sm focus:outline-none focus:border-blue-500"
         x-on:focus="focused = true" x-on:blur="focused = false" {{ $attributes }} value="{{$value}}"/>
     @if (isset($error) && $error)
         <span class="text-red-600 text-sm pt-1">

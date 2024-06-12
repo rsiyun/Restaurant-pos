@@ -5,7 +5,7 @@
         <span class="text-red-600">*</span>
     @endif
 </label>
-    <select name="{{$name}}" id="{{$name}}" class="px-4 py-2 border border-gray-300 rounded-md">
+    <select name="{{$name}}" id="{{$name}}" class="px-4 py-2 border border-gray-300 rounded-sm">
         @foreach ($options as $key => $option)
             <option value="{{$key}}"
             @isset($selected)
