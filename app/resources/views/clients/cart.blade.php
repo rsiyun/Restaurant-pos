@@ -77,12 +77,12 @@
 
                 <div class="flex items-center flex-wrap pt-6 justify-between">
                     <div class="flex items-center mb-6 lg:mb-0">
-                        <a href="/" class="py-4 px-8 font-semibold bg-black rounded-xl text-white">Kembali</a>
+                        <a href="/" class="px-4 py-2 text-white text-center transition w-[7rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-lg">Kembali</a>
                         @if ($cartItems && count($cartItems) > 0)
                         <form action="{{ route('clients.clearSession') }}" method="POST" class="mt-4">
                             @csrf
-                            <button type="submit" class="border-b border-[#ccc] inline-flex items-center ml-4 text-black h-11">
-                                <i class="fa-solid fa-xmark mr-4"></i>
+                            <button type="submit" class="px-4 py-2 text-white ml-5 transition w-[15rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-lg">
+                                {{-- <i class="fa-solid fa-xmark mr-4"></i> --}}
                                 Kosongkan Keranjang
                             </button>
                         </form>
@@ -94,7 +94,7 @@
                         @foreach ($cartItems as $item)
                             <input type="hidden" id="quantity-{{ $loop->iteration }}-send" value="{{ $item['quantity'] ?? 0 }}" name="quantities[{{ $item['slug'] }}]">
                         @endforeach
-                        <button type="submit" class="w-full lg:w-auto bg-blue-800 rounded-xl py-4 px-8 text-white font-bold transition-all duration-300 capitalize">Update Cart</button>
+                        <button type="submit" class="px-4 py-2 text-white transition w-[11rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-lg">Update Cart</button>
                     </form>
                     @endif
                 </div>
@@ -121,7 +121,7 @@
                     </table>
 
                     <div>
-                        <button type="submit" class="bg-green-800 block w-full text-center font-bold rounded-xl py-3 px-8 text-white transition-all duration-300 capitalize">proceed to checkout</button>
+                        <button type="submit" class="bg-green-800 block w-full text-center font-bold rounded-sm py-3 px-8 text-white transition-all duration-300 capitalize">proceed to checkout</button>
                     </div>
                 </form>
             </div>
