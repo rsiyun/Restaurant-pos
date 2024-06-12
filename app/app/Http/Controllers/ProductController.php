@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\SessionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
@@ -70,32 +71,41 @@ class ProductController extends Controller
 
     public function update(Request $request, $slug)
     {
+        try {
+            $request->validate([
+                'productName' => 'required',
+                'productPrice' => 'required',
+                'productType' => 'required',
+                'productStock' => 'required',
+            ]);
+        } catch (ValidationException $e) {
+            $errors = $e->validator->errors();
+            return redirect()->back()->withErrors($errors);
+        }
         $user = SessionService::user();
+        $token = session('user.access_token') ?? "";
+
         $getShop = Http::withToken($token)->get(ApiUrl::$api_url . "/shop/" . $user["shopSlug"]);
         if ($getShop->failed()) {
             return redirect("/product/create")->withErrors(['message'=>'Tambah product gagal'])->withInput();
         }
         $idShop = $getShop['data']['idShop'];
-        $token = session('user.access_token') ?? "";
-        $req_api = array_filter([
+
+        $req_api = [
+            "idShop" => $idShop,  // Assuming $idShop is available in the scope or class property
             "slug" => $slug,
-            "productName" => $request->productName ?? null,
-            "productPrice" => $request->productPrice ?? null,
-            "productType" => $request->productType ?? null,
-            "productStock" => $request->productStock ?? null
-        ], function ($value) {
-            return !is_null($value);
-        });
+            "productName" => $request->productName,
+            "productPrice" => $request->productPrice,
+            "productType" => $request->productType,
+            "productStock" => $request->productStock,
+        ];
 
         $response = $this->updateStore($request, $req_api, $token);
-        dd($user);
         if ($response->failed()) {
-            $errors = $response->json()["error"]["description"];
-            return redirect()->back()->whithErrors($errors)->withInput();
+            return redirect()->back()->whithErrors(["message" => "gagal mengubah product"])->withInput();
         }
         $res = $response->json();
         return redirect('/')->with('message', $res['messages']);
-        // return back()->withErrors(['message' => 'Gagal memperbarui produk']);
     }
 
     public function show($slug)
