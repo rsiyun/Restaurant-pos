@@ -53,7 +53,7 @@
             </table>
         </x-tables.table>
         <div>
-            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 mt-[20px]">Submit</button>
+            <button type="submit" class="px-4 py-2 text-white bg-blue-900 rounded-sm duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey] mt-[20px]">Submit</button>
         </div>
     </form>
 @endsection

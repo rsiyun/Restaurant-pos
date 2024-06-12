@@ -11,7 +11,7 @@
 
     {{-- TAMBAH TOKO --}}
     <div class="flex flex-row justify-start gap-5 pb-5">
-        <a href="{{ url('/dashboard/shop/create') }}" class="px-4 py-2 text-white bg-blue-900 rounded-sm duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey]">
+        <a href="{{ url('/dashboard/shop/create') }}" class="px-4 py-2 mt-2 text-white bg-blue-900 rounded-sm duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey]">
             Tambah Toko
         </a>
     </div>
