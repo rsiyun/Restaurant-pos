@@ -17,7 +17,7 @@
         </div>
 
         <div class="pt-4">
-            <button  class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700" type="submit">Submit</button>
+            <button  class="px-4 py-2 text-white bg-blue-900 duration-300 ease-in-out rounded-sm hover:drop-shadow-[3px_3px_1px_grey]" type="submit">Submit</button>
         </div>
     </form>
 @endsection

@@ -8,7 +8,7 @@
         <x-forms.label-with-input label="Nama Toko" name="shopName" type="text" :value="old('shopName')" :error="$errors->first('shopName')" required/>
 
         <div>
-            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+            <button type="submit" class="px-4 py-2 text-white duration-300 ease-in-out bg-blue-900 rounded-sm  hover:drop-shadow-[3px_3px_1px_grey]">
                 Tambah toko
             </button>
         </div>

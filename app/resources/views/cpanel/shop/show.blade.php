@@ -2,7 +2,7 @@
 @section('content')
     <div class="flex justify-end">
         <div class="flex gap-4">
-            <a href="{{ url('/dashboard/shop') }}{{ '/' . $data['slug'] . '/edit' }}"class="px-4 py-2 bg-blue-500 rounded text-white">update</a>
+            <a href="{{ url('/dashboard/shop') }}{{ '/' . $data['slug'] . '/edit' }}"class="px-4 py-2 bg-blue-900 rounded-sm duration-300 ease-in-out text-white hover:drop-shadow-[3px_3px_1px_grey]">update</a>
         </div>
     </div>
 
