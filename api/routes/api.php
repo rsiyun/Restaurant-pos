@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put("/user/{user}", [UserController::class, 'update']);
         Route::delete("/user/{user}", [UserController::class, 'destroy']);
         Route::get("shop", [ShopController::class, 'index']);
-        Route::get("shop/{shop}", [ShopController::class, 'show']);
+        // Route::get("shop/{shop}", [ShopController::class, 'show']);
         Route::post("shop", [ShopController::class, 'store']);
         Route::put("shop/{shop}", [ShopController::class, 'update']);
         Route::delete("shop/{shop}", [ShopController::class, 'destroy']);
