@@ -48,7 +48,7 @@
             :selected="old('productType', $product['productType'])"
         />
         <div class="pt-8">
-            <button type="submit" class="px-4 py-2 text-white bg-blue-900 rounded-sm hover:drop-shadow-lg">
+            <button type="submit" class="px-4 py-2 text-white bg-blue-900 rounded-sm duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey]">
                 Update Produk
             </button>
         </div>

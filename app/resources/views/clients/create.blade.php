@@ -27,7 +27,7 @@
 
             <x-forms.input-select required :options="['Makanan' => 'Makanan', 'Minuman' => 'Minuman', 'Snack' => 'Snack']" name="productType" label="Jenis Produk" />
             <div class="pt-8">
-                <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                <button type="submit" class="px-4 py-2 text-white bg-blue-900 rounded-sm duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey]">
                     Tambah Produk
                 </button>
             </div>

@@ -77,11 +77,11 @@
 
                 <div class="flex items-center flex-wrap pt-6 justify-between">
                     <div class="flex items-center mb-6 lg:mb-0">
-                        <a href="/" class="px-4 py-2 text-white text-center transition w-[7rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-lg">Kembali</a>
+                        <a href="/" class="px-4 py-2 text-white text-center transition w-[7rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-[3px_3px_1px_grey]">Kembali</a>
                         @if ($cartItems && count($cartItems) > 0)
                         <form action="{{ route('clients.clearSession') }}" method="POST" class="mt-4">
                             @csrf
-                            <button type="submit" class="px-4 py-2 text-white ml-5 transition w-[15rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-lg">
+                            <button type="submit" class="px-4 py-2 text-white ml-5 transition w-[15rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey]">
                                 {{-- <i class="fa-solid fa-xmark mr-4"></i> --}}
                                 Kosongkan Keranjang
                             </button>
@@ -94,7 +94,7 @@
                         @foreach ($cartItems as $item)
                             <input type="hidden" id="quantity-{{ $loop->iteration }}-send" value="{{ $item['quantity'] ?? 0 }}" name="quantities[{{ $item['slug'] }}]">
                         @endforeach
-                        <button type="submit" class="px-4 py-2 text-white transition w-[11rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-lg">Update Cart</button>
+                        <button type="submit" class="px-4 py-2 text-white transition w-[11rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:hover:drop-shadow-[3px_3px_1px_grey]">Update Cart</button>
                     </form>
                     @endif
                 </div>

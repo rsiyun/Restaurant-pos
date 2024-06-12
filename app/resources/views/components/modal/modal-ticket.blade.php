@@ -95,7 +95,7 @@ $data = json_decode($datas, true);
                         <div
                             class="flex space-x-2 bg-white items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600" style="border: 1px solid black;">
                             <button data-modal-toggle="{{ $data['slug'] }}" type="button"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Close</button>
+                                class="text-white bg-blue-900 duration-300 ease-in-out focus:ring-4 focus:ring-blue-300 font-medium rounded-sm text-sm px-5 py-2.5 text-center dark:bg-blue-600 hover:drop-shadow-[3px_3px_1px_grey] dark:focus:ring-blue-800">Close</button>
                         </div>
                     </div>
                 </div>

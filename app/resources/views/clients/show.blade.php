@@ -28,7 +28,7 @@
                     {{-- Action button --}}
                     <div class="mb-4">
 
-                        <a href="{{ url('product/' . $product['slug'] . '/edit') }}" class="py-3 px-4 text-white bg-blue-900 rounded-sm hover:drop-shadow-lg">
+                        <a href="{{ url('product/' . $product['slug'] . '/edit') }}" class="py-3 px-5 text-white bg-blue-900 rounded-sm duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey]">
                             Edit
                         </a>
                     </div>
@@ -45,7 +45,7 @@
                     <div class="flex flex-col">
                         <input type="number" name="quantity" class="p-2 mb-4 border rounded-sm" placeholder="Jumlah"
                             min="1" max="{{ $product['productStock'] }}" required>
-                        <button type="submit" class="p-2 text-white bg-blue-900 rounded-sm hover:drop-shadow-lg">
+                        <button type="submit" class="p-2 text-white bg-blue-900 rounded-sm duration-300 ease-in-out hover:drop-shadow-[3px_3px_1px_grey]">
                             Tambahkan ke keranjang
                         </button>
                     </div>

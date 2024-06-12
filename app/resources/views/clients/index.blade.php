@@ -23,7 +23,7 @@
                     <input type="text" class="w-[20rem] h-10 bg-gray-200 rounded-sm" name="s">
 
                     <button
-                        class="px-4 py-2 text-white transition w-[6rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-lg">
+                        class="px-4 py-2 text-white w-[6rem] duration-300 ease-in-out bg-sky-900 rounded-sm hover:drop-shadow-[3px_3px_1px_grey]">
                         Search
                     </button>
                 </div>
