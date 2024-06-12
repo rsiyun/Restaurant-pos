@@ -7,7 +7,7 @@
         @enderror
 
         @if ($errors->first('message'))
-                <div class="p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+                <div class="p-4 mt-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
                     <div>{{ $errors->first('message') }}</div>
                 </div>
         @endif

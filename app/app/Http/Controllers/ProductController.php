@@ -22,6 +22,7 @@ class ProductController extends Controller
     {
         $user = SessionService::user();
         $token = session('user.access_token')??"";
+        // dd($);
         $getShop = Http::withToken($token)->get(ApiUrl::$api_url . "/shop/" . $user["shopSlug"]);
         if ($getShop->failed()) {
             return redirect("/product/create")->withErrors(['message'=>'Tambah product gagal'])->withInput();
@@ -69,20 +70,32 @@ class ProductController extends Controller
 
     public function update(Request $request, $slug)
     {
-        $token = session('user.access_token') ?? "";
-        $req_api = [
-            "productName" => $request->productName,
-            "productPrice" => $request->productPrice,
-            "productType" => $request->productType,
-            "productStock" => $request->productStock,
-            "slug" => $slug
-        ];
-        $response = $this->updateStore($request, $req_api, $token);
-        if ($response->successful()) {
-            $res = $response->json();
-            return redirect('/')->with('message', $res['messages']);
+        $user = SessionService::user();
+        $getShop = Http::withToken($token)->get(ApiUrl::$api_url . "/shop/" . $user["shopSlug"]);
+        if ($getShop->failed()) {
+            return redirect("/product/create")->withErrors(['message'=>'Tambah product gagal'])->withInput();
         }
-        return back()->withErrors(['message' => 'Gagal memperbarui produk']);
+        $idShop = $getShop['data']['idShop'];
+        $token = session('user.access_token') ?? "";
+        $req_api = array_filter([
+            "slug" => $slug,
+            "productName" => $request->productName ?? null,
+            "productPrice" => $request->productPrice ?? null,
+            "productType" => $request->productType ?? null,
+            "productStock" => $request->productStock ?? null
+        ], function ($value) {
+            return !is_null($value);
+        });
+
+        $response = $this->updateStore($request, $req_api, $token);
+        dd($user);
+        if ($response->failed()) {
+            $errors = $response->json()["error"]["description"];
+            return redirect()->back()->whithErrors($errors)->withInput();
+        }
+        $res = $response->json();
+        return redirect('/')->with('message', $res['messages']);
+        // return back()->withErrors(['message' => 'Gagal memperbarui produk']);
     }
 
     public function show($slug)

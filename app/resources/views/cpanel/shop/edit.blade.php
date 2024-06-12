@@ -5,8 +5,8 @@
         @csrf
         @method('PUT')
 
-        <x-forms.label-with-input label="Owner Name" name="ownerName" type="text" :value="$ownerName" />
-        <x-forms.label-with-input label="Shop Name" name="shopName" type="text" :value="$shopName" />
+        <x-forms.label-with-input label="Owner Name" name="ownerName" type="text" :value="$ownerName" :error="$errors->first('ownerName')" required />
+        <x-forms.label-with-input label="Shop Name" name="shopName" type="text" :value="$shopName" :error="$errors->first('shopName')" required />
 
         <div class="flex flex-col gap-1 mt-[20px]">
             <x-forms.input-select

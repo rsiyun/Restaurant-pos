@@ -1,12 +1,19 @@
 @extends('cpanel.layout.app')
 
 @section('content')
+
+    @if ($errors->first('message'))
+        <div class="p-4 mt-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+            <div>{{ $errors->first('message') }}</div>
+        </div>
+    @endif
+
     <form action="{{ url('dashboard/order/' . $slug) }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="w-[350px]">
-            <x-forms.label-with-input label="Buyer Name" name="buyerName" type="text" :value="$buyerName" />
+            <x-forms.label-with-input label="Buyer Name" name="buyerName" type="text" :value="$buyerName" :error="$errors->first('buyerName')"/>
         </div>
 
         <x-tables.table>

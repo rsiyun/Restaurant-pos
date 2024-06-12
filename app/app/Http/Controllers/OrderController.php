@@ -6,6 +6,7 @@ use App\Endpoint\ApiUrl;
 use App\Services\SessionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
 {
@@ -66,27 +67,39 @@ class OrderController extends Controller
 
     public function update(Request $request, $slug)
     {
-        $request->validate([
-            "tickets" => "required|array",
-        ]);
+        try {
+            $request->validate([
+                'tickets' => 'required|array',
+            ]);
+    
+            // Lakukan tindakan jika validasi berhasil
+        } catch (ValidationException $e) {
+            // Menangani error validasi
+            $errors = $e->validator->errors();
+            return redirect()->back()->withErrors(["message" => "Tiket wajib dipilih"]);
+        }
         $token = session('user.access_token') ?? "";
-
         $user = SessionService::user();
         $newTicket = [];
         foreach ($request->tickets as $ticket) {
             $newTicket["tickets"][] = ["slugTicket" => $ticket];
+            }
+            $req_api = [
+                "idKasir" => $user["idUser"],
+                "buyerName" => $request->buyerName ?? null,
+                ...$newTicket
+                ];
+                
+                // dd("test");
+        $response = Http::withToken($token)->put(ApiUrl::$api_url . "/order" . "/$slug", $req_api);
+        if ($response->failed()){
+            $errors = $response->json()["error"]["description"];
+            // dd($errors);
+            return redirect()->back()->withErrors($errors)->withInput();
         }
-        $req_api = [
-            "idKasir" => $user["idUser"],
-            "buyerName" => $request->buyerName ?? null,
-            ...$newTicket
-        ];
-
-        $response = Http::withToken($token)->put(ApiUrl::$api_url . "/order" . "/$slug", $req_api)->json();
-
-        if ($response["success"]) {
-            return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
-        }
+        // if ($response["success"]) {
+            return redirect('/dashboard/order');
+        // }
     }
 
     public function show($slug)
@@ -107,9 +120,18 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            "tickets" => "required|array",
-        ]);
+        try {
+            $request->validate([
+                'tickets' => 'required|array',
+            ]);
+    
+            // Lakukan tindakan jika validasi berhasil
+        } catch (ValidationException $e) {
+            // Menangani error validasi
+            $errors = $e->validator->errors();
+            return redirect()->back()->withErrors(["message" => "Tiket wajib dipilih"]);
+        }
+        // dd($request->);
         $user = SessionService::user();
         $token = session('user.access_token') ?? "";
 
@@ -122,11 +144,15 @@ class OrderController extends Controller
             "buyerName" => $request->buyerName,
             ...$newTicket
         ];
-        $response = Http::withToken($token)->post(ApiUrl::$api_url . "/order", $req_api)->json();
-
-        if ($response["success"]) {
-            return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
+        $response = Http::withToken($token)->post(ApiUrl::$api_url . "/order", $req_api);
+        if ($response->failed()){
+            $errors = $response->json()["error"]["description"];
+            // dd($errors);
+            return redirect()->back()->withErrors($errors)->withInput();
         }
+        // if ($response["success"]) {
+        //     return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
+        // }
 
     }
     public function destroy($slug)

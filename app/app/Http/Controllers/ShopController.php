@@ -75,6 +75,10 @@ class ShopController extends Controller
         if ($response->successful()) {
             return redirect('/dashboard/shop')->with(["message" => $response["messages"]]);
         }
+        if($response->failed()){
+            $errors = $response->json()["error"]["description"];
+            return redirect()->back()->whithErrors($errors)->withInput();
+        }
         return back()->withErrors(['message' => 'Failed to update shop']);
     }
 
@@ -90,6 +94,11 @@ class ShopController extends Controller
         if ($response->successful()) {
             return redirect("/dashboard/shop");
         }
+        if ($response->failed()){
+            $errors = $response->json()["error"]["description"];
+            return redirect()->back()->withErrors($errors)->withinput();
+        }
+        return redirect("/")->whith("message", "Toko berhasil ditambahkan");
     }
 
     public function show($slug)
