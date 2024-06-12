@@ -43,11 +43,12 @@ class AuthenticatedSessionController extends Controller
             'password' => $request->password
         ]);
         if ($response->failed()) {
-            return redirect()->route("login");
+            $errors = $response->json()["error"]["description"];
+            return redirect()->route("login")->withErrors($errors)->withInput();
         }
         $user = $response->json()["data"];
         if ($user["role"] == "ShopEmployee" && $user["idShop"] == null) {
-            return redirect()->route("login");
+            return redirect()->route("login")->withErrors(["message" => "Login gagal"])->withInput();
         }
         SessionService::setToken($user["access_token"]);
         $user = SessionService::user();

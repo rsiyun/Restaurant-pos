@@ -44,7 +44,8 @@ class UserController extends Controller
             'isActive' => $request->isActive,
         ]);
         if ($response->failed()) {
-            return redirect()->back()->withErrors(['message' => "gagal mendapatkan user"]);
+            $errors = $response->json()["error"]["description"];
+            return redirect()->back()->withErrors($errors)->withInput();
         }
         return redirect("/dashboard/user");
     }
@@ -84,33 +85,31 @@ class UserController extends Controller
         $user = SessionService::user();
         $token = session('user.access_token') ?? "";
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|string|email',
-            'password' => 'nullable|string',
-            'idShop' => 'nullable|string',
-            'role' => 'nullable|string',
-            'isActive' => 'nullable|boolean',
-        ]);
-
-        $req_api = [
-            'name' => $request->name,
-            'email' => $request->email,
+        $req_api = array_filter([
             'idShop' => $request->idShop,
             'role' => $request->role,
             'isActive' => $request->isActive,
-        ];
+            'name' => $request->name ?? null,
+            'email' => $request->email ?? null,
+        ], function ($value) {
+            return !is_null($value);
+        });
+
+        if (isset($req_api['name']) && is_numeric($req_api['name'])) {
+            $req_api['name'] = (int) $req_api['name'];
+        }
 
         if ($request->input('password')) {
             $req_api['password'] = $request->input('password');
         }
 
         $response = Http::withToken($token)->put(ApiUrl::$api_url . "/user/" . $slug, $req_api);
+
         if ($response->failed()) {
             $errors = $response->json()["error"]["description"];
-            return redirect("/product/create")->withErrors($errors)->withInput();
+            return redirect()->back()->withErrors($errors)->withInput();
         }
-        return redirect("/dashboard");
+        return redirect("/dashboard/user");
     }
 
     public function show($slug)
