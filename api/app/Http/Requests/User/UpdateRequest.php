@@ -27,7 +27,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['nullable', 'string'],
-            'email' => ['nullable', 'string'],
+            'email' => ['nullable', 'email'],
             'password' => ['nullable', 'string'],
             'idShop' => ['nullable', 'integer'],
             'role' => ['nullable', new Enum(Role::class)],
