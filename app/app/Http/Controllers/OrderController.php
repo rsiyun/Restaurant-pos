@@ -71,7 +71,7 @@ class OrderController extends Controller
             $request->validate([
                 'tickets' => 'required|array',
             ]);
-    
+
             // Lakukan tindakan jika validasi berhasil
         } catch (ValidationException $e) {
             // Menangani error validasi
@@ -83,22 +83,22 @@ class OrderController extends Controller
         $newTicket = [];
         foreach ($request->tickets as $ticket) {
             $newTicket["tickets"][] = ["slugTicket" => $ticket];
-            }
-            $req_api = [
-                "idKasir" => $user["idUser"],
-                "buyerName" => $request->buyerName ?? null,
-                ...$newTicket
-                ];
-                
-                // dd("test");
+        }
+        $req_api = [
+            "idKasir" => $user["idUser"],
+            "buyerName" => $request->buyerName ?? null,
+            ...$newTicket
+        ];
+
+        // dd("test");
         $response = Http::withToken($token)->put(ApiUrl::$api_url . "/order" . "/$slug", $req_api);
-        if ($response->failed()){
+        if ($response->failed()) {
             $errors = $response->json()["error"]["description"];
-            // dd($errors);
+            dd($errors);
             return redirect()->back()->withErrors($errors)->withInput();
         }
         // if ($response["success"]) {
-            return redirect('/dashboard/order');
+        return redirect('/dashboard/order');
         // }
     }
 
@@ -124,7 +124,7 @@ class OrderController extends Controller
             $request->validate([
                 'tickets' => 'required|array',
             ]);
-    
+
             // Lakukan tindakan jika validasi berhasil
         } catch (ValidationException $e) {
             // Menangani error validasi
@@ -145,13 +145,13 @@ class OrderController extends Controller
             ...$newTicket
         ];
         $response = Http::withToken($token)->post(ApiUrl::$api_url . "/order", $req_api);
-        if ($response->failed()){
+        if ($response->failed()) {
             $errors = $response->json()["error"]["description"];
             // dd($errors);
             return redirect()->back()->withErrors($errors)->withInput();
         }
         // if ($response["success"]) {
-        //     return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
+        return redirect('/dashboard/order')->with(["message" => $response["messages"]]);
         // }
 
     }
