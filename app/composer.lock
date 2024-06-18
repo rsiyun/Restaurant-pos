@@ -8948,6 +8948,7 @@
                 }
             ],
             "time": "2024-04-28T11:44:19+00:00"
+
         },
         {
             "name": "ta-tikoma/phpunit-architecture-test",
@@ -9007,6 +9008,7 @@
                 "source": "https://github.com/ta-tikoma/phpunit-architecture-test/tree/0.8.4"
             },
             "time": "2024-01-05T14:10:56+00:00"
+
         },
         {
             "name": "theseer/tokenizer",

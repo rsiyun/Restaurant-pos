@@ -10,15 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id("idUser");
-            $table->unsignedBigInteger("idShop")->nullable()->default(null);
+        Schema::create('products', function (Blueprint $table) {
+            $table->id("idProduct");
+            $table->unsignedBigInteger("idShop");
             $table->string('slug')->unique();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->enum("role", ["Admin", "Kasir", "ShopEmployee"]);
-            $table->boolean("isActive");
-            $table->string('password');
+            $table->string('productImage');
+            $table->string('productName');
+            $table->integer('productPrice');
+            $table->integer('productStock');
+            $table->enum('productType', ["Makanan", "Minuman", "Snack"]);
             $table->timestamps();
             $table->foreign('idShop')->references('idShop')->on('shops')->onDelete('cascade');
         });
@@ -29,6 +29,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('products');
     }
 };
