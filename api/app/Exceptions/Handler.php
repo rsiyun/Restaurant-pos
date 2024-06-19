@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -18,18 +17,6 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
-
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        return response()->json([
-            "message" => "Unauthorized",
-            "status" => false,
-            "error" => [
-                "code"=> 401,
-                "description" => "Access is denied due to invalid credentials. Please provide valid authentication."
-            ]
-        ]);
-    }
 
     /**
      * Register the exception handling callbacks for the application.
