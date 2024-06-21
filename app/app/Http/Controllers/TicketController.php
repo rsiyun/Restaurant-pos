@@ -45,9 +45,19 @@ class TicketController extends Controller
         $orderNote = $request->input('order_note', '');
 
         foreach ($cart as $item) {
+            $quantity = $item['quantity'];
+            $productResponse = Http::withToken($token)->get(ApiUrl::$api_url . "/product/" . $item['slug']);
+
+            $productData = $productResponse->json()["data"];
+            $productStock = $productData["productStock"];
+
+            if ($quantity > $productStock) {
+                return redirect()->back()->withErrors(["message" => "Gagal Membuat Checkout, Stock Melebihi batas"])->withInput();
+            }
+
             $ticketCart[] = [
                 "slugProduct" => $item["slug"],
-                "quantity" => $item["quantity"]
+                "quantity" => $quantity
             ];
         }
 

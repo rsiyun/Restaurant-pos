@@ -6,6 +6,7 @@ use App\Endpoint\ApiUrl;
 use App\Services\SessionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
 
 class CartController extends Controller
 {
@@ -88,14 +89,27 @@ class CartController extends Controller
     }
     public function updateCart(Request $request)
     {
-        $quantities = $request->input('quantities', []);
-        $cart = $request->session()->get('cart', []);
-        foreach ($quantities as $slug => $qnty) {
-            $quantity = (int) $qnty;
-            $cart[$slug]['quantity'] = $quantity;
-            $cart[$slug]['total'] = $cart[$slug]['quantity'] * ($cart[$slug]['productPrice'] ?? 0);
+        try {
+            $quantities = $request->input('quantities', []);
+            $cart = $request->session()->get('cart', []);
+
+            foreach ($quantities as $slug => $qnty) {
+                $quantity = (int) $qnty;
+
+                $productStock = $cart[$slug]['productStock'];
+                if ($quantity > $productStock) {
+                    return redirect()->back()->withErrors(["message" => "Gagal Update Stock, Stock melebihi batas"])->withInput();
+                }
+
+                $cart[$slug]['quantity'] = $quantity;
+                $cart[$slug]['total'] = $cart[$slug]['quantity'] * ($cart[$slug]['productPrice'] ?? 0);
+            }
+
+            $request->session()->put('cart', $cart);
+
+            return redirect()->route('clients.showCart');
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
         }
-        $request->session()->put('cart', $cart);
-        return redirect()->route('clients.showCart');
     }
 }

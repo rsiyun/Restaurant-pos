@@ -8,6 +8,15 @@
 </style>
 <div class="px-4 pt-8 mx-auto space-y-3 max-w-7xl sm:px-6 lg:px-8 min-h-[85vh]">
     <div class="px-4">
+    @if ($errors->any())
+                <div class="p-4 mt-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         <h5 class="text-base lg:mb-16 mb-4 text-center font-bold lg:text-3xl text-black">Ticket Cart</h5>
         <div class="mx-auto max-w-6xl">
                 <table class="table-cart table-cart-lg table-ecomm">
@@ -56,6 +65,11 @@
                                     <input type="number" size="4" id="quantity-{{ $loop->iteration }}" readonly value="{{ $item['quantity'] ?? 0 }}" autocomplete="off" class="w-[60px] bg-transparent outline-none rounded text-center">
                                     <input type="button" value="+" id="increment-{{ $loop->iteration }}" class="increment-btn h-7 leading-7 px-2 min-w-5 outline-0 font-bold text-base border-none bg-transparent cursor-pointer text-[#7e7e7e] fill-[#7e7e7e]">
                                 </div>
+                                @if ($errors->has("quantities.{$item['slug']}"))
+                                            <div class="text-red-600 text-sm mt-1">
+                                                {{ $errors->first("quantities.{$item['slug']}") }}
+                                            </div>
+                                        @endif
                             </td>
                             <td class="mb-0 pb-0 text-left pr-0 justify-between">
                                 <span class="text-xs uppercase py-3 lg:hidden">Total</span>

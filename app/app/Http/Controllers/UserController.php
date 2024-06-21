@@ -44,11 +44,20 @@ class UserController extends Controller
             'isActive' => $request->isActive,
         ]);
         if ($response->failed()) {
-            $errors = $response->json()["error"]["description"];
-            return redirect()->back()->withErrors($errors)->withInput();
+        $errors = 'Coba email lain';
+        $responseJson = $response->json();
+        if ($responseJson && isset($responseJson["error"]["description"])) {
+            $description = $responseJson["error"]["description"];
+            if (stripos($description, 'email already registered') !== false) {
+                $errors = 'The email has already been registered.';
+            } else {
+                $errors = $description;
+            }
         }
-        return redirect("/dashboard/user");
+        return redirect()->back()->withErrors(['email' => $errors])->withInput();
     }
+    return redirect("/dashboard/user")->with('success', 'Registration successful!');
+}
 
     public function edit($slug)
     {
@@ -79,7 +88,6 @@ class UserController extends Controller
             "shopList" => $shops,
         ]);
     }
-
     public function update(Request $request, $slug)
     {
         $user = SessionService::user();
@@ -106,11 +114,21 @@ class UserController extends Controller
         $response = Http::withToken($token)->put(ApiUrl::$api_url . "/user/" . $slug, $req_api);
 
         if ($response->failed()) {
-            $errors = $response->json()["error"]["description"];
-            return redirect()->back()->withErrors($errors)->withInput();
+            $errors = 'Coba email lain';
+            $responseJson = $response->json();
+            if ($responseJson && isset($responseJson["error"]["description"])) {
+                $description = $responseJson["error"]["description"];
+                if (stripos($description, 'email already registered') !== false) {
+                    $errors = 'The email has already been registered.';
+                } else {
+                    $errors = $description;
+                }
+            }
+            return redirect()->back()->withErrors(['email' => $errors])->withInput();
         }
-        return redirect("/dashboard/user");
-    }
+        
+        return redirect("/dashboard/user")->with('success', 'Registration successful!');
+    }        
 
     public function show($slug)
     {
