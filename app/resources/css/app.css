@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components{
+    .table-cart td{
+        @apply flex items-center flex-row flex-wrap p-0
+    }
+    .table-cart td:not(:last-child){
+        @apply border-b border-dashed border-[#eee]
+    }
+    .table-ecomm{
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+        font-size: 15px;
+        line-height: 1.4;
+        font-size: 16px;
+    }
+    .table-cart thead th{
+        padding: 16px 12px;
+    }
+    @media (min-width: 1024px) {
+        .table-cart-lg td{
+            display: table-cell;
+            padding: 16px 0 16px 16px;
+        }
+      }
+}
