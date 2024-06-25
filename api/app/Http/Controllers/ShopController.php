@@ -4,25 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Shops\ShopResource;
 use App\Models\Shop;
-use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use App\Http\Requests\Shop\CreateRequest;
 use App\Http\Requests\Shop\UpdateRequest;
-
+use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $shops = Shop::all();
-
-        if ($shops->isEmpty()) {
-            return $this->sendError('Shops do not exist.');
-        }
-
         return $this->sendResponse(ShopResource::collection($shops), 'All Data Shops Successfully Retrieved');
     }
 
@@ -33,7 +27,7 @@ class ShopController extends Controller
     {
         $validated = $request->validated();
 
-        $slug = Helper::generateSlug($validated["ownerName"], "shops");
+        $slug = Helper::generateSlug("s", "shops");
         $shop = Shop::create([
             "slug" => $slug,
             "isActive" => 1,
@@ -64,8 +58,8 @@ class ShopController extends Controller
         $validated = $request->validated();
         $slug = $shop->slug;
 
-        if ($validated["ownerName"] != $shop->ownerName) {
-            $slug = Helper::generateSlug($validated["ownerName"], "shops");
+        if ($validated["shopName"] != $shop->shopName) {
+            $slug = Helper::generateSlug("s", "shops");
         }
 
         $shop->update([

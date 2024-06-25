@@ -9,6 +9,7 @@ use App\Http\Requests\Product\CreateRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Http\Resources\Products\ProductResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -21,6 +22,34 @@ class ProductController extends Controller
         return $this->sendResponse(ProductResource::collection($products), "All Products");
     }
 
+    public function showByShop(Request $request, $slug){
+        $request->validate([
+            "s" => "nullable|string",
+            "type" => "nullable|string"
+        ]);
+        $search = $request->input('s');
+        $type = $request->input('type');
+
+        $query = Product::with("shop")->whereHas('shop', function($query) use ($slug) {$query->where('slug', $slug);});
+        if ($search) {
+            $query->where('productName', 'like', '%' . $search . '%');
+        }
+        if ($type) {
+            $query->where('productType', $type);
+        }
+        $products = $query->paginate(8);
+        $response = [
+            "products" => ProductResource::collection($products),
+            'links' => [
+                'first' => Helper::getParams($products->url(1))["page"] ?? null,
+                'last' => Helper::getParams($products->url($products->lastPage()))["page"] ?? null,
+                'prev' => Helper::getParams($products->previousPageUrl())["page"] ?? null,
+                'next' => Helper::getParams($products->nextPageUrl())["page"] ?? null,
+            ],
+        ];
+        return $this->sendResponse($response, "All Products");
+
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -28,8 +57,11 @@ class ProductController extends Controller
     {
         $validated = $request->validated();
 
-        $slug = Helper::generateSlug($validated["productName"], "products");
-        $validated["productImage"] = $request->file('productImage')->store('product_images');
+        $slug = Helper::generateSlug("p", "products");
+        $validated["productImage"] = "product_images/gofood.jpeg";
+        if ($request->hasFile("productImage")) {
+            $validated["productImage"] = $request->file('productImage')->store('product_images');
+        }
         $product = Product::create([
             "slug" => $slug,
             ...$validated
@@ -55,7 +87,7 @@ class ProductController extends Controller
         $validated = $request->validated();
         $slug = $product->slug;
         if ($validated["productName"] != $product->productName) {
-            $slug = Helper::generateSlug($validated["productName"], "products");
+            $slug = Helper::generateSlug("p", "products");
         }
         if ($request->hasFile('productImage')) {
             if ($product->productImage) {

@@ -15,7 +15,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user() != null;
+        return true;
     }
 
     /**
@@ -38,7 +38,7 @@ class UpdateRequest extends FormRequest
     {
         throw new HttpResponseException(response([
             "message" => "Unprocessable Content",
-            "status" => false,
+            "success" => false,
             "error" => [
                 "code" => 422,
                 "description" => $validator->getMessageBag()

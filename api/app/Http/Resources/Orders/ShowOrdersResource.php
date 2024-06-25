@@ -5,7 +5,7 @@ namespace App\Http\Resources\Orders;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TicketResource extends JsonResource
+class ShowOrdersResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,11 +17,9 @@ class TicketResource extends JsonResource
 
         return [
             "idOrder" => $this->idOrder,
-            "slug" => $this->slug,
-            "orderNote" => $this->orderNote,
-            "priceTickets" => $this->priceTickets,
-            "shop" => new ShopResource($this->shop),
-            "ticketDetail" => TicketDetailResource::collection($this->details),
+            "totalOrder" => $this->totalOrder,
+            "buyerName" => $this->buyerName,
+            "tickets" => OnlyTicketResource::collection($this->tickets),
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

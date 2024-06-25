@@ -17,11 +17,12 @@ class TicketResource extends JsonResource
         return [
             "idOrder" => $this->idOrder,
             "slug" => $this->slug,
-            "buyerName" => $this->BuyerName,
+            "orderNote" => $this->orderNote,
             "priceTickets" => $this->priceTickets,
             "shop" => new ShopResource($this->shop),
-            "created_at"=> $this->created_at,
-            "updated_at"=> $this->updated_at,
+            "ticketDetail" => TicketDetailResource::collection($this->details),
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
         ];
     }
 }

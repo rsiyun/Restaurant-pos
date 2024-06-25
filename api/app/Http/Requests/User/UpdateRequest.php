@@ -26,11 +26,12 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'string'],
-            'password' => ['required', 'string'],
-            'role' => ['required', new Enum(Role::class)],
-            'isActive' => ['required', 'boolean'],
+            'name' => ['nullable', 'string'],
+            'email' => ['nullable', 'email'],
+            'password' => ['nullable', 'string'],
+            'idShop' => ['nullable', 'integer'],
+            'role' => ['nullable', new Enum(Role::class)],
+            'isActive' => ['nullable', 'boolean'],
         ];
     }
 
@@ -38,9 +39,9 @@ class UpdateRequest extends FormRequest
     {
         throw new HttpResponseException(response([
             "message" => "Unprocessable Content",
-            "status" => false,
+            "success" => false,
             "error" => [
-                "code" => 404,
+                "code" => 422,
                 "description" => $validator->getMessageBag()
             ]
         ], 422));

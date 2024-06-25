@@ -15,7 +15,8 @@ class CreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user() != null;
+        // return $this->user() != null;
+        return true;
     }
 
     /**
@@ -27,7 +28,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'idShop' => ['required', 'integer'],
-            'productImage' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:10240'],
+            'productImage' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:10240'],
             'productName' => ['required', 'string'],
             'productPrice' => ['required', 'numeric'],
             'productType' => ['required', new Enum(ProductType::class)],
@@ -38,11 +39,11 @@ class CreateRequest extends FormRequest
     {
         throw new HttpResponseException(response([
             "message" => "Unprocessable Content",
-            "status" => false,
+            "success" => false,
             "error" => [
                 "code" => 422,
                 "description" => $validator->getMessageBag()
             ]
-        ],422));
+        ], 422));
     }
 }

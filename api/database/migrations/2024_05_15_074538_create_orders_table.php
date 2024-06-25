@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id("idOrder");
             $table->unsignedBigInteger("idUser");
             $table->string('slug')->unique();
-            $table->integer("TotalOrder");
-            $table->string("BuyerName");
+            $table->integer("totalOrder");
+            $table->string("buyerName");
             $table->timestamps();
             $table->foreign('idUser')->references('idUser')->on('users')->onDelete('cascade');
         });

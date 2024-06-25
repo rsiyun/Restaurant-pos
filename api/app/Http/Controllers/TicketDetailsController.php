@@ -1,9 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\TicketDetails;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
+use App\Models\TicketDetails;
+use App\Http\Resources\Tickets\TicketDetailResource;
 
 class TicketDetailsController extends Controller
 {
@@ -12,38 +13,31 @@ class TicketDetailsController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $ticketDetails = TicketDetails::all();
+        $response = [
+            "ticketDetails" => TicketDetailResource::collection($ticketDetails),
+            'links' => [
+                'first' => Helper::getParams($ticketDetails->url(1))["page"] ?? null,
+                'last' => Helper::getParams($ticketDetails->url($ticketDetails->lastPage()))["page"] ?? null,
+                'prev' => Helper::getParams($ticketDetails->previousPageUrl())["page"] ?? null,
+                'next' => Helper::getParams($ticketDetails->nextPageUrl())["page"] ?? null,
+            ],
+        ];
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return $this->sendResponse($response, 'All Data TicketDetails Successfully Retrieved');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(TicketDetails $ticketDetails)
+    public function show($slug)
     {
-        //
-    }
+        $ticketDetails = TicketDetails::where('slug', $slug)->with('product')->first();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TicketDetails $ticketDetails)
-    {
-        //
-    }
+        if (!$ticketDetails) {
+            return $this->sendError('TicketDetail not found.', [], 404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TicketDetails $ticketDetails)
-    {
-        //
+        return $this->sendResponse(new TicketDetailResource($ticketDetails), "TicketDetail Successfully Retrieved");
     }
 }

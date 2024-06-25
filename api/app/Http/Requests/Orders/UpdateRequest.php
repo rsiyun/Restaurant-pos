@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Shop;
+namespace App\Http\Requests\Orders;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 
 class UpdateRequest extends FormRequest
 {
@@ -24,12 +24,12 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ownerName' => ['required', 'string'],
-            'shopName' => ['required', 'string'],
-            'isActive' => ['required', 'boolean'],
+            "idKasir" => ["nullable", "integer"],
+            "buyerName" => ['nullable', 'string'],
+            "tickets" => ['required', 'array'],
+            "tickets.*.slugTicket" => ['required', 'string']
         ];
     }
-
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response([

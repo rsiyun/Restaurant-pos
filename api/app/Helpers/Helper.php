@@ -22,4 +22,11 @@ class Helper
 
         return $slug;
     }
+    public static function getParams($url){
+        if (!$url) {
+            return null;
+        }
+        parse_str(parse_url($url)["query"], $params);
+        return $params;
+    }
 }

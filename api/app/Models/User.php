@@ -54,4 +54,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Orders::class, 'idUser', 'idUser');
     }
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class, 'idShop', 'idShop');
+    }
 }

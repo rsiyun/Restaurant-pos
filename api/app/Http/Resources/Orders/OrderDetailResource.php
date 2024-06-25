@@ -16,9 +16,10 @@ class OrderDetailResource extends JsonResource
     {
         return [
             "idOrder" => $this->idOrder,
+            "slug" => $this->slug,
             "kasir" => new KasirResource($this->kasir),
             "totalOrder" => $this->TotalOrder,
-            "buyerName" =>$this->BuyerName,
+            "buyerName" => $this->buyerName,
             "tickets" => TicketResource::collection($this->tickets)
         ];
     }

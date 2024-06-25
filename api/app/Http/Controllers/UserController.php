@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Users\UserResource;
 use App\Models\User;
 use App\Helpers\Helper;
 use App\Http\Requests\User\CreateRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\Models\Orders;
+use App\Models\Shop;
+use App\Models\Tickets;
 
 class UserController extends Controller
 {
@@ -19,12 +19,23 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-
-        if ($users->isEmpty()) {
-            return $this->sendError('Users do not exist.');
-        }
-
         return $this->sendResponse(UserResource::collection($users), 'Get All Users');
+    }
+
+    public function dashboard(){
+        $user = User::all();
+        $shop = Shop::all();
+        $order = Orders::all();
+        $ticket = Tickets::where("idOrder", NULL)->get();
+
+        $response = [
+            "users" => $user,
+            "shops" => $shop,
+            "orders" => $order,
+            "tickets" => $ticket
+        ];
+
+        return $this->sendResponse($response, "Get data dashboard");
     }
 
     /**
@@ -34,28 +45,22 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-        $slug = Helper::generateSlug($validated["name"], "users");
+        $slug = Helper::generateSlug("u", "users");
         $user = User::create([
             "slug" => $slug,
             "isActive" => 1,
             ...$validated
         ]);
 
-        return $this->sendResponse(new UserResource($user), "users Berhasil DiTambahkan");
+        return $this->sendResponse(new UserResource($user), "User Successfully Created");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $slug)
+    public function show(User $user)
     {
-        $user = User::where('slug', $slug)->first();
-
-        if (is_null($user)) {
-            return $this->sendError('User does not exist.');
-        }
-
-        return $this->sendResponse(new UserResource($user), 'User fetched.');
+        return $this->sendResponse(new UserResource($user->load('shop')), 'Get a User');
     }
 
     /**
@@ -67,7 +72,7 @@ class UserController extends Controller
         $slug = $user->slug;
 
         if ($validated["name"] != $user->name) {
-            $slug = Helper::generateSlug($validated["name"], "users");
+            $slug = Helper::generateSlug("u", "users");
         }
 
         $user->update([
@@ -84,6 +89,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return $this->sendResponse(new UserResource($user), "Shop Berhasil DiHapus");
+        return $this->sendResponse(new UserResource($user), "User Successfully Deleted");
     }
 }

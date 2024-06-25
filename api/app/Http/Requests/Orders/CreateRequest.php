@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Orders;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CreateRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class CreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,22 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "idKasir" => ["required", "integer"],
+            "buyerName" => ['required', 'string'],
+            "tickets" => ['required', 'array'],
+            "tickets.*.slugTicket" => ['required', 'string']
         ];
     }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response([
+            "message" => "Unprocessable Content",
+            "success" => false,
+            "error" => [
+                "code" => 422,
+                "description" => $validator->getMessageBag()
+            ]
+        ], 422));
+    }
+
 }

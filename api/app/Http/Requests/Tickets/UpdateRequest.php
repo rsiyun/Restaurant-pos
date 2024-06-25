@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "buyerName" => ['nullable'],
+            "orderNote" => ['nullable'],
             "ticketCart" => ['required', 'array'],
             "ticketCart.*.slugProduct" => ['required', 'string'],
             "ticketCart.*.quantity" => ['required', 'integer']
@@ -34,11 +34,11 @@ class UpdateRequest extends FormRequest
     {
         throw new HttpResponseException(response([
             "message" => "Unprocessable Content",
-            "status" => false,
+            "success" => false,
             "error" => [
                 "code" => 422,
                 "description" => $validator->getMessageBag()
             ]
-        ],422));
+        ], 422));
     }
 }

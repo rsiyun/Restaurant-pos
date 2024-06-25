@@ -16,7 +16,12 @@ class TicketDetails extends Model
     {
         return $this->belongsTo(Tickets::class, 'idTicket', 'idTicket');
     }
-    public function product(){
+    public function product()
+    {
         return $this->hasOne(Product::class, 'idProduct', 'idProduct');
+    }
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

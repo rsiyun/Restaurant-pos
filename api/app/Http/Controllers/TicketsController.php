@@ -8,7 +8,9 @@ use App\Http\Requests\Tickets\UpdateRequest;
 use App\Http\Resources\Tickets\ShowTicketResource;
 use App\Http\Resources\Tickets\TicketResource;
 use App\Models\Product;
+use App\Models\Shop;
 use App\Models\Tickets;
+use Carbon\Carbon;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -20,27 +22,24 @@ class TicketsController extends Controller
      */
     public function index()
     {
-        $tickets = Tickets::paginate(15);
-        $response = [
-            "tickets" =>TicketResource::collection($tickets),
-            "lastpage" => $tickets->lastPage()
-        ];
-        return $this->sendResponse($response, "Tickets Successfully Retrieved");
+        $tickets = Tickets::all();
+        return $this->sendResponse(TicketResource::collection($tickets), "Tickets Successfully Retrieved");
+    }
+    public function ticketByShop(Request $request, $slug){
+        $shop = Shop::where("slug", $slug)->first();
+        $tickets = Tickets::where("idShop", $shop->idShop)->with("details")->orderBy('idOrder', 'asc')->get();
+        return $this->sendResponse(TicketResource::collection($tickets), "Tickets Successfully Retrieved");
     }
     public function unpayment(Request $request)
     {
         $validated = $request->validate([
-            "search" => "nullable|string"
+            "idOrder" => "nullable|integer"
         ]);
-        $tickets = Tickets::where("idOrder", NULL)->paginate(5);
-        if ($validated["search"] ?? NULL != NULL) {
-            $tickets = Tickets::where("idOrder", NULL)->where("slug", "like",'%'.$validated["search"].'%')->paginate(5);
+        $tickets = Tickets::where("idOrder", NULL)->get();
+        if ($validated["idOrder"] ?? NULL != NULL) {
+            $tickets = Tickets::where("idOrder", NULL)->orWhere("idOrder" , $validated["idOrder"])->orderByDesc("idOrder")->get();
         }
-        $response = [
-            "tickets" =>TicketResource::collection($tickets),
-            "lastpage" => $tickets->lastPage()
-        ];
-        return $this->sendResponse($response, "Tickets Successfully Retrieved");
+        return $this->sendResponse(TicketResource::collection($tickets), "Tickets Successfully Retrieved");
 
     }
 
@@ -50,25 +49,23 @@ class TicketsController extends Controller
     public function store(CreateRequest $request)
     {
         $validated = $request->validated();
-
-        $slug_material_order = $validated["idShop"]."-";
         DB::beginTransaction();
 
         try {
 
-            $slugOrder = Helper::generateSlug($slug_material_order, "orders");
+            $slugTicket = Helper::generateSlug("t", "tickets");
             $ticket = Tickets::create([
                 "idShop" => $validated["idShop"],
-                "BuyerName" => $validated["buyerName"],
+                "orderNote" => $validated["orderNote"] ?? null,
                 "priceTickets" => 1,
-                "slug" => $slugOrder
+                "slug" => $slugTicket
             ]);
             foreach ($validated["ticketCart"] as $ticketCart) {
                 $priceTicketDetail = 0;
-                $slug_material_detail = $validated["idShop"]."-".$ticket->idTicket;
+                $slug_material_detail = "td" . "-" . $ticket->idTicket;
                 $slugDetail = Helper::generateSlug($slug_material_detail, "ticket_details");
                 $product = Product::where('slug', $ticketCart["slugProduct"])->first();
-                $priceTicketDetail += $ticketCart["quantity"]*$product->productPrice;
+                $priceTicketDetail += $ticketCart["quantity"] * $product->productPrice;
                 $ticket->details()->create([
                     "priceTicketDetail" => $priceTicketDetail,
                     "idProduct" => $product->idProduct,
@@ -76,15 +73,15 @@ class TicketsController extends Controller
                     "quantity" => $ticketCart["quantity"]
                 ]);
             }
-            $totalOrder = array_reduce($ticket->load('details')->details->toArray(), function($carry, $item) {
+            $totalTicket = array_reduce($ticket->load('details')->details->toArray(), function ($carry, $item) {
                 return $carry + ($item['priceTicketDetail']);
             }, 0);
             $ticket->update([
-                "priceTickets" => $totalOrder
+                "priceTickets" => $totalTicket
             ]);
 
             DB::commit();
-            return response()->json($ticket->load('details'), 201);
+            return $this->sendResponse(new ShowTicketResource($ticket->load('details')), "Ticket created successfully");
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Failed to create order', 'error' => $e->getMessage()], 500);
@@ -109,44 +106,43 @@ class TicketsController extends Controller
         if ($ticket->idOrder != NULL) {
             throw new HttpResponseException(response([
                 "message" => "Cannot edit this data",
-                "status" => false,
+                "success" => false,
                 "error" => [
                     "code" => 400,
                     "description" => "cannot edit this data because this tickets has been pay"
                 ]
-            ],400));
+            ], 400));
         }
 
         DB::beginTransaction();
 
         try {
             $ticket->update([
-                "BuyerName" => $validated["buyerName"] ?? $ticket->BuyerName,
+                "orderNote" => $validated["orderNote"] ?? $ticket->orderNote,
                 "priceTickets" => 1
             ]);
             $ticket->details()->delete();
             foreach ($validated["ticketCart"] as $ticketCart) {
                 $priceTicketDetail = 0;
-                $slug_material_detail = $ticket->idShop."-".$ticket->idTicket;
+                $slug_material_detail = "td" . "-" . $ticket->idTicket;
                 $slugDetail = Helper::generateSlug($slug_material_detail, "ticket_details");
                 $product = Product::where('slug', $ticketCart["slugProduct"])->first();
-                $priceTicketDetail += $ticketCart["quantity"]*$product->productPrice;
+                $priceTicketDetail += $ticketCart["quantity"] * $product->productPrice;
                 $ticket->details()->create([
                     "slug" => $slugDetail,
                     "priceTicketDetail" => $priceTicketDetail,
                     "idProduct" => $product->idProduct,
-                    "slug" => $slugDetail,
                     "quantity" => $ticketCart["quantity"]
                 ]);
             }
-            $totalOrder = array_reduce($ticket->load('details')->details->toArray(), function($carry, $item) {
+            $totalOrder = array_reduce($ticket->load('details')->details->toArray(), function ($carry, $item) {
                 return $carry + ($item['priceTicketDetail']);
             }, 0);
             $ticket->update([
                 "priceTickets" => $totalOrder
             ]);
             DB::commit();
-            return response()->json($ticket->load('details'), 200);
+            return $this->sendResponse(new ShowTicketResource($ticket->load('details')), 'Ticket successfully updated');
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Failed to create order', 'error' => $e->getMessage()], 500);
